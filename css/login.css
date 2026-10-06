@@ -272,5 +272,12 @@ a { color: inherit; text-decoration: none; }
     gap: 0;
   }
 }
-
 [hidden] { display: none !important; }
+
+.error-text {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #ff8a80;
+}
+.error-text:empty { display: none; }
+.field.has-error input { border-color: #ff8a80; }

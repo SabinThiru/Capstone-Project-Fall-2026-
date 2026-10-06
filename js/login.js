@@ -34,4 +34,29 @@ document.querySelectorAll("form").forEach((form) => {
   form.addEventListener("submit", (event) => event.preventDefault());
 });
 
+// Logic to check whether passwords match during sign up
+const signupPassword = document.getElementById("signupPassword");
+const confirmPassword = document.getElementById("confirmPassword");
+const passwordMatchError = document.getElementById("passwordMatchError");
+
+function passwordsMatch() {
+  const mismatch =
+    confirmPassword.value !== "" && signupPassword.value !== confirmPassword.value;
+  passwordMatchError.textContent = mismatch ? "Passwords do not match." : "";
+  confirmPassword.closest(".field").classList.toggle("has-error", mismatch);
+  return !mismatch;
+}
+
+//check while user types live
+signupPassword.addEventListener("input", passwordsMatch);
+confirmPassword.addEventListener("input", passwordsMatch);
+
+//Recheck during submission
+document.getElementById("registerForm").addEventListener("submit", () => {
+  if (!passwordsMatch()) {
+    confirmPassword.focus();
+    return; 
+  }
+});
+
 showView("login");
