@@ -59,4 +59,16 @@ document.getElementById("registerForm").addEventListener("submit", () => {
   }
 });
 
+//Terms and conditions checbox
+const agreeTerms = document.getElementById("agreeTerms");
+const termsError = document.getElementById("termsError");
+
+agreeTerms.addEventListener("change", () => (termsError.textContent = ""));
+
+document.getElementById("registerForm").addEventListener("submit", () => {
+  if (!agreeTerms.checked) {
+    termsError.textContent = "You must agree to the terms to create an account.";
+  }
+});
+
 showView("login");
