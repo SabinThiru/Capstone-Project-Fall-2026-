@@ -42,13 +42,14 @@ body {
 }
 
 a { color: inherit; text-decoration: none; }
+
 .login-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
 }
 
-/* Left panel */
+/* Left panel*/
 .brand-panel {
   background: var(--surface-brand);
   display: flex;
@@ -97,7 +98,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--neutral-300);
 }
 
-/* Right  panel*/
+/*Right panel */
 .form-panel {
   background: var(--surface-page);
   display: flex;
@@ -201,6 +202,7 @@ a { color: inherit; text-decoration: none; }
 .toggle-password:hover { color: var(--neutral-000); }
 .toggle-password:focus-visible { outline: 2px solid var(--primary-500); }
 
+/* Button */
 .btn-primary {
   display: flex;
   align-items: center;
@@ -223,6 +225,7 @@ a { color: inherit; text-decoration: none; }
 .btn-primary:focus-visible { outline: 2px solid var(--primary-300); outline-offset: 2px; }
 .btn-primary:disabled { opacity: 0.7; cursor: progress; }
 
+/* Sign-up row */
 .signup-row {
   margin: 28px 0 0;
   text-align: center;
@@ -250,3 +253,24 @@ a { color: inherit; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* First and Last name */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.input-wrap input.no-icon {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+@media (max-width: 480px) {
+  .field-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+[hidden] { display: none !important; }
