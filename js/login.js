@@ -71,4 +71,30 @@ document.getElementById("registerForm").addEventListener("submit", () => {
   }
 });
 
+//Password requirements
+const rulePassword = document.getElementById("signupPassword");
+const ruleItems = {
+  length: document.querySelector('#passwordRules [data-rule="length"]'),
+  special: document.querySelector('#passwordRules [data-rule="special"]'),
+};
+
+function checkPasswordRules() {
+  const value = rulePassword.value;
+  const hasLength = value.length >= 8;
+  const hasSpecial = /[^A-Za-z0-9\s]/.test(value);
+
+  ruleItems.length.classList.toggle("met", hasLength);
+  ruleItems.special.classList.toggle("met", hasSpecial);
+
+  // Makes the browser block submission until both rules are met
+  rulePassword.setCustomValidity(
+    hasLength && hasSpecial
+      ? ""
+      : "Password must be at least 8 characters and include one special character."
+  );
+}
+
+rulePassword.addEventListener("input", checkPasswordRules);
+checkPasswordRules();
+
 showView("login");
