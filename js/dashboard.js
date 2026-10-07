@@ -67,6 +67,7 @@ function displaySchedule() {
     scheduleList.innerHTML = '<p class="empty-message">No events are scheduled for today.</p>';
     return;
   }
+  
   scheduleList.innerHTML = "";
   student.schedule.forEach((event) => {
     const scheduleItem = document.createElement("div");
@@ -79,7 +80,11 @@ function displaySchedule() {
   `;
     scheduleList.appendChild(scheduleItem);
 });
+  
 }
+
+//Displays alerts
+function displaysAlerts() {
     
     
                            
