@@ -72,11 +72,11 @@ function displaySchedule() {
     const scheduleItem = document.createElement("div");
     scheduleItem.className = "schedule-item " + event.type + "-event";
 
-    scheduleItem.innerHTML = '
+    scheduleItem.innerHTML = `
       <h3>${event.title}</h3>
       <p>${event.time}</p>
       <p>${event.location}</p>
-  ';
+  `;
     scheduleList.appendChild(scheduleItem);
 });
 }
