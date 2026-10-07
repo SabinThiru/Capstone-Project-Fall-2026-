@@ -47,6 +47,43 @@ function displayStudentInfo() {
 }
 
 //Displays degree progression
-  
+
+function displayDegreeProgress() {
+  let percentage = 0;
+
+  if (student.requiredCredits > 0) {
+    percentage = Math.round(
+      (student.completedCredits / student.requiredCredits) * 100);
+  }
+  degreePercentage.textContent = percentage + "%";
+  creditProgress.textContent = student.completedCredits + " of " + student.requredCredits + " credits";
+  progressFill.style.width = percentage + "%";
+}
+
+//Displays today's schedule
+
+function displaySchedule() {
+  if (student.schedule.length == 0) {
+    scheduleList.innerHTML = '<p class="empty-message">No events are scheduled for today.</p>';
+    return;
+  }
+  scheduleList.innerHTML = "";
+  student.schedule.forEach((event) => {
+    const scheduleItem = document.createElement("div");
+    scheduleItem.className = "schedule-item " + event.type + "-event";
+
+    scheduleItem.innerHTML = '
+      <h3>${event.title}</h3>
+      <p>${event.time}</p>
+      <p>${event.location}</p>
+  ';
+    scheduleList.appendChild(scheduleItem);
+});
+}
+    
+    
+                           
+                           
+    
                                               
   
