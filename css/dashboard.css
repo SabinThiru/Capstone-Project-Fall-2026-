@@ -110,3 +110,29 @@ a { color: inherit; text-decoration: none; }
 }
 
 //Dashboard
+
+.dashboard {
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+  padding: 42px 48px 60px;
+}
+
+.welcome {
+  margin-bottom: 38px;
+}
+
+.welcome h1 {
+  margin: 0 0 6px;
+font-family: var (--font-heading);
+font-size: 30px;
+}
+
+.welcome p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--neutral-300);
+}
+
+  
+  
