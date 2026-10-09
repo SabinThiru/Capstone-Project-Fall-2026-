@@ -85,6 +85,60 @@ function displaySchedule() {
 
 //Displays alerts
 function displaysAlerts() {
+  if (student.alerts.length == 0) {
+    alertsList.innerHTML = '<p class="empty-message">No new alerts.</p>';
+    return;
+  }
+  alertsList.innerHTML = "";
+  student.alerts.forEach((alert) => {
+    const alertItem = document.createElement("div");
+    alertItem.className = "alert-item";
+    alertItem.innerHTML =`
+    <h3>${alert.title}</h3>
+    <p>${alert.date}</p>
+    `;
+    alertsList.appendChild(alertItem);
+  });
+}
+
+//Displays assignments
+
+function displaysAssignments() {
+  if (student.assignments.length == 0) {
+    assignmentsList.innerHTML = '<p class="empty-message">No upcoming assignments.</p>';
+    return;
+  }
+  assignmentsList.innerHTML = "";
+  student.assignments.forEach((assignment) => {
+    const assignmentItem = document.createElement("article");
+    assignmentItem.className = "assignment";
+
+    assignmentItem.innerHTML = `
+    <div>
+    <h3>${assignment.title}</h3>
+    <p>${assignment.course}</p>
+    </div>
+    <span>${assignment.dueDate}</span>
+    `;
+    assignmentsList.appendChild(assignmentItem);
+  });
+}
+
+//Function to open degree requirements
+
+requirementsBtn.addEventListner("click", () => {
+  window.location.href = "degree-progress.html";
+});
+
+// Dashboard information
+
+displayStudentInfo();
+displayDegreeProgress();
+displaySchedule();
+displayAlerts();
+displayAssignments();
+
+    
     
     
                            
