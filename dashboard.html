@@ -50,4 +50,54 @@
         <h1><span id="greeting">Good morning</span>, <span id="welcomeName">Student</span></h1>
         <p>Here is what's coming up for your degree and schedule today.</p>
       </section>
+
+      <!-- Main dashboard cards -->
+      <section class="dashboard-grid">
+
+        <!--Degree progress -->
+        <article class="card">
+          <h2>Degree Progress</h2>
+
+          <div class="progress-heading">
+            <strong id="degreePercentage">0%</strong>
+            <span id="creditProgress">0 of 0 credits</span>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <div class="degree-info">
+            <p class="label">Major</p>
+            <p id="studentMajor">Not available</p>
+
+            <p class="label">Estimated Graduation</p>
+            <p id="graduationDate">Not available</p>
+          </div>
+
+          <button class="primary-button" id="requirementsBtn">
+            View requirements
+          </button>
+        </article>
+
+        <!-- Today's schedule -->
+
+        <article class="card schedule-card">
+          <div class="card-heading">
+            <h2>Today</h2>
+
+            <div class="schedule-key">
+              <span> Class</span>
+              <span> Work</span>
+              <span> Personal</span>
+            </div>
+          </div>
+
+          <div id="scheduleList">
+            <p class="empty-message">No events scheduled for today.</p>
+          </div>
+
+          <a class="card-link" href="schedule.html">View full schedule</a>
+        </article>
+        
   </body>
