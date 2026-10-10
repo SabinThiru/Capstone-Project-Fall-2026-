@@ -31,6 +31,22 @@ const alertsList = document.getElementById("alertsList");
 const assignmentsList = document.getElementById("assignmentsList");
 const requirementsBtn = document.getElementById("requirementsBtn");
 
+//Display greeting based on the time of day
+
+function displayGreeting() {
+  const hour = new Date().getHours();
+  let greeting = "";
+
+  if (hour < 12) {
+    greeting = "Good morning"
+  } else if(hour < 17) {
+    greeting= "Good afternoon";
+  } else {
+    greeting = "Good evening";
+  }
+  document.getElementById("greeting").textContent = greeting;
+}
+
 //Display user information
 
 function displayStudentInfo() {
@@ -132,6 +148,7 @@ requirementsBtn.addEventListener("click", () => {
 
 // Dashboard information
 
+displayGreeting();
 displayStudentInfo();
 displayDegreeProgress();
 displaySchedule();
