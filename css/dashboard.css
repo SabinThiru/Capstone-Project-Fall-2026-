@@ -43,7 +43,7 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
-// Navigation
+/* Navigation */
 
 .topbar {
   min-height: 64px;
@@ -64,8 +64,8 @@ a { color: inherit; text-decoration: none; }
   place-items: center;
   width: 34px;
   height: 34px;
-  border-radius: 8px
-  background: var (--brand-fill);
+  border-radius: 8px;
+  background: var(--brand-fill);
   color: var(--neutral-000);
 }
 
@@ -92,7 +92,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   gap: 14px;
-  font-size: 12px
+  font-size: 12px;
 }
 
 .user-menu a:hover {
@@ -109,7 +109,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 600;
 }
 
-//Dashboard
+/* Dashboard */
 
 .dashboard {
   width: 100%;
@@ -124,7 +124,7 @@ a { color: inherit; text-decoration: none; }
 
 .welcome h1 {
   margin: 0 0 6px;
-font-family: var (--font-heading);
+font-family: var(--font-heading);
 font-size: 30px;
 }
 
@@ -134,29 +134,29 @@ font-size: 30px;
   color: var(--neutral-300);
 }
 
-// Cards
+/* Cards */
 
 .dashboard-grid {
   display: grid;
-  grid-template-coloumns : repeat(3, 1fr);
+  grid-template-columns : repeat(3, 1fr);
   gap: 28px;
 }
 
 .card {
   padding: 24px;
-  backgroundL var(--surface-card);
+  background: var(--surface-card);
   border: 1px solid var(--border-card);
-  border-radius: 8px)
+  border-radius: 8px;
 }
 
 .card h2 {
   margin: 0 0 22px;
-  font-family: var(--font-headiing);
+  font-family: var(--font-heading);
   font-size: 18px;
-  text-transformL uppercase;
+  text-transform: uppercase;
 }
 
-//Degree process
+/* Degree process */
 
 .progress-heading {
   display: flex;
@@ -166,7 +166,7 @@ font-size: 30px;
 
 .progress-heading strong {
   font-family: var(--font-heading);
-  font-size: 32px:
+  font-size: 32px;
 }
 
 .progress-heading span {
@@ -207,7 +207,7 @@ font-size: 30px;
   font-family: var(--font-body);
   font-size: 12px;
   font-weight: 600;
-  color: var(--neutral--000);
+  color: var(--neutral-000);
   background: var(--brand-fill);
   border: 0;
   border-radius: 6px;
@@ -218,7 +218,7 @@ font-size: 30px;
   background: var(--brand-fill-hover);
 }
 
-//Schedule
+/* Schedule */
 
 .card-heading {
   display: flex;
@@ -275,7 +275,7 @@ font-size: 30px;
   text-decoration: underline;
 }
 
-//Alerts
+/* Alerts */
 
 .alert-item {
   padding: 15px 0;
@@ -293,7 +293,7 @@ font-size: 30px;
   color: var(--neutral-300);
 }
 
-//Bottom section
+/* Bottom section */
 
 .bottom-grid {
   display: grid;
@@ -336,7 +336,7 @@ font-size: 30px;
   color: var(--neutral-300);
 }
 
-//GPA 
+/* GPA */ 
 
 .gpa-card {
   display: flex;
@@ -374,7 +374,7 @@ font-size: 30px;
   color: var(--neutral-300);
 }
 
-//Responsive layout
+/* Responsive layout */
 
 @media (max-width: 1000px) {
   .dashboard-grid {
@@ -408,7 +408,7 @@ font-size: 30px;
     grid-template-columns: 1fr;
   }
 
-  .dashboard-grid .card: last-child {
+  .dashboard-grid .card:last-child {
     grid-column: auto;
   }
 
