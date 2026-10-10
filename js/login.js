@@ -34,6 +34,10 @@ document.querySelectorAll("form").forEach((form) => {
   form.addEventListener("submit", (event) => event.preventDefault());
 });
 
+document.getElementById("loginForm").addEventListener("submit", () => {
+window.location.href = "dashboard.html";
+});
+
 // Logic to check whether passwords match during sign up
 const signupPassword = document.getElementById("signupPassword");
 const confirmPassword = document.getElementById("confirmPassword");
