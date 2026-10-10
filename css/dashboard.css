@@ -335,6 +335,94 @@ font-size: 30px;
   font-size: 11px;
   color: var(--neutral-300);
 }
+
+//GPA 
+
+.gpa-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gpa-card strong {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-heading);
+  font-size: 32px;
+}
+
+.gpa-card p {
+  margin: 6px 0 0;
+  font-size: 10px;
+  color: var(--primary-500);
+  text-transform: uppercase;
+}
+
+.student-initials {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border: 3px solid var(--brand-fill);
+  border-radius: 50%;
+  font-family: var(--font-heading);
+}
+
+.empty-message {
+  margin: 16px 0;
+  font-size: 12px;
+  color: var(--neutral-300);
+}
+
+//Responsive layout
+
+@media (max-width: 1000px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dashboard-grid .card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 700px) {
+  .topbar {
+    padding: 16px 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .dashboard {
+    padding: 30px 20px;
+  }
+
+  .dashboard-grid,
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid .card: last-child {
+    grid-column: auto;
+  }
+
+  .welcome h1 {
+    font-size: 25px;
+  }
+
+  .schedule-key {
+    flex-direction: column;
+    gap: 3px;
+  }
+}
+    
+    
   
   
   
