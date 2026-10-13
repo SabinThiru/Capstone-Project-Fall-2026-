@@ -56,10 +56,10 @@ After Sprint 1, the team plans to expand CampusPath by adding academic planning 
 
 Our overall goal is to create a user-friendly application that helps students balance their academic and personal responsibilities while staying on track toward graduation.
 
-## How to Run
+## How to Run Locally
 
 Step 1: Download the Repository
-1. Open the CampusPath repository
+1. Open the CampusPath repository.
 2. Select the branch you want to test using the branch dropdown.
 3. Click the green Code button.
 4. Select Download ZIP.
@@ -71,9 +71,10 @@ Step 2: Locate the Website Files
 2. Make sure the HTML, CSS, and JavaScript files remain in their correct locations so the website can load its styling and functionality.
 
 Step 3: Open the Website
-Option 1: Open Directly in a Browser
 
-For Mac users:
+-Option 1: Open Directly in a Browser
+
+**Mac Users:** 
 1. Open Finder.
 2. Navigate to the extracted project folder.
 3. Locate login.html.
@@ -81,7 +82,7 @@ For Mac users:
 5. Choose Google Chrome, Safari, or another browser.
 
 
-For Windows users:
+**Windows Users:**
 1. Open File Explorer.
 2. Navigate to the extracted project folder.
 3. Locate login.html.
@@ -89,7 +90,7 @@ For Windows users:
 The CampusPath login page should now appear.
 
 
-Option 2: Use Visual Studio Code with a Live Server
+-Option 2: Use Visual Studio Code with a Live Server
 1. Open Visual Studio Code.
 2. Select File > Open Folder and open the project folder.
 3. Install the Live Server extension if it is not already installed.
