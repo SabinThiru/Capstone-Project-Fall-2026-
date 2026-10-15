@@ -1,12 +1,20 @@
 // CampusPath auth page login + signup UI
 const loginView = document.getElementById("loginView");
 const signupView = document.getElementById("signupView");
+const verifyView = document.getElementById("verifyView");
 
 function showView(view) {
-  const showSignup = view === "signup";
-  loginView.hidden = showSignup;
-  signupView.hidden = !showSignup;
-  document.title = showSignup ? "Create account | CampusPath" : "Log in | CampusPath";
+  loginView.hidden = view !== "login";
+  signupView.hidden = view !== "signup";
+  verifyView.hidden = view !== "verify";
+
+  const titles = {
+    login: "Log in",
+    signup: "Create account",
+    verify: "Verify email"
+  };
+
+  document.title = `${titles[view]} | CampusPath`;
 }
 
 document.getElementById("showSignup").addEventListener("click", (event) => {
@@ -18,6 +26,12 @@ document.getElementById("showLogin").addEventListener("click", (event) => {
   event.preventDefault();
   showView("login");
 });
+
+document.getElementById("showLoginFromVerify")
+  .addEventListener("click", (event) => {
+    event.preventDefault();
+    showView("login");
+  });
 
 // Shows and hides password
 document.querySelectorAll(".toggle-password").forEach((btn) => {
@@ -32,6 +46,60 @@ document.querySelectorAll(".toggle-password").forEach((btn) => {
 
 document.querySelectorAll("form").forEach((form) => {
   form.addEventListener("submit", (event) => event.preventDefault());
+});
+
+const loginForm = document.getElementById("loginForm");
+
+const loginError = document.createElement("p");
+loginError.className = "error-text";
+loginError.setAttribute("role", "alert");
+loginForm.appendChild(loginError);
+
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const button = loginForm.querySelector('button[type="submit"]');
+  button.disabled = true;
+  loginError.textContent = "";
+  sessionStorage.removeItem("idToken");
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: document.getElementById("loginEmail").value.trim(),
+        password: document.getElementById("loginPassword").value
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        response.status === 401
+          ? "Login failed. Check your credentials and verify your email."
+          : `Login failed (${response.status}). Please try again.`
+      );
+    }
+
+    const tokens = await response.json();
+
+    if (!tokens.idToken) {
+      throw new Error("Login did not return an ID token.");
+    }
+
+    sessionStorage.setItem("idToken", tokens.idToken);
+    document.getElementById("loginPassword").value = "";
+    window.location.href = "dashboard.html";
+  } catch (error) {
+    loginError.textContent =
+      error instanceof TypeError
+        ? "Cannot reach the backend. Check that it is running."
+        : error.message;
+  } finally {
+    button.disabled = false;
+  }
 });
 
 // Logic to check whether passwords match during sign up
