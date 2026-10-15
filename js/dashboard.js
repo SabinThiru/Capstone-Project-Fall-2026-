@@ -130,13 +130,74 @@ requirementsBtn.addEventListener("click", () => {
   window.location.href = "degree-progress.html";
 });
 
+function displayGreeting() {
+  const hour = new Date().getHours();
+  const greeting = document.getElementById("greeting");
+
+  greeting.textContent =
+    hour < 12 ? "Good morning" :
+    hour < 18 ? "Good afternoon" :
+    "Good evening";
+}
 // Dashboard information
 
-displayStudentInfo();
-displayDegreeProgress();
-displaySchedule();
-displayAlerts();
-displayAssignments();                        
+async function loadDashboard() {
+  const idToken = sessionStorage.getItem("idToken");
+
+  if (!idToken) {
+    window.location.replace("login.html");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      "http://localhost:8080/api/users/me",
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      }
+    );
+
+    if (response.status === 401) {
+      sessionStorage.removeItem("idToken");
+      window.location.replace("login.html");
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        `Could not load your profile (${response.status}).`
+      );
+    }
+
+    const profile = await response.json();
+    student.name = profile.fullName;
+
+    displayGreeting();
+    displayStudentInfo();
+    displayDegreeProgress();
+    displaySchedule();
+    displayAlerts();
+    displayAssignments();
+  } catch (error) {
+    const message = document.createElement("p");
+    message.setAttribute("role", "alert");
+    message.textContent =
+      "Unable to load your dashboard. Check that the backend is running, then reload.";
+
+    document.body.prepend(message);
+    console.error("Dashboard loading failed:", error);
+  }
+}
+
+loadDashboard();
+
+document.getElementById("logoutLink").addEventListener("click", (event) => {
+  event.preventDefault();
+  sessionStorage.removeItem("idToken");
+  window.location.replace("login.html");
+});
                            
     
                                       
