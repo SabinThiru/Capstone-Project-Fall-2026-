@@ -188,7 +188,44 @@
           <a class="link-accent" href="#" id="showLogin">Log in</a>
         </p>
       </div>
+      <!-- Email verification -->
+      <div class="login-card" id="verifyView" hidden>
+        <h2 class="card-title">Verify your email</h2>
+        <p class="card-subtitle">
+          Enter the verification code sent to your email.
+        </p>
 
+        <form id="verifyForm">
+          <div class="field">
+            <label for="verifyEmail">Email</label>
+            <div class="input-wrap">
+              <input type="email" id="verifyEmail" name="email"
+                     class="no-icon" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="verifyCode">Verification code</label>
+            <div class="input-wrap">
+              <input type="text" id="verifyCode" name="confirmationCode"
+                     class="no-icon" inputmode="numeric"
+                     autocomplete="one-time-code" required />
+            </div>
+          </div>
+
+          <p class="error-text" id="verifyError" role="alert"></p>
+
+          <button type="submit" class="btn-primary">
+            <span class="btn-label">Verify email</span>
+          </button>
+        </form>
+
+        <p class="signup-row">
+          <a class="link-accent" href="#" id="showLoginFromVerify">
+            Back to login
+          </a>
+        </p>
+      </div>
     </section>
   </main>
 
