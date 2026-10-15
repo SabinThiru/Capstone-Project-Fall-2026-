@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16
+    container_name: campuspath-db
+    environment:
+      POSTGRES_DB: campuspath
+      POSTGRES_USER: campuspath
+      POSTGRES_PASSWORD: campuspath
+    ports:
+      - "5433:5432"
+    volumes:
+      - campuspath-data:/var/lib/postgresql/data
+      - ./database/001_initial_schema.sql:/docker-entrypoint-initdb.d/001_initial_schema.sql:ro
+      - ./002_University_Inserts.sql:/docker-entrypoint-initdb.d/002_University_Inserts.sql:ro
+
+volumes:
+  campuspath-data:
