@@ -22,6 +22,9 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpReque
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpResponse;
+
+import software.amazon.awssdk.auth.credentials.AnonymousCredentialsProvider;
+
 @Service
 public class CognitoAuthService {
 
@@ -38,6 +41,7 @@ public class CognitoAuthService {
 
         this.cognitoClient = CognitoIdentityProviderClient.builder()
                 .region(Region.of(region))
+                .credentialsProvider(AnonymousCredentialsProvider.create())
                 .build();
 
         this.clientId = clientId;

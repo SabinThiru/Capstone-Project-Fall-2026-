@@ -12,6 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import software.amazon.awssdk.services.cognitoidentityprovider.model.CognitoIdentityProviderException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -42,5 +44,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ProblemDetail handleIntegrity(DataIntegrityViolationException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, "Duplicate email or EUID");
+    }
+    
+    @ExceptionHandler(CognitoIdentityProviderException.class)
+    public ProblemDetail handleCognito(CognitoIdentityProviderException ex) {
+        String code = ex.awsErrorDetails().errorCode();
+        HttpStatus status = switch (code) {
+            case "NotAuthorizedException", "UserNotConfirmedException" -> HttpStatus.UNAUTHORIZED;
+            case "UsernameExistsException" -> HttpStatus.CONFLICT;
+            default -> HttpStatus.BAD_REQUEST;
+        };
+        return ProblemDetail.forStatusAndDetail(status, ex.awsErrorDetails().errorMessage());
     }
 }
