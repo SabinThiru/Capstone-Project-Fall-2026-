@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard | CampusPath</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet" />
 
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <header class="topbar">
+      <div class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" width= "20" height="20" fill="none"
+          stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round"
+          aria-hidden="true">
+          <path d="M22 10 12 5 2 10l10 5 10-5Z" />
+          <path d="M6 12v5c3 2.5 9 2.5 12 0v-5" />
+          <path d="M22 10v6" />
+        </svg>
+      </span>
+
+      <span class="logo-text">CampusPath</span>
+    </div>
+
+      <nav class="nav-links">
+        <a class="active" href="dashboard.html">Dashboard</a>
+        <a href="schedule.html">Schedule</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+
+      <div class="user-menu">
+        <span class="user-avatar" id="userAvatar"></span>
+        <span id="navUserName">Student</span>
+        <a href="login.html" id="logoutLink">Log out</a>
+      </div>
+    </header>
+    <main class="dashboard">
+
+      <!-- Welcome -->
+      <section class= "welcome">
+        <h1><span id="greeting">Good morning</span>, <span id="welcomeName">Student</span></h1>
+        <p>Here is what's coming up for your degree and schedule today.</p>
+      </section>
+
+      <!-- Main dashboard cards -->
+      <section class="dashboard-grid">
+
+        <!--Degree progress -->
+        <article class="card">
+          <h2>Degree Progress</h2>
+
+          <div class="progress-heading">
+            <strong id="degreePercentage">0%</strong>
+            <span id="creditProgress">0 of 0 credits</span>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <div class="degree-info">
+            <p class="label">Major</p>
+            <p id="studentMajor">Not available</p>
+
+            <p class="label">Estimated Graduation</p>
+            <p id="graduationDate">Not available</p>
+          </div>
+
+          <button class="primary-button" id="requirementsBtn">
+            View requirements
+          </button>
+        </article>
+
+        <!-- Today's schedule -->
+
+        <article class="card schedule-card">
+          <div class="card-heading">
+            <h2>Today</h2>
+
+            <div class="schedule-key">
+              <span> Class</span>
+              <span> Work</span>
+              <span> Personal</span>
+            </div>
+          </div>
+
+          <div id="scheduleList">
+            <p class="empty-message">No events scheduled for today.</p>
+          </div>
+
+          <a class="card-link" href="schedule.html">View full schedule</a>
+        </article>
+
+        <!-- Alerts -->
+
+        <article class="card">
+          <h2>Alerts</h2>
+          <div id="alertsList">
+            <p class="empty-message">No new alerts check again later.</p>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Bottom section -->
+      <section class="bottom-grid">
+
+        <!-- Assignments -->
+        <div>
+          <h2 class="section-title">Upcoming Assignments</h2>
+
+          <div id="assignmentsList">
+            <p class="empty-message">No upcoming assignments.</p>
+          </div>
+        </div>
+
+        <!-- Academic summary -->
+
+        <article class="card gpa-card">
+          <div>
+            <span class="label">Cumulative GPA</span>
+            <strong id="studentGpa">--</strong>
+            <p id="academicStanding">Academic standing is currently unavailable</p>
+          </div>
+
+          <div class="student-initials" id="studentInitials"></div>
+        </article>
+
+      </section>
+
+    </main>
+
+    <script src="js/dashboard.js"></script>
+        
+  </body>
+</html>
