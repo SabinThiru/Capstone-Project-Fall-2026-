@@ -1,13 +1,5 @@
 //CampusPath student dashboard UI
 //Temp data replace later with backend data
-
-const API_BASE_URL = "http://localhost:8080";
-
-const idToken = sessionStorage.getItem("idToken");
-if (!idToken) {
-  window.location.replace("login.html");
-}
-
 const student = {
   name: "Student",
   major: "",
@@ -38,22 +30,6 @@ const scheduleList = document.getElementById("scheduleList");
 const alertsList = document.getElementById("alertsList");
 const assignmentsList = document.getElementById("assignmentsList");
 const requirementsBtn = document.getElementById("requirementsBtn");
-
-//Display greeting based on the time of day
-
-function displayGreeting() {
-  const hour = new Date().getHours();
-  let greeting = "";
-
-  if (hour < 12) {
-    greeting = "Good morning";
-  } else if(hour < 17) {
-    greeting= "Good afternoon";
-  } else {
-    greeting = "Good evening";
-  }
-  document.getElementById("greeting").textContent = greeting;
-}
 
 //Display user information
 
@@ -156,55 +132,11 @@ requirementsBtn.addEventListener("click", () => {
 
 // Dashboard information
 
-
-document.getElementById("logoutLink").addEventListener("click", (event) => {
-  event.preventDefault();
-  sessionStorage.removeItem("idToken");
-  window.location.replace("login.html");
-});
-
-
-async function loadProfile() {
-  const response = await fetch(`${API_BASE_URL}/api/users/me`, {
-    headers: { Authorization: `Bearer ${idToken}` }
-  });
-
-
-  if (response.status === 401) {
-    sessionStorage.removeItem("idToken");
-    window.location.replace("login.html");
-    return;
-  }
-
-  if (!response.ok) {
-    throw new Error(`Could not load profile (${response.status})`);
-  }
-
-
-  const profile = await response.json();
-  student.name = profile.fullName.split(" ")[0];   // first name for the greeting
-}
-
-
-async function initDashboard() {
-  displayGreeting();
-
-  try {
-    if (idToken) {
-      await loadProfile();
-    }
-  } catch (error) {
-    console.error(error);
-  }
-
-  displayStudentInfo();
-  displayDegreeProgress();
-  displaySchedule();
-  displayAlerts();
-  displayAssignments();
-}
-
-initDashboard();                 
+displayStudentInfo();
+displayDegreeProgress();
+displaySchedule();
+displayAlerts();
+displayAssignments();                        
                            
     
                                       
