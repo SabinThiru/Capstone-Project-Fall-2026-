@@ -473,6 +473,17 @@ font-size: 30px;
     gap: 16px;
   }
 
+  .notifications {
+    position: static;
+  }
+
+  .notification-panel {
+    top: calc(100% - 4px);
+    right: 20px;
+    width: calc(100vw - 40px);
+    max-width: 360px;
+  }
+
   .nav-links {
     order: 3;
     width: 100%;
