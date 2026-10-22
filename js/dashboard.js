@@ -99,8 +99,62 @@ function displaySchedule() {
   
 }
 
+const bellButton = document.getElementById("bellButton");
+const bellBadge = document.getElementById("bellBadge");
+const notificationPanel = document.getElementById("notificationPanel");
+const notificationList = document.getElementById("notificationList");
+
+function updateNotifications() {
+  const count = student.alerts.length;
+
+  bellBadge.textContent = count > 9 ? "9+" : count;
+  bellBadge.hidden = count === 0;
+  bellButton.setAttribute(
+    "aria-label",
+    count ? `Notifications (${count} new)` : "Notifications"
+  );
+
+  notificationList.innerHTML = "";
+  if (count === 0) {
+    notificationList.innerHTML = '<p class="empty-message">No new notifications.</p>';
+    return;
+  }
+  student.alerts.forEach((alert) => {
+    const item = document.createElement("div");
+    item.className = "alert-item";
+    const title = document.createElement("h3");
+    title.textContent = alert.title;
+    const date = document.createElement("p");
+    date.textContent = alert.date;
+    item.append(title, date);
+    notificationList.appendChild(item);
+  });
+}
+
+function setNotificationPanel(open) {
+  notificationPanel.hidden = !open;
+  bellButton.setAttribute("aria-expanded", String(open));
+}
+
+bellButton.addEventListener("click", (event) => {
+  event.stopPropagation();
+  setNotificationPanel(notificationPanel.hidden);
+});
+
+document.addEventListener("click", (event) => {
+  if (!notificationPanel.contains(event.target)) setNotificationPanel(false);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    setNotificationPanel(false);
+    bellButton.focus();
+  }
+});
+
 //Displays alerts
 function displayAlerts() {
+  updateNotifications();
   if (student.alerts.length == 0) {
     alertsList.innerHTML = '<p class="empty-message">No new alerts.</p>';
     return;
