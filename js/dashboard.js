@@ -99,6 +99,7 @@ function displaySchedule() {
   
 }
 
+//Notification bell
 const bellButton = document.getElementById("bellButton");
 const bellBadge = document.getElementById("bellBadge");
 const notificationPanel = document.getElementById("notificationPanel");
