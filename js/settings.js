@@ -144,7 +144,7 @@ function initSettingsPage() {
     }
   }
 
-  //Fills the form with the saved settings
+  // Fills the form with the saved settings
   async function loadSettings() {
     try {
       const response = await api("/settings");
