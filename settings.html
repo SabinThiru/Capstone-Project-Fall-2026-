@@ -49,7 +49,20 @@
         <h1>Settings</h1>
         <p>Your account details and preferences.</p>
       </section>
-
       <form class="card settings-card" id="settingsForm">
 
-        
+        <section class="settings-group">
+          <h2>Appearance</h2>
+
+          <div class="setting-row">
+            <div class="setting-text">
+              <label for="theme">Theme</label>
+              <p>Select your preferred theme.</p>
+            </div>
+            <select id="theme" name="theme">
+              <option value="system">System default</option>
+              <option value="light">Light Theme</option>
+              <option value="dark">Dark Theme</option>
+            </select>
+          </div>
+        </section>
