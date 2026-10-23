@@ -46,7 +46,26 @@
           <p class="intro-subtitle">Keep all your work in one place!</p>
         </div>
         <div class="intro-actions">
-          <button class=
+          <button class="secondary-button" type="button" id="addCommitmentButton">+ Weekly commitment</button>
+          <button class="add-event-button" type="button" id="addEventButton">+ One-time event</button>
+        </div>
+      </section>
+      <div id="pageStatus" class="page-status" role="status" aria-live="polite">Loading your schedule...</div>
+
+      <section class="schedule-content" aria-label="Your events">
+        <div class="weekly-panel card">
+          <div class="weekly-topline">
+            <div>
+              <h2>Weekly Overview</h2>
+              <p class="section-description">Select any event to view or edit its details.</p>
+            </div>
+            <div class="week-controls aria-label="Choose week">
+               <button type="button" class="small-button" id="previousWeek" aria-label="Previous week">‹</button>
+              <button type="button" class="small-button today-button" id="todayButton">Today</button>
+              <button type="button" class="small-button" id="nextWeek" aria-label="Next week">›</button>
+            </div>
+          </div>
+          
         
     
   </body>
