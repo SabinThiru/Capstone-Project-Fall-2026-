@@ -110,3 +110,119 @@ function initSettingsPage() {
     return error;
   }
 
+  // Call the backend with the saved login token
+  async function api(path, options = {}) {
+    const idToken = sessionStorage.getItem("idToken");
+    if (!idToken) {
+      throw authError("Not logged in");
+    }
+
+    const response = await fetch(API_BASE + path, {
+      ...options,
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      }
+    });
+
+    if (response.status === 401) {
+      throw authError("Session expired");
+    }
+    return response;
+  }
+
+  async function loadProfile() {
+    try {
+      const response = await api("");
+      if (!response.ok) return;
+      const profile = await response.json();
+      navUserName.textContent = profile.fullName;
+      userAvatar.textContent = profile.fullName.charAt(0).toUpperCase();
+    } catch (error) {
+      console.error("Could not load profile:", error);
+    }
+  }
+
+  //Fills the form with the saved settings
+  async function loadSettings() {
+    try {
+      const response = await api("/settings");
+      if (!response.ok) throw new Error(`Status ${response.status}`);
+      const settings = await response.json();
+
+      CampusPathTheme.save(settings.theme);
+      themeSelect.value = CampusPathTheme.saved();
+      selectValue(timezoneSelect, settings.timezone, settings.timezone);
+      notificationsToggle.checked = settings.notificationsEnabled;
+      emailToggle.checked = settings.emailRemindersEnabled;
+      selectValue(
+        reminderSelect,
+        settings.defaultReminderMinutes,
+        `${settings.defaultReminderMinutes} minutes before`
+      );
+    } catch (error) {
+      if (error.name === "AuthError") return;
+      showStatus("Could not load your settings. Check that the backend is running, then reload.", "error");
+      console.error("Could not load settings:", error);
+    }
+  }
+
+  // Saves the form
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    saveBtn.disabled = true;
+    showStatus("Saving...", "");
+
+    const body = {
+      theme: themeSelect.value,
+      timezone: timezoneSelect.value,
+      notificationsEnabled: notificationsToggle.checked,
+      emailRemindersEnabled: emailToggle.checked,
+      defaultReminderMinutes: Number(reminderSelect.value)
+    };
+
+    //Remembers the theme
+    CampusPathTheme.save(body.theme);
+
+    try {
+      const response = await api("/settings", {
+        method: "PUT",
+        body: JSON.stringify(body)
+      });
+
+      if (!response.ok) {
+        const problem = await response.json().catch(() => ({}));
+        showStatus(problem.detail || "Could not save your settings. Try again.", "error");
+        return;
+      }
+      showStatus("Settings saved.", "success");
+    } catch (error) {
+      if (error.name === "AuthError") {
+        showStatus("", "");
+        return;
+      }
+      showStatus("Could not reach the server. Check your connection and try again.", "error");
+      console.error("Could not save settings:", error);
+    } finally {
+      saveBtn.disabled = false;
+    }
+  });
+
+  form.addEventListener("input", () => {
+    if (formStatus.classList.contains("success")) showStatus("", "");
+  });
+
+  document.getElementById("logoutLink").addEventListener("click", (event) => {
+    event.preventDefault();
+    goToLogin();
+  });
+
+  // Start
+  fillSelect(timezoneSelect, TIMEZONES);
+  fillSelect(reminderSelect, REMINDER_OPTIONS);
+  loadProfile();
+  loadSettings();
+}
+
+document.addEventListener("DOMContentLoaded", initSettingsPage);
