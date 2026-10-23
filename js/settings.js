@@ -54,3 +54,59 @@ function initSettingsPage() {
     [1440, "1 day before"]
   ];
 
+  const form = document.getElementById("settingsForm");
+  if (!form) return; // not the settings page
+  const themeSelect = document.getElementById("theme");
+  const timezoneSelect = document.getElementById("timezone");
+  const notificationsToggle = document.getElementById("notificationsEnabled");
+  const emailToggle = document.getElementById("emailRemindersEnabled");
+  const reminderSelect = document.getElementById("defaultReminderMinutes");
+  const saveBtn = document.getElementById("saveBtn");
+  const formStatus = document.getElementById("formStatus");
+
+  const navUserName = document.getElementById("navUserName");
+  const userAvatar = document.getElementById("userAvatar");
+
+  // show saved theme, but preview changes before saving
+  themeSelect.value = CampusPathTheme.saved();
+  themeSelect.addEventListener("change", () => {
+    CampusPathTheme.preview(themeSelect.value);
+  });
+
+  // Fill a dropdown with [value, label] pairs
+  function fillSelect(select, options) {
+    select.innerHTML = "";
+    options.forEach(([value, label]) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      select.appendChild(option);
+    });
+  }
+
+  function selectValue(select, value, fallbackLabel) {
+    const exists = Array.from(select.options).some((o) => o.value === String(value));
+    if (!exists) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = fallbackLabel;
+      select.appendChild(option);
+    }
+    select.value = value;
+  }
+
+  function showStatus(message, type) {
+    formStatus.textContent = message;
+    formStatus.className = "form-status " + (type || "");
+  }
+  function goToLogin() {
+    sessionStorage.removeItem("idToken");
+    window.location.replace("login.html");
+  }
+
+  function authError(message) {
+    const error = new Error(message);
+    error.name = "AuthError";
+    return error;
+  }
+
