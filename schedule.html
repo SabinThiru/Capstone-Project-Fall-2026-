@@ -75,6 +75,48 @@
               <button class="filter-button" data-filter="personal" aria-pressed="false" type="button"><span class="filter-dot personal-dot"></span>Personal</button>
             </div>
           </div>
+
+          <div class="week-scroller" tabindex="0" aria-label="Weekly schedule calendar, scroll horizontally on small screens">
+            <div class="week-grid" id="weekGrid" aria-label="Events for the week"></div>
+          </div>
+          <div class="calendar-footer">
+            <span class="legend-item"><span class="filter-dot class-dot"></span>span> Class</span>
+            <span class="legend-item"><span class="filter-dot work-dot"></span> Work</span>
+            <span class="legend-item"><span class="filter-dot personal-dot"></span> Personal</span>
+          </div>
+        </div>
+
+        <aside class="upcoming-panel card" aria-labelledby="upcomingHeading">
+          <div class="upcoming-heading">
+            <div>
+              <h2 id="upcomingHeading">Coming Up</h2>
+              <p class="section-description">Your upcoming events</p>
+              
+            </div>
+            <span class="upcoming-count" id="upcomingCount">0</span>
+          </div>
+          <div id="upcomingList" class="upcoming-list">
+            <p class="empty-upcoming"> No upcoming events scheduled yet.</p>
+          </div>
+          <button type="button" class="outline-button" id="quickAddButton">+ Add an event</button>
+        </aside>
+      </section>
+
+      <section class="planning-grid" aria-label="Schedule planning">
+        <article class="card planning-card">
+          <div class="pannel-heading">
+            <div>
+              <h2>Weekly Commitments</h2>
+              <p class="section-description">Repeated classes, work shifts, and personal activities within a date range.</p>
+              
+            </div>
+            <button type="button" class="secondary-button" id="quickCommitmentButton">+ Commitment</button>
+          </div>
+          <div id="commitmentList" class="record-list"></div>
+        </article>
+        
+
+          
           
     
   </body>
