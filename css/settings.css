@@ -1,0 +1,46 @@
+[hidden] { display: none !important; }
+
+.settings-page {
+  max-width: 760px;
+}
+
+.settings-card {
+  padding: 8px 28px 28px;
+}
+
+.settings-group {
+  padding: 24px 0 8px;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.settings-group h2 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 0;
+}
+
+.setting-row + .setting-row {
+  border-top: 1px solid var(--border-card);
+}
+
+.setting-text label,
+.setting-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.setting-text p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--neutral-300);
+}
