@@ -124,3 +124,64 @@
   outline: 2px solid var(--primary-500);
   outline-offset: 2px;
 }
+
+/* Save row */
+
+.settings-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-top: 24px;
+}
+
+.save-button {
+  width: auto;
+  min-width: 140px;
+  padding: 0 20px;
+}
+
+.save-button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.form-status {
+  margin: 0;
+  font-size: 12px;
+}
+
+.form-status:empty { display: none; }
+.form-status.success { color: var(--primary-400); }
+.form-status.error { color: #ff8a80; }
+
+@media (max-width: 700px) {
+  .settings-card {
+    padding: 4px 20px 24px;
+  }
+
+  .setting-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .setting-row:has(.switch) {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .setting-row select {
+    width: 100%;
+  }
+
+  .settings-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .save-button {
+    width: 100%;
+  }
+}
+
