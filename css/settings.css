@@ -185,3 +185,60 @@
   }
 }
 
+/* ===== Theme =====
+   Dark is the default, light theme is user's choice. */
+
+:root { color-scheme: dark; }
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surfaces */
+  --surface-page: #f3f7f4;
+  --surface-brand: #e4f0e7; 
+  --surface-card: #ffffff;
+  --surface-input: #f1f6f2;
+  --border-card: #c8dccd;
+  --border-input: #b9d0bf;
+  --brand-fill: #236b40;
+  --brand-fill-hover: #1c5a35;
+
+  --neutral-000: #14261b;
+  --neutral-300: #55655b; 
+  --neutral-500: #62736a;
+
+  --primary-500: #2b7a45;
+  --primary-400: #2b7a45;
+}
+
+/* Light theme - white */
+:root[data-theme="light"] .logo-mark,
+:root[data-theme="light"] .btn-primary,
+:root[data-theme="light"] .primary-button,
+:root[data-theme="light"] .user-avatar,
+:root[data-theme="light"] .bell-badge {
+  color: #ffffff;
+}
+
+:root[data-theme="light"] .switch input:checked + .switch-track::after {
+  background: #ffffff;
+}
+
+/* Error text and borders */
+:root[data-theme="light"] .error-text,
+:root[data-theme="light"] .form-status.error {
+  color: #c62828;
+}
+
+:root[data-theme="light"] .field.has-error input {
+  border-color: #c62828;
+}
+
+:root[data-theme="light"] .notification-panel {
+  box-shadow: 0 12px 32px rgba(20, 38, 27, 0.14);
+}
+
+:root[data-theme="light"] .setting-row select,
+:root[data-theme="light"] .input-wrap input[type="month"] {
+  color-scheme: light;
+}
