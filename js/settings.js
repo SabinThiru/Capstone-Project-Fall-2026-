@@ -56,6 +56,86 @@ function initSettingsPage() {
     [1440, "1 day before"]
   ];
 
+
+  function setStatus(element, message, type) {
+    element.textContent = message;
+    element.className = "form-status " + (type || "");
+  }
+
+  // Fills dropdown with [value, label] pairs
+  function fillSelect(select, options) {
+    select.innerHTML = "";
+    options.forEach(([value, label]) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      select.appendChild(option);
+    });
+  }
+
+  function selectValue(select, value, fallbackLabel) {
+    const exists = Array.from(select.options).some((o) => o.value === String(value));
+    if (!exists) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = fallbackLabel;
+      select.appendChild(option);
+    }
+    select.value = value;
+  }
+
+  function authError(message) {
+    const error = new Error(message);
+    error.name = "AuthError";
+    return error;
+  }
+
+  function goToLogin() {
+    sessionStorage.removeItem("idToken");
+    window.location.replace("login.html");
+  }
+  async function api(path, options = {}) {
+    const idToken = sessionStorage.getItem("idToken");
+    if (!idToken) throw authError("Not logged in");
+
+    const response = await fetch(API_ROOT + path, {
+      ...options,
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      }
+    });
+
+    if (response.status === 401) throw authError("Session expired");
+    return response;
+  }
+
+  async function errorMessage(response, fallback) {
+    const problem = await response.json().catch(() => ({}));
+    return problem.detail || fallback;
+  }
+
+  function showName(fullName) {
+    navUserName.textContent = fullName;
+    userAvatar.textContent = fullName.charAt(0).toUpperCase();
+  }
+
+  async function loadProfile() {
+    try {
+      const response = await api("/users/me");
+      if (!response.ok) return;
+      const profile = await response.json();
+      showName(profile.fullName);
+      fullNameInput.value = profile.fullName;
+      accountEmail.textContent = profile.email || "—";
+      accountUniversity.textContent = (profile.university && profile.university.name) || "—";
+      accountStudentId.textContent = profile.euid || "—";
+    } catch (error) {
+      console.error("Could not load profile:", error);
+    }
+  }
+
   // Preferences section
   async function loadSettings() {
     try {
