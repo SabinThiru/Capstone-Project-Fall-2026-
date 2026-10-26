@@ -56,6 +56,43 @@ function initSettingsPage() {
     [1440, "1 day before"]
   ];
 
+  // Top bar
+  const navUserName = document.getElementById("navUserName");
+  const userAvatar = document.getElementById("userAvatar");
+
+  // Section 1: account
+  const profileForm = document.getElementById("profileForm");
+  const fullNameInput = document.getElementById("fullName");
+  const accountEmail = document.getElementById("accountEmail");
+  const accountUniversity = document.getElementById("accountUniversity");
+  const accountStudentId = document.getElementById("accountStudentId");
+  const profileSaveBtn = document.getElementById("profileSaveBtn");
+  const profileStatus = document.getElementById("profileStatus");
+
+  const passwordForm = document.getElementById("passwordForm");
+  const currentPassword = document.getElementById("currentPassword");
+  const newPassword = document.getElementById("newPassword");
+  const confirmPassword = document.getElementById("confirmPassword");
+  const passwordMatchError = document.getElementById("passwordMatchError");
+  const passwordSaveBtn = document.getElementById("passwordSaveBtn");
+  const passwordIntro = document.getElementById("passwordIntro");
+  const changePasswordBtn = document.getElementById("changePasswordBtn");
+  const cancelPasswordBtn = document.getElementById("cancelPasswordBtn");
+  const passwordDone = document.getElementById("passwordDone");
+  const passwordStatus = document.getElementById("passwordStatus");
+  const ruleItems = {
+    length: document.querySelector('#pwRules [data-rule="length"]'),
+    special: document.querySelector('#pwRules [data-rule="special"]')
+  };
+
+  // Section 2: preferences
+  const themeSelect = document.getElementById("theme");
+  const timezoneSelect = document.getElementById("timezone");
+  const notificationsToggle = document.getElementById("notificationsEnabled");
+  const emailToggle = document.getElementById("emailRemindersEnabled");
+  const reminderSelect = document.getElementById("defaultReminderMinutes");
+  const saveBtn = document.getElementById("saveBtn");
+  const formStatus = document.getElementById("formStatus");
 
   function setStatus(element, message, type) {
     element.textContent = message;
