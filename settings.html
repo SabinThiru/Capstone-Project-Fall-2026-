@@ -64,3 +64,36 @@
             <path d="m6 9 6 6 6-6" />
           </svg>
         </summary>
+
+        <div class="section-body">
+
+          <!-- Profile -->
+          <section class="settings-group">
+            <h3>Profile</h3>
+
+            <form id="profileForm" novalidate>
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="fullName">Full name</label>
+                  <p>Shown on your dashboard and top bar.</p>
+                </div>
+                <input class="text-input" type="text" id="fullName" name="fullName"
+                  maxlength="200" autocomplete="name" />
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <span class="setting-label">Email</span>
+                  <p>You sign in with this email.</p>
+                </div>
+                <span class="static-value" id="accountEmail">&mdash;</span>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <span class="setting-label">University</span>
+                  <p>Set when you created your account.</p>
+                </div>
+                <span class="static-value" id="accountUniversity">&mdash;</span>
+              </div>
+
