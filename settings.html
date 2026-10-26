@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Settings | CampusPath</title>
 
+    <script src="js/settings.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="css/dashboard.css" />
     <link rel="stylesheet" href="css/settings.css" />
-    <script src="js/settings.js"></script>
   </head>
 
   <body>
@@ -37,6 +38,7 @@
         <a href="schedule.html">Schedule</a>
         <a class="active" href="settings.html">Settings</a>
       </nav>
+
       <div class="user-menu">
         <span class="user-avatar" id="userAvatar"></span>
         <span id="navUserName">Student</span>
@@ -48,82 +50,17 @@
 
       <section class="welcome">
         <h1>Settings</h1>
-        <p>Your account details and preferences.</p>
+        <p>Manage your account, how CampusPath looks, and your schedule.</p>
       </section>
-      <form class="card settings-card" id="settingsForm">
 
-        <section class="settings-group">
-          <h2>Appearance</h2>
-
-          <div class="setting-row">
-            <div class="setting-text">
-              <label for="theme">Theme</label>
-              <p>Select your preferred theme.</p>
-            </div>
-            <select id="theme" name="theme">
-              <option value="light">Light Theme</option>
-              <option value="dark">Dark Theme</option>
-            </select>
-          </div>
-        </section>
-
-        <!-- Region -->
-        <section class="settings-group">
-          <h2>Region</h2>
-
-          <div class="setting-row">
-            <div class="setting-text">
-              <label for="timezone">Time zone</label>
-              <p>Class times and reminders use your preferred time zone.</p>
-            </div>
-            <select id="timezone" name="timezone"></select>
-          </div>
-        </section>
-
-        <!-- Notifications -->
-        <section class="settings-group">
-          <h2>Notifications</h2>
-
-          <div class="setting-row">
-            <div class="setting-text">
-              <span id="notificationsLabel" class="setting-label">In-app notifications</span>
-              <p>Show alerts for deadlines and schedule changes.</p>
-            </div>
-            <label class="switch">
-              <input type="checkbox" id="notificationsEnabled" role="switch"
-                aria-labelledby="notificationsLabel" />
-              <span class="switch-track"></span>
-            </label>
-          </div>
-
-          <div class="setting-row">
-            <div class="setting-text">
-              <span id="emailLabel" class="setting-label">Email reminders</span>
-              <p>Get reminders sent to your email.</p>
-            </div>
-            <label class="switch">
-              <input type="checkbox" id="emailRemindersEnabled" role="switch"
-                aria-labelledby="emailLabel" />
-              <span class="switch-track"></span>
-            </label>
-          </div>
-          <div class="setting-row">
-            <div class="setting-text">
-              <label for="defaultReminderMinutes">Default reminder time</label>
-              <p>Reminder Timing</p>
-            </div>
-            <select id="defaultReminderMinutes" name="defaultReminderMinutes"></select>
-          </div>
-        </section>
-
-        <div class="settings-actions">
-          <p class="form-status" id="formStatus" role="status"></p>
-          <button class="primary-button save-button" type="submit" id="saveBtn">
-            Save preferences
-          </button>
-        </div>
-
-      </form>
-    </main>
-  </body>
-</html>
+      <!-- 1. Account Settings Section -->
+      <details class="card settings-section" name="settings-sections" id="accountSection">
+        <summary>
+          <h2 class="section-heading">Account Settings</h2>
+          <span class="section-desc">Your Account Information</span>
+          <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" fill="none"
+            stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </summary>
