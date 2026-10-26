@@ -143,3 +143,47 @@
                 </div>
               </div>
 
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="newPassword">New password</label>
+                </div>
+                <div class="input-with-toggle">
+                  <input class="text-input" type="password" id="newPassword"
+                    autocomplete="new-password" />
+                  <button type="button" class="show-toggle" data-target="newPassword"
+                    aria-label="Show password">Show</button>
+                </div>
+              </div>
+
+              <ul class="pw-rules" id="pwRules">
+                <li data-rule="length">At least 8 characters</li>
+                <li data-rule="special">At least one special character (!@#$%&amp;*)</li>
+              </ul>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="confirmPassword">Confirm new password</label>
+                </div>
+                <div class="input-with-toggle">
+                  <input class="text-input" type="password" id="confirmPassword"
+                    autocomplete="new-password" />
+                  <button type="button" class="show-toggle" data-target="confirmPassword"
+                    aria-label="Show password">Show</button>
+                </div>
+              </div>
+              <p class="form-status error" id="passwordMatchError" role="alert"></p>
+
+              <div class="settings-actions">
+                <p class="form-status" id="passwordStatus" role="status"></p>
+                <button class="secondary-button" type="button" id="cancelPasswordBtn">
+                  Cancel
+                </button>
+                <button class="primary-button save-button" type="submit" id="passwordSaveBtn">
+                  Update password
+                </button>
+              </div>
+            </form>
+          </section>
+
+        </div>
+      </details>
