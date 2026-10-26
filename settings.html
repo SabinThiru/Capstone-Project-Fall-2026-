@@ -117,3 +117,29 @@
           <!-- Password -->
           <section class="settings-group">
             <h3>Password</h3>
+
+            <div class="setting-row" id="passwordIntro">
+              <div class="setting-text">
+                <span class="setting-label">Password</span>
+                <p>Use a strong password you don't use anywhere else.</p>
+              </div>
+              <button class="secondary-button" type="button" id="changePasswordBtn"
+                aria-controls="passwordForm" aria-expanded="false">
+                Change password
+              </button>
+            </div>
+            <p class="form-status" id="passwordDone" role="status"></p>
+
+            <form id="passwordForm" hidden novalidate>
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="currentPassword">Current password</label>
+                </div>
+                <div class="input-with-toggle">
+                  <input class="text-input" type="password" id="currentPassword"
+                    autocomplete="current-password" />
+                  <button type="button" class="show-toggle" data-target="currentPassword"
+                    aria-label="Show password">Show</button>
+                </div>
+              </div>
+
