@@ -129,7 +129,46 @@
             <label for="termSelect">Academic term</label>
             <select id="termSelect"><option value="">Select a term</option>></select>
           </div>
-          
+        <form id="optionForm" class="option-form">
+            <label for="optionName">Schedule option name</label>
+            <div class="option-form-row">
+              <input id="optionName" maxlength="120" placeholder="Enter a name for your schedule option" required />
+              <button type="submit" class="add-event-button" id="saveOptionButton">Save option</button>
+            </div>
+          </form>
+          <p class="section-description">Scores appear when a generation/scoring service supplies them. Saving an option does not automatically build a class timetable.</p>
+          <div id="optionList" class="record-list"></div>
+        </article>
+      </section>
+    </main>
+
+    <dialog id="commitmentDialog" class="event-dialog" aria-labelledby="commitmentDialogTitle">
+      <form id="commitmentForm">
+        <div class="dialog-topline">
+          <h2 id="commitmentDialogTitle">Add weekly commitment</h2>
+          <button type="button" class="dialog-close" data-close="commitmentDialog" aria-label="Close">&times;</button>
+        </div>
+        <p class="dialog-description">This commitment repeats on the selected weekday until its end date.</p>
+        <div class="field-group">
+          <label for="commitmentTitle">Title *</label>
+          <input id="commitmentTitle" type="text" required maxlength="160" placeholder="Enter your class, work shift, or personal activity" />
+        </div>
+        <div class="two-fields">
+          <div class="field-group">
+            <label for="commitmentType">Type *</label>
+            <select id="commitmentType" required>
+              <option value="class">Class</option><option value="work">Work</option><option value="personal">Personal</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="commitmentDay">Day of week *</label>
+            <select id="commitmentDay" required>
+              <option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option>
+              <option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option>
+              <option value="7">Sunday</option>
+            </select>
+          </div>
+        </div>  
         
 
           
