@@ -168,7 +168,35 @@
               <option value="7">Sunday</option>
             </select>
           </div>
-        </div>  
+        </div>
+        <div class="two-fields">
+          <div class="field-group"><label for="commitmentStartTime">Start time*</label><input id="commitmentStartTime" type="time" required /></div>
+          <div class="field-group"><label for="commitmentEndTime">End time*</label><input id="commitmentEndTime" type="time" required /></div>
+        </div>
+        <div class="two-fields">
+          <div class="field-group"><label for="commitmentStartDate">Start date*</label><input id="commitmentStartDate" type="date" required /></div
+          <div class="field-group"><label for="commitmentEndtDate">End date*</label><input id="commitmentEndtDate" type="date" required /></div>
+        </div>
+        <div class="field-group">
+          <label for="commitmentColor">Calendar color</label>
+          <input id="commitmentColor" type="color" value="#66b366" />
+        </div>
+        <p class="form-error" id="commitmentError" role="alert"></p>
+        <div class="dialog-actions">
+          <button type="button" class="delete-button" id="deleteCommitmentButton" hidden>Delete</button>
+          <button type="button" class="cancel-button" data-close="commitmentDialog">Cancel</button>
+          <button type="submit" class="save-button" id="saveCommitmentButton">Save commitment</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="termDialog" class="event-dialog" aria-labelledby="termDialogTitle">
+      <form id="termForm">
+        <div class="dialog-topline">
+          <h2 id="termDialogTitle">Add academic term</h2>
+          <button type="button" class="dialog-close" data-close="termDialog" aria-label="Close">&times:</button>
+        </div>
+        
         
 
           
