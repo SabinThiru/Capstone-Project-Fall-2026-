@@ -1,1 +1,112 @@
+:root {
+  --class-accent: #66b366;
+  --work-accent: #88a9c2;
+  --personal-accent: #e8b66e;
+}
+
+/* Page heading and buttons */
+
+.schedule-page {
+  max-width: 1540px;
+  margin: 0 auto;
+  padding: 48px 48px 74px;
+}
+
+.schedule-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 29px;
+}
+
+.schedule-intro h1 {
+  margin: 0 0 8px;
+  font: 700 34px/1.5 var(--font-heading);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--primary-500);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.intro-subtitle {
+  margin: 0;
+  color: var(--neutral-300);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.schedule-page button,
+.event-dialog button {
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.schedule-page button:disabled,
+.event-dialog button:disabled {
+  cursor: not allowed;
+  opacity: 0.55;
+}
+
+.schedule-page button:focus-visible,
+.event-dialog button:focus-visible,
+.schedule-page input:focus-visible,
+.event-dialog input:focus-visible,
+.schedule-page select:focus-visible,
+.event-dialog select:focus-visible,
+.event-dialog textarea:focus-visible,
+.week-scroller:focus-visible {
+  outline: 2px solid var(--primary-400);
+  outline-offset: 3px;
+}
+
+.add-event-button,
+.save-button {
+  color: var(--neutral-000);
+  background: var(--brand-fill);
+  border: 1px solid var(--brand-fill);
+  border-radius: 7px;
+  font-weight: 600;
+}
+
+.add-event-button {
+  padding: 13px 21px;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.add-event-button:hover,
+.save-button:hover {
+  background: var(--brand-fill-hover);
+}
+
+.secondary-button {
+  padding: 11px 14px;
+  color: var(--primary-400);
+  background: var(--surface-input);
+  border: 1px solid var(--border-card);
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.secondary-button:hover {
+  background: var(--brand-fill);
+  color: var(--neutral-000);
+}
+
+
+  
+
+  
 
