@@ -116,6 +116,87 @@
           </div>
           <div id="commitmentList" class="record-list"></div>
         </article>
+
+        <article class>="card planning-card">
+          <div class="pannel-heading">
+            <div>
+              <h2>Schedule Options</h2>
+              <p class="section-description">Save and select a schedule option for an academic term.</p>
+            </div>
+            <button type="button" class="secondary-button" id="addTermButton">+ Term</button>
+          </div>
+          <div class="term-controls">
+            <label for="termSelect">Academic term</label>
+            <select id="termSelect"><option value="">Select a term</option>></select>
+          </div>
+        <form id="optionForm" class="option-form">
+            <label for="optionName">Schedule option name</label>
+            <div class="option-form-row">
+              <input id="optionName" maxlength="120" placeholder="Enter a name for your schedule option" required />
+              <button type="submit" class="add-event-button" id="saveOptionButton">Save option</button>
+            </div>
+          </form>
+          <p class="section-description">Scores appear when a generation/scoring service supplies them. Saving an option does not automatically build a class timetable.</p>
+          <div id="optionList" class="record-list"></div>
+        </article>
+      </section>
+    </main>
+
+    <dialog id="commitmentDialog" class="event-dialog" aria-labelledby="commitmentDialogTitle">
+      <form id="commitmentForm">
+        <div class="dialog-topline">
+          <h2 id="commitmentDialogTitle">Add weekly commitment</h2>
+          <button type="button" class="dialog-close" data-close="commitmentDialog" aria-label="Close">&times;</button>
+        </div>
+        <p class="dialog-description">This commitment repeats on the selected weekday until its end date.</p>
+        <div class="field-group">
+          <label for="commitmentTitle">Title *</label>
+          <input id="commitmentTitle" type="text" required maxlength="160" placeholder="Enter your class, work shift, or personal activity" />
+        </div>
+        <div class="two-fields">
+          <div class="field-group">
+            <label for="commitmentType">Type *</label>
+            <select id="commitmentType" required>
+              <option value="class">Class</option><option value="work">Work</option><option value="personal">Personal</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="commitmentDay">Day of week *</label>
+            <select id="commitmentDay" required>
+              <option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option>
+              <option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option>
+              <option value="7">Sunday</option>
+            </select>
+          </div>
+        </div>
+        <div class="two-fields">
+          <div class="field-group"><label for="commitmentStartTime">Start time*</label><input id="commitmentStartTime" type="time" required /></div>
+          <div class="field-group"><label for="commitmentEndTime">End time*</label><input id="commitmentEndTime" type="time" required /></div>
+        </div>
+        <div class="two-fields">
+          <div class="field-group"><label for="commitmentStartDate">Start date*</label><input id="commitmentStartDate" type="date" required /></div
+          <div class="field-group"><label for="commitmentEndtDate">End date*</label><input id="commitmentEndtDate" type="date" required /></div>
+        </div>
+        <div class="field-group">
+          <label for="commitmentColor">Calendar color</label>
+          <input id="commitmentColor" type="color" value="#66b366" />
+        </div>
+        <p class="form-error" id="commitmentError" role="alert"></p>
+        <div class="dialog-actions">
+          <button type="button" class="delete-button" id="deleteCommitmentButton" hidden>Delete</button>
+          <button type="button" class="cancel-button" data-close="commitmentDialog">Cancel</button>
+          <button type="submit" class="save-button" id="saveCommitmentButton">Save commitment</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="termDialog" class="event-dialog" aria-labelledby="termDialogTitle">
+      <form id="termForm">
+        <div class="dialog-topline">
+          <h2 id="termDialogTitle">Add academic term</h2>
+          <button type="button" class="dialog-close" data-close="termDialog" aria-label="Close">&times:</button>
+        </div>
+        
         
 
           
