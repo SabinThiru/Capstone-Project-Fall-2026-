@@ -196,10 +196,72 @@
           <h2 id="termDialogTitle">Add academic term</h2>
           <button type="button" class="dialog-close" data-close="termDialog" aria-label="Close">&times:</button>
         </div>
-        
-        
+        <p class="dialog-description">Create a semester term to organize your schedule.</p>
+        <div class="field-group"><label for="termName">Term name *</label><input id="termName" required maxLength="100" /></div>
+        <div class="two-fields">
+          <div class="field-group"><label for="termStartDate">Start date *</label><input id="termStartDate" type="date" required/></div>
+          <div class="field-group"><label for="termEndDate">End date *</label><input id="termEndDate" type="date" required/></div>
+        </div>
+        <p class="form-error" id="termError" role="alert"></p>
+        <div class="dialog-actions">
+          <button type="button" class="cancel-button" data-close="termDialog">Cancel</button>
+          <button type="submit" class="save-button" id="saveTermButton">Save term</button>
+        </div>
+      </form>
+    </dialog>
 
-          
-          
-    
+    <dialog id="eventDialog" class="event-dialog" aria-labelledby="dialogTitle">
+      <form id="eventForm">
+        <div class="dialog-topline">
+          <div>
+            <p class="eyebrow">CAMPUSPATH PLANNER</p>
+            <h2 id="dialogTitle">Add event</h2>
+          </div>
+          <button type="button" id="closeDialogButton" class="dialog-close" aria-label="Close">x</button>
+        </div>
+        <p class="dialog-description">Add a class, work shift, or a personal event to your calendar.</p>
+        <div class="field-group">
+          <label for="eventTitle">Event name <span aria-hidden="true">*</span></label>
+          <input id="eventTitle" name="title" type="text" maxlength="160" required />
+        </div>
+        <div class="field-group">
+          <label for="eventType">Category <span aria-hidden="true">*</span></label>
+          <select id="eventType" name="eventType" required>
+            <option value="class">Class</option>
+            <option value="work">Work</option>
+            <option value="personal">Personal</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="eventDate">Date <span aria-hidden="true">*</span></label>
+          <input id="eventDate" name="eventDate" type="date" required />
+        </div>
+        <div class="two-fields">
+          <div class="field-group">
+            <label for="startTime">Start time <span aria-hidden="true">*</span></label>
+            <input id="startTime" name="startTime" type="time" required />
+          </div>
+          <div class="field-group">
+            <label for="endTime">End time< span aria-hidden="true">*</span></label>
+            <input id="endTime" name="endTime" type="time" required />
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="eventLocation">Location <span class="optional">(optional)</span></label>
+          <input id="eventLocation" name="location" type="text" maxlength="180" />
+        </div>
+        <div class="field-group">
+          <label for="eventNotes">Notes <span class="optional">(optional)</span></label>
+          <textArea id="eventNotes" name="notes" rows="3" maxlength="500" placeholder="Anything you want to remember"></textarea>
+        </div>
+        <p class =form-error" id="formError" role="alert" aria-live="assertive"></p>
+        <div class="dialog-actions">
+          <button type="button" class="delete-button" id="deleteEventButton" hidden>Delete</button>
+          <button type="button" class="cancel-button" id="cancelEventButton">Cancel</button>
+          <button type="submit" class="save-button" id="saveEventButton">Save event</button>
+        </div>
+      </form>
+    </dialog>
   </body>
+</html>
+
