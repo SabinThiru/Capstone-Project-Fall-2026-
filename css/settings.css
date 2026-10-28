@@ -65,3 +65,46 @@
   padding: 0 28px 28px;
   border-top: 1px solid var(--border-card);
 }
+
+.settings-group:last-of-type { border-bottom: 0; }
+
+.settings-group {
+  padding: 24px 0 8px;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.settings-group h3 {
+  margin: 0 0 6px;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 0;
+}
+
+.setting-row + .setting-row {
+  border-top: 1px solid var(--border-card);
+}
+
+.setting-text label,
+.setting-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.setting-text p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--neutral-300);
+}
+
