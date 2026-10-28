@@ -292,11 +292,26 @@
           </svg>
         </summary>
 
-        <div class="section-body">
-          <p class="section-message">Your Schedule Preferences</p>
-        </div>
-      </details>
+            <div class="section-body">
+          <form id="scheduleForm" novalidate>
 
-    </main>
-  </body>
-</html>
+            <!-- Class times -->
+            <section class="settings-group">
+              <h3>Class times</h3>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="earliestClassTime">Earliest class</label>
+                  <p>Classes won't be scheduled before the selected time.</p>
+                </div>
+                <input class="text-input narrow-input" type="time" id="earliestClassTime" />
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="latestClassTime">Latest class</label>
+                  <p>Classes won't run past the selected time.</p>
+                </div>
+                <input class="text-input narrow-input" type="time" id="latestClassTime" />
+              </div>
+            </section>
