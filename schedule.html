@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="css/schedule.css" />
     <link rel="stylesheet" href="css/settings.css" />
     <script src="js/schedule.js" defer></script>
-    <script src="js/settings.js"></script>
   </head>
   <body>
     <header class="topbar">
@@ -61,7 +60,7 @@
               <h2>Weekly Overview</h2>
               <p class="section-description">Select any event to view or edit its details.</p>
             </div>
-            <div class="week-controls aria-label="Choose week">
+            <div class="week-controls" aria-label="Choose week">
                <button type="button" class="small-button" id="previousWeek" aria-label="Previous week">‹</button>
               <button type="button" class="small-button today-button" id="todayButton">Today</button>
               <button type="button" class="small-button" id="nextWeek" aria-label="Next week">›</button>
@@ -69,7 +68,7 @@
           </div>
 
           <div class="calendar-toolbar">
-            <h3 id= weekRange">This week</h3>
+            <h3 id= "weekRange">This week</h3>
             <div class="event-filters" aria-label="Filter schedule by event type">
               <button class="filter-button selected" data-filter="all" aria-pressed="true" type="button">All events</button>
               <button class="filter-button" data-filter="class" aria-pressed="false" type="button"><span class="filter-dot class-dot"></span>Classes</button>
@@ -82,7 +81,7 @@
             <div class="week-grid" id="weekGrid" aria-label="Events for the week"></div>
           </div>
           <div class="calendar-footer">
-            <span class="legend-item"><span class="filter-dot class-dot"></span>span> Class</span>
+            <span class="legend-item"><span class="filter-dot class-dot"></span> Class</span>
             <span class="legend-item"><span class="filter-dot work-dot"></span> Work</span>
             <span class="legend-item"><span class="filter-dot personal-dot"></span> Personal</span>
           </div>
@@ -106,7 +105,7 @@
 
       <section class="planning-grid" aria-label="Schedule planning">
         <article class="card planning-card">
-          <div class="pannel-heading">
+          <div class="panel-heading">
             <div>
               <h2>Weekly Commitments</h2>
               <p class="section-description">Repeated classes, work shifts, and personal activities within a date range.</p>
@@ -117,8 +116,8 @@
           <div id="commitmentList" class="record-list"></div>
         </article>
 
-        <article class>="card planning-card">
-          <div class="pannel-heading">
+        <article class="card planning-card">
+          <div class="panel-heading">
             <div>
               <h2>Schedule Options</h2>
               <p class="section-description">Save and select a schedule option for an academic term.</p>
@@ -127,7 +126,7 @@
           </div>
           <div class="term-controls">
             <label for="termSelect">Academic term</label>
-            <select id="termSelect"><option value="">Select a term</option>></select>
+            <select id="termSelect"><option value="">Select a term</option></select>
           </div>
         <form id="optionForm" class="option-form">
             <label for="optionName">Schedule option name</label>
@@ -174,8 +173,8 @@
           <div class="field-group"><label for="commitmentEndTime">End time*</label><input id="commitmentEndTime" type="time" required /></div>
         </div>
         <div class="two-fields">
-          <div class="field-group"><label for="commitmentStartDate">Start date*</label><input id="commitmentStartDate" type="date" required /></div
-          <div class="field-group"><label for="commitmentEndtDate">End date*</label><input id="commitmentEndtDate" type="date" required /></div>
+          <div class="field-group"><label for="commitmentStartDate">Start date*</label><input id="commitmentStartDate" type="date" required /></div>
+          <div class="field-group"><label for="commitmentEndtDate">End date*</label><input id="commitmentEndDate" type="date" required /></div>
         </div>
         <div class="field-group">
           <label for="commitmentColor">Calendar color</label>
@@ -194,7 +193,7 @@
       <form id="termForm">
         <div class="dialog-topline">
           <h2 id="termDialogTitle">Add academic term</h2>
-          <button type="button" class="dialog-close" data-close="termDialog" aria-label="Close">&times:</button>
+          <button type="button" class="dialog-close" data-close="termDialog" aria-label="Close">&times;</button>
         </div>
         <p class="dialog-description">Create a semester term to organize your schedule.</p>
         <div class="field-group"><label for="termName">Term name *</label><input id="termName" required maxLength="100" /></div>
@@ -242,7 +241,7 @@
             <input id="startTime" name="startTime" type="time" required />
           </div>
           <div class="field-group">
-            <label for="endTime">End time< span aria-hidden="true">*</span></label>
+            <label for="endTime">End time <span aria-hidden="true">*</span></label>
             <input id="endTime" name="endTime" type="time" required />
           </div>
         </div>
@@ -254,7 +253,7 @@
           <label for="eventNotes">Notes <span class="optional">(optional)</span></label>
           <textArea id="eventNotes" name="notes" rows="3" maxlength="500" placeholder="Anything you want to remember"></textarea>
         </div>
-        <p class =form-error" id="formError" role="alert" aria-live="assertive"></p>
+        <p class ="form-error" id="formError" role="alert" aria-live="assertive"></p>
         <div class="dialog-actions">
           <button type="button" class="delete-button" id="deleteEventButton" hidden>Delete</button>
           <button type="button" class="cancel-button" id="cancelEventButton">Cancel</button>
