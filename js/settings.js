@@ -411,10 +411,17 @@ function initSettingsPage() {
     goToLogin();
   });
 
-  fillSelect(timezoneSelect, TIMEZONES);
-  fillSelect(reminderSelect, REMINDER_OPTIONS);
-  loadProfile();
-  loadSettings();
-}
+  // Section 3: Schedule preferences
+  const scheduleForm = document.getElementById("scheduleForm");
+  const earliestInput = document.getElementById("earliestClassTime");
+  const latestInput = document.getElementById("latestClassTime");
+  const maxCreditsInput = document.getElementById("maxCredits");
+  const minimizeGapsToggle = document.getElementById("minimizeGaps");
+  const minimizeCampusDaysToggle = document.getElementById("minimizeCampusDays");
+  const scheduleSaveBtn = document.getElementById("scheduleSaveBtn");
+  const scheduleStatus = document.getElementById("scheduleStatus");
+  const dayBoxes = Array.from(document.querySelectorAll('#scheduleForm input[name="preferredDays"]'));
+
+
 
 document.addEventListener("DOMContentLoaded", initSettingsPage);
