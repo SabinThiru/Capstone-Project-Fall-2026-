@@ -886,3 +886,76 @@
   }
 }
 
+//Theme for settings page matching
+
+:root {
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --surface-page: #f3f7f4;
+  --surface-brand: #e4f0e7;
+  --surface-card: #ffffff;
+  --surface-input: #f1f6f2;
+  --border-card: #c8dccd;
+  --border-input: #b9d0bf;
+  --brand-fill: #236b40;
+  --brand-fill-hover: #1c5a35;
+  --neutral-000: #14261b;
+  --neutral-300: #55655b;
+  --neutral-500: #62736a;
+  --primary-500: #2b7a45;
+  --primary-400: #2b7a45;
+}
+
+:root[data-theme="light"] .logo-mark,
+:root[data-theme="light"] .user-avatar,
+:root[data-theme="light"] .add-event-button,
+:root[data-theme="light"] .save-button,
+:root[data-theme="light"] .upcoming-count,
+:root[data-theme="light"] .day-column.is-today .day-number,
+:root[data-theme="light"] .filter-button.selected,
+:root[data-theme="light"] .filter-button:hover,
+:root[data-theme="light"] .secondary-button:hover,
+:root[data-theme="light"] .small-button:hover,
+:root[data-theme="light"] .cancel-button:hover,
+:root[data-theme="light"] .outline-button:hover {
+  color: #ffffff;
+}
+
+:root[data-theme="light"] .day-column.is-today .day-header {
+  background: #e4f0e7;
+}
+
+:root[data-theme="light"] .calendar-event {
+  background: #e4f3e9;
+}
+
+:root[data-theme="light"] .calendar-event.work {
+  background: #e4eff4;
+}
+
+:root[data-theme="light"] .calendar-event.personal {
+  background: #fbf1de;
+}
+
+:root[data-theme="light"] .calendar-event:hover,
+:root[data-theme="light"] .calendar-event.work:hover,
+:root[data-theme="light"] .calendar-event.personal:hover {
+  background: #d6e9dc;
+}
+
+:root[data-theme="light"] .field-group input,
+:root[data-theme="light"] .field-group select,
+:root[data-theme="light"] .field-group textarea,
+:root[data-theme="light"] .term-controls select,
+:root[data-theme="light"] .option-form input {
+  color-scheme: light;
+}
+
+:root[data-theme="light"] .delete-button,
+:root[data-theme="light"] .record-actions button.danger-action {
+  color: #a52230;
+}
+
