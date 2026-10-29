@@ -422,6 +422,35 @@ function initSettingsPage() {
   const scheduleStatus = document.getElementById("scheduleStatus");
   const dayBoxes = Array.from(document.querySelectorAll('#scheduleForm input[name="preferredDays"]'));
 
+  const SCHEDULE_DEFAULTS = {
+    earliestClassTime: "08:00",
+    latestClassTime: "18:00",
+    maxCredits: 15,
+    preferredDays: ["MON", "TUE", "WED", "THU", "FRI"],
+    minimizeGaps: false,
+    minimizeCampusDays: false
+  };
+
+  function fillSchedulePreferences(saved) {
+    const prefs = { ...SCHEDULE_DEFAULTS };
+    Object.keys(SCHEDULE_DEFAULTS).forEach((key) => {
+      if (saved[key] !== undefined && saved[key] !== null) prefs[key] = saved[key];
+    });
+
+    earliestInput.value = String(prefs.earliestClassTime).slice(0, 5);
+    latestInput.value = String(prefs.latestClassTime).slice(0, 5);
+    maxCreditsInput.value = prefs.maxCredits;
+    minimizeGapsToggle.checked = Boolean(prefs.minimizeGaps);
+    minimizeCampusDaysToggle.checked = Boolean(prefs.minimizeCampusDays);
+
+    const days = Array.isArray(prefs.preferredDays)
+      ? prefs.preferredDays
+      : String(prefs.preferredDays).split(",");
+    const chosen = days.map((day) => day.trim().toUpperCase());
+    dayBoxes.forEach((box) => {
+      box.checked = chosen.includes(box.value);
+    });
+  }
 
 
 document.addEventListener("DOMContentLoaded", initSettingsPage);
