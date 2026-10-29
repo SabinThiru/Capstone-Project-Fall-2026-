@@ -810,5 +810,79 @@
   display: none !important;
 }
 
-  
+/* Responsive design */
+
+@media (max-width: 1150px) {
+  .schedule-content {
+    grid-template-columns: 1fr;
+  }
+
+  .upcoming-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+  }
+}
+
+@media (max-width: 1040px) {
+  .planning-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .schedule-page {
+    padding: 32px 20px 60px;
+  }
+
+  .schedule-intro {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .schedule-intro h1 {
+    font-size: 28px;
+  }
+
+  .add-event-button {
+    padding: 11px 13px;
+  }
+
+  .weekly-panel,
+  .upcoming-panel,
+  .planning-card {
+    padding: 17px;
+  }
+
+  .weekly-topline {
+    flex-wrap: wrap;
+  }
+
+  .calendar-toolbar {
+    align-items: flex-start;
+  }
+
+  .upcoming-list {
+    display: block;
+  }
+
+  .option-form-row {
+    flex-wrap: wrap;
+  }
+
+  .option-form-row button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 430px) {
+  .schedule-intro {
+    flex-direction: column;
+  }
+
+  .two-fields {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
 
