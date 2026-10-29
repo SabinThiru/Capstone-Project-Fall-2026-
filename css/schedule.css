@@ -651,7 +651,7 @@
   white-space: nowrap;
 }
 
-/* Add and Edit Event Forms */
+/* Add and edit event forms */
 
 .event-dialog {
   width: min(460px, calc(100vw - 30px));
@@ -768,7 +768,47 @@
   display: none;
 }
 
+/* Dialog buttons */
 
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.dialog-actions button {
+  min-height: 38px;
+  padding: 0 15px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.delete-button {
+  margin-right: auto;
+  color: #ffb2ba;
+  background: transparent;
+  border: 1px solid #784046;
+}
+
+.delete-button:hover {
+  background: #642b32;
+}
+
+.cancel-button {
+  color: var(--neutral-000);
+  background: var(--surface-input);
+  border: 1px solid var(--border-card);
+}
+
+.save-button {
+  min-width: 105px;
+}
+
+[hidden] {
+  display: none !important;
+}
 
   
 
