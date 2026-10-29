@@ -329,6 +329,88 @@
   text-align: center;
 }
 
+/* Calendar events */
+
+.calendar-event {
+  display: block;
+  width: 100%;
+  padding: 10px 8px;
+  text-align: left;
+  color: var(--neutral-000);
+  background: #0a3823;
+  border: 1px solid var(--class-accent);
+  border-left: 3px solid (var(--class-accent);
+  border-radius: 5px;
+}
+
+.calendar-event:hover {
+  background: #16452d;
+}
+
+.calendar-event.work {
+  background: #12322f;
+  border-left-color: var(--work-accent);
+}
+
+.calendar-event.work:hover {
+  background: #214640;
+}
+
+.calendar-event.personal {
+  background: #35301e;
+  border-left-color: var(--personal-accent);
+}
+
+.calendar-event.personal:hover {
+  background: #484026;
+}
+
+.calendar-event.recurring::after {
+  content: "Repeats weekly";
+  display: block;
+  margin-top: 6px;
+  color: var(--neutral-300);
+  font-size: 9px;
+}
+
+.event-time {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--neutral-300);
+  font-size: 9px;
+}
+
+.event-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.event-location {
+  display: block;
+  margin-top: 5px;
+  color: var(--neutral-300);
+  font-size: 9px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.calendar-footer {
+  display: flex;
+  gap: 19px;
+  margin-top: 16px;
+  color: var(--neutral-300);
+  font-size: 10px;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
   
   
 
