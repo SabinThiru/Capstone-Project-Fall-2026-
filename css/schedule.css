@@ -22,7 +22,7 @@
 
 .schedule-intro h1 {
   margin: 0 0 8px;
-  font: 700 34px/1.5 var(--font-heading);
+  font: 700 34px/1.15 var(--font-heading);
 }
 
 .eyebrow {
@@ -54,7 +54,7 @@
 
 .schedule-page button:disabled,
 .event-dialog button:disabled {
-  cursor: not allowed;
+  cursor: not-allowed;
   opacity: 0.55;
 }
 
@@ -120,7 +120,7 @@
   margin-bottom: 18px;
 }
 
-.page-satus.error {
+.page-status.error {
   padding: 13px 16px;
   color: #f8c3c9;
   background: #30191c;
@@ -128,11 +128,11 @@
   border-radius: 7px;
 }
 
-/* Calendar and Upcoming Events */
+/* Calendar and upcoming events */
 
 .schedule-content {
   display: grid;
-  grid-template-colums: minmax(0, 1fr) 315px;
+  grid-template-columns: minmax(0, 1fr) 315px;
   align-items: start;
   gap: 24px;
 }
@@ -338,8 +338,8 @@
   text-align: left;
   color: var(--neutral-000);
   background: #0a3823;
-  border: 1px solid var(--class-accent);
-  border-left: 3px solid (var(--class-accent);
+  border: 1px solid var(--border-card);
+  border-left: 3px solid var(--class-accent);
   border-radius: 5px;
 }
 
@@ -886,7 +886,7 @@
   }
 }
 
-//Theme for settings page matching
+/* Theme for settings page matching */
 
 :root {
   color-scheme: dark;
