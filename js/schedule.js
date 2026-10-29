@@ -55,3 +55,17 @@ const refs = {
   save: document.getElementById("saveEventButton"),
   remove: document.getElementById("deleteEventButton")
 };
+
+// Schedule data
+
+let events = [];
+let commitments = [];
+let academicTerms = [];
+let scheduleOptions = [];
+let editingCommitmentId = null;
+let shownWeek =startOfWeek(new Date());
+let activeFilter = "all";
+let editingId = null;
+let scheduleReady = false;
+
+
