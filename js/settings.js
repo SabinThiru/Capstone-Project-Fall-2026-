@@ -452,5 +452,83 @@ function initSettingsPage() {
     });
   }
 
+  async function loadSchedulePreferences() {
+    fillSchedulePreferences({});
+    try {
+      const response = await api("/users/me/schedule-preferences");
+      if (response.status === 404) return; // keeps defaults without saving
+      if (!response.ok) throw new Error(`Status ${response.status}`);
+      fillSchedulePreferences(await response.json());
+    } catch (error) {
+      if (error.name === "AuthError") return;
+      console.error("Could not load schedule preferences:", error);
+    }
+  }
+
+  scheduleForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const earliest = earliestInput.value;
+    const latest = latestInput.value;
+    const maxCredits = Number(maxCreditsInput.value);
+
+    if (!earliest || !latest) {
+      setStatus(scheduleStatus, "Choose an earliest and a latest class time.", "error");
+      return;
+    }
+    if (earliest >= latest) {
+      setStatus(scheduleStatus, "The earliest class time must be before the latest.", "error");
+      return;
+    }
+    if (!Number.isInteger(maxCredits) || maxCredits < 3 || maxCredits > 21) {
+      setStatus(scheduleStatus, "Maximum credits must be a whole number from 3 to 21.", "error");
+      return;
+    }
+
+    scheduleSaveBtn.disabled = true;
+    setStatus(scheduleStatus, "Saving...", "");
+
+    const body = {
+      earliestClassTime: earliest,
+      latestClassTime: latest,
+      maxCredits,
+      preferredDays: dayBoxes.filter((box) => box.checked).map((box) => box.value),
+      minimizeGaps: minimizeGapsToggle.checked,
+      minimizeCampusDays: minimizeCampusDaysToggle.checked
+    };
+
+    try {
+      const response = await api("/users/me/schedule-preferences", {
+        method: "PUT",
+        body: JSON.stringify(body)
+      });
+
+      if (!response.ok) {
+        setStatus(scheduleStatus, await errorMessage(response, "Could not save your schedule preferences. Try again."), "error");
+        return;
+      }
+      setStatus(scheduleStatus, "Schedule preferences saved.", "success");
+    } catch (error) {
+      if (error.name === "AuthError") {
+        setStatus(scheduleStatus, "", "");
+        return;
+      }
+      setStatus(scheduleStatus, "Could not reach the server. Check your connection and try again.", "error");
+      console.error("Could not save schedule preferences:", error);
+    } finally {
+      scheduleSaveBtn.disabled = false;
+    }
+  });
+
+  scheduleForm.addEventListener("input", () => {
+    if (scheduleStatus.classList.contains("success")) setStatus(scheduleStatus, "", "");
+  });
+
+  fillSelect(timezoneSelect, TIMEZONES);
+  fillSelect(reminderSelect, REMINDER_OPTIONS);
+  loadProfile();
+  loadSettings();
+  loadSchedulePreferences();
+}
 
 document.addEventListener("DOMContentLoaded", initSettingsPage);
