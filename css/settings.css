@@ -445,3 +445,55 @@
   max-width: 300px;
 }
 
+.day-chip {
+  position: relative;
+  cursor: pointer;
+}
+
+.day-chip input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.day-chip span {
+  display: grid;
+  place-items: center;
+  min-width: 46px;
+  height: 34px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--neutral-300);
+  background: var(--surface-input);
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  pointer-events: none;
+}
+
+.day-chip input:checked + span {
+  color: #ffffff;
+  background: var(--brand-fill);
+  border-color: var(--brand-fill);
+}
+
+.day-chip input:focus-visible + span {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .narrow-input {
+    width: 100%;
+  }
+
+  .day-picker {
+    justify-content: flex-start;
+    max-width: none;
+  }
+}
