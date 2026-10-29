@@ -105,7 +105,100 @@
   color: var(--neutral-000);
 }
 
+/* Status messages */
 
+.page-status {
+  font-size: 12px;
+  color: var(--neutral-300);
+}
+
+.page-status:empty {
+  display: none;
+}
+
+.page-status:not(:empty) {
+  margin-bottom: 18px;
+}
+
+.page-satus.error {
+  padding: 13px 16px;
+  color: #f8c3c9;
+  background: #30191c;
+  border: 1px solid #a53b46;
+  border-radius: 7px;
+}
+
+/* Calendar and Upcoming Events */
+
+.schedule-content {
+  display: grid;
+  grid-template-colums: minmax(0, 1fr) 315px;
+  align-items: start;
+  gap: 24px;
+}
+
+.weekly-panel,
+.upcoming-panel,
+.planning-card {
+  min-width: 0;
+}
+
+.weekly-topline,
+.calendar-toolbar,
+.upcoming-heading,
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.weekly-panel h2,
+.upcoming-panel h2,
+.planning-card h2 {
+  margin: 0 0 5px;
+  font: 700 18px var(--font-heading);
+  text-transform: uppercase;
+}
+
+.section-description {
+  margin: 0;
+  color: var(--neutral-300);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* Week navigation */
+
+.week-controls {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.small-button {
+  height: 32px;
+  min-width: 32px;
+  padding: 0 10px;
+  color: var(--neutral-000);
+  background: var(--surface-input);
+  border: 1px solid var(--border-card);
+  border-radius: 6px;
+  font-size: 19px;
+}
+
+.small-button:hover,
+.outline-button:hover,
+.cancel-button:hover {
+  background: var(--brand-fill);
+}
+
+.today-button {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+  
   
 
   
