@@ -429,3 +429,19 @@
 @media (prefers-reduced-motion: reduce) {
   .chevron { transition: none; }
 }
+
+
+/* Schedule preferences Section Styling */
+
+.narrow-input {
+  width: 140px;
+}
+
+.day-picker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  max-width: 300px;
+}
+
