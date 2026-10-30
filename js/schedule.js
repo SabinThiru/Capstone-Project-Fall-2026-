@@ -128,3 +128,64 @@ function showStatus(message = "", isError = false) {
   refs.pageStatus.textContent = message;
   refs.pageStatus.classList.toggle("error", isError);
 }
+
+// Combine one time events and weekly commitments
+
+function occurrences(start, end) {
+  const first = dateKey(start);
+  const last = dateKey(end);
+
+  const result = events
+    .filter(item =>
+      item.eventDate >= first && item.eventDate <= last
+    )
+    .map(item => ({ ...item, source: "event" }));
+
+  for (
+    let date = new Date(start);
+    date <= end;
+    date = addDays(date, 1)
+  ) {
+    const key = dateKey(date);
+    const dayOfWeek = ((date.getDay() + 6) % 7) + 1;
+
+    for (const commitment of commitments) {
+      if (
+        commitment.dayOfWeek === dayOfWeek &&
+        commitment.startDate <= key &&
+        commitment.endDate >= key
+      ) {
+        result.push({
+          id: commitment.id,
+          source: "commitment",
+          title: commitment.title,
+          eventType: commitment.commitmentType,
+          eventDate: key,
+          startTime: commitment.startTime,
+          endTime: commitment.endTime,
+          color: commitment.color,
+          location: ""
+        });
+      }
+    }
+  }
+
+  return result
+    .filter(item =>
+      activeFilter === "all" ||
+      item.eventType === activeFilter
+    )
+    .sort((a, b) =>
+      a.eventDate.localeCompare(b.eventDate) ||
+      a.startTime.localeCompare(b.startTime)
+    );
+}
+
+function openScheduleItem(item) {
+  if (item.source === "commitment") {
+    openCommitmentDialog(item.id);
+  } else {
+    openEditDialog(item.id);
+  }
+}
+
