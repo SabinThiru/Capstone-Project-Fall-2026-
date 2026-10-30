@@ -451,3 +451,52 @@ function requireToken() {
 
   return token;
 }
+
+// API Requests
+
+async function apiRequest(url, options = {}) {
+  const token = requireToken();
+
+  if (!token) {
+    throw new Error("Please log in again.");
+  }
+
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      ...(options.body
+        ? { "Content-Type": "application/json" }
+        : {})
+    }
+  });
+
+  if (response.status === 401) {
+    sessionStorage.removeItem("idToken");
+    window.location.replace("login.html");
+
+    throw new Error(
+      "Your login has expired. Please log in again."
+    );
+  }
+
+  if (!response.ok) {
+    let detail = "";
+
+    try {
+      const problem = await response.json();
+      detail = problem.detail || problem.message || "";
+    } catch (error) {
+      // Some errors may not return JSON.
+    }
+
+    throw new Error(
+      detail || `Request failed (${response.status}).`
+    );
+  }
+
+  return response.status === 204
+    ? null
+    : response.json();
+}
+
