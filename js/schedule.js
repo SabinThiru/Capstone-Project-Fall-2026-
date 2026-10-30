@@ -438,3 +438,16 @@ function render() {
   renderWeek();
   renderUpcoming();
 }
+
+// Authentication
+
+function requireToken() {
+  const token = sessionStorage.getItem("idToken");
+
+  if (!token) {
+    window.location.replace("login.html");
+    return null;
+  }
+
+  return token;
+}
