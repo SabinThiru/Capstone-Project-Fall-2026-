@@ -475,9 +475,7 @@ async function apiRequest(url, options = {}) {
     sessionStorage.removeItem("idToken");
     window.location.replace("login.html");
 
-    throw new Error(
-      "Your login has expired. Please log in again."
-    );
+    throw new Error("Your login has expired. Please log in again.");
   }
 
   if (!response.ok) {
@@ -487,7 +485,7 @@ async function apiRequest(url, options = {}) {
       const problem = await response.json();
       detail = problem.detail || problem.message || "";
     } catch (error) {
-      // Some errors may not return JSON.
+
     }
 
     throw new Error(
@@ -499,4 +497,70 @@ async function apiRequest(url, options = {}) {
     ? null
     : response.json();
 }
+
+// Sync theme with student settings
+
+async function syncScheduleTheme() {
+  try {
+    const settings = await apiRequest(
+      `${API_BASE_URL}/api/users/me/settings`
+    );
+
+    if (
+      settings &&
+      (settings.theme === "light" || settings.theme === "dark")
+    ) {
+      applyScheduleTheme(settings.theme);
+    }
+  } catch (error) {
+    console.warn("Could not sync schedule theme:", error);
+  }
+}
+
+// Recover events
+
+async function loadEvents() {
+  const result = await apiRequest(EVENTS_URL);
+
+  if (!Array.isArray(result)) {
+    throw new Error("Could not load schedule data.");
+  }
+
+  events = result;
+
+  events.sort((a, b) =>
+    a.eventDate.localeCompare(b.eventDate) ||
+    a.startTime.localeCompare(b.startTime)
+  );
+
+  render();
+}
+
+// Initialize schedule
+
+async function initialize() {
+  if (!requireToken()) return;
+
+  try {
+    const [
+      profile,
+      loadedEvents,
+      loadedCommitments,
+      loadedTerms
+    ] = await Promise.all([
+      apiRequest(`${API_BASE_URL}/api/users/me`),
+      apiRequest(EVENTS_URL),
+      apiRequest(COMMITMENTS_URL),
+      apiRequest(TERMS_URL)
+    ]);
+
+    if (
+      ![
+        loadedEvents,
+        loadedCommitments,
+        loadedTerms
+      ].every(Array.isArray)
+    ) {
+      throw new Error("Could not load schedule data.");
+    }
 
