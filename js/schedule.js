@@ -189,3 +189,252 @@ function openScheduleItem(item) {
   }
 }
 
+// Create HTML elements
+
+function makeElement(tag, className, text) {
+  const el = document.createElement(tag);
+
+  if (className) {
+    el.className = className;
+  }
+
+  if (text !== undefined) {
+    el.textContent = String(text);
+  }
+
+  return el;
+}
+
+
+// Weekly calendar
+
+function renderWeek() {
+  const weekEnd = addDays(shownWeek, 6);
+
+  const first = formatDate(shownWeek, {
+    month: "short",
+    day: "numeric"
+  });
+
+  const last = formatDate(weekEnd, {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  });
+
+  refs.weekRange.textContent = `${first} – ${last}`;
+  refs.weekGrid.replaceChildren();
+
+  const today = dateKey(new Date());
+  const visible = occurrences(shownWeek, weekEnd);
+
+  for (let i = 0; i < 7; i += 1) {
+    const date = addDays(shownWeek, i);
+    const key = dateKey(date);
+
+    const column = makeElement(
+      "div",
+      "day-column" + (key === today ? " is-today" : "")
+    );
+
+    const heading = makeElement("div", "day-header");
+
+    heading.append(
+      makeElement(
+        "span",
+        "day-name",
+        formatDate(date, { weekday: "short" })
+      ),
+      makeElement(
+        "span",
+        "day-number",
+        date.getDate()
+      )
+    );
+
+    const list = makeElement("div", "day-events");
+
+    const dayEvents = visible.filter(
+      event => event.eventDate === key
+    );
+
+    if (dayEvents.length === 0) {
+      list.appendChild(
+        makeElement("p", "day-empty", "No events")
+      );
+    } else {
+      dayEvents.forEach(event => {
+        const button = makeElement(
+          "button",
+          `calendar-event ${event.eventType}${
+            event.source === "commitment" ? " recurring" : ""
+          }`
+        );
+
+        button.type = "button";
+
+        if (event.color) {
+          button.style.borderLeftColor = event.color;
+        }
+
+        button.setAttribute(
+          "aria-label",
+          `Edit ${event.title} on ${key}`
+        );
+
+        button.appendChild(
+          makeElement(
+            "span",
+            "event-time",
+            formatTime(event.startTime)
+          )
+        );
+
+        button.appendChild(
+          makeElement(
+            "span",
+            "event-title",
+            event.title
+          )
+        );
+
+        if (event.location) {
+          button.appendChild(
+            makeElement(
+              "span",
+              "event-location",
+              event.location
+            )
+          );
+        }
+
+        button.addEventListener("click", () => {
+          openScheduleItem(event);
+        });
+
+        list.appendChild(button);
+      });
+    }
+
+    column.append(heading, list);
+    refs.weekGrid.appendChild(column);
+  }
+}
+
+// Upcoming events
+
+function renderUpcoming() {
+  refs.upcomingList.replaceChildren();
+
+  const now = new Date();
+  const today = dateKey(now);
+
+  const timeNow =
+    String(now.getHours()).padStart(2, "0") +
+    ":" +
+    String(now.getMinutes()).padStart(2, "0");
+
+  const next60 = addDays(now, 60);
+
+  const repeated = occurrences(startOfWeek(now), next60)
+    .filter(item => item.source === "commitment");
+
+  const future = [
+    ...events.map(item => ({ ...item, source: "event" })),
+    ...repeated
+  ]
+    .filter(item =>
+      activeFilter === "all" ||
+      item.eventType === activeFilter
+    )
+    .filter(item =>
+      item.eventDate > today ||
+      (
+        item.eventDate === today &&
+        item.endTime.slice(0, 5) > timeNow
+      )
+    )
+    .sort((a, b) =>
+      a.eventDate.localeCompare(b.eventDate) ||
+      a.startTime.localeCompare(b.startTime)
+    );
+
+  refs.upcomingCount.textContent = String(future.length);
+
+  if (!future.length) {
+    refs.upcomingList.appendChild(
+      makeElement(
+        "p",
+        "empty-upcoming",
+        "Nothing on the calendar yet. Add an event to get started."
+      )
+    );
+    return;
+  }
+
+  future.slice(0, 6).forEach(event => {
+    const row = makeElement("div", "upcoming-entry");
+
+    const stripe = makeElement(
+      "span",
+      `upcoming-icon ${event.eventType}`
+    );
+
+    stripe.setAttribute("aria-hidden", "true");
+
+    if (event.color) {
+      stripe.style.backgroundColor = event.color;
+    }
+
+    const body = makeElement("div", "upcoming-body");
+
+    body.appendChild(
+      makeElement(
+        "span",
+        "upcoming-date",
+        formatDate(parseDate(event.eventDate), {
+          weekday: "short",
+          month: "short",
+          day: "numeric"
+        })
+      )
+    );
+
+    const title = makeElement(
+      "button",
+      "upcoming-title",
+      event.title
+    );
+
+    title.type = "button";
+
+    title.addEventListener("click", () => {
+      openScheduleItem(event);
+    });
+
+    body.appendChild(title);
+
+    const timeText =
+      `${formatTime(event.startTime)} – ${formatTime(event.endTime)}`;
+
+    const locationText = event.location
+      ? ` · ${event.location}`
+      : "";
+
+    body.appendChild(
+      makeElement(
+        "p",
+        "upcoming-meta",
+        `${timeText}${locationText}`
+      )
+    );
+
+    row.append(stripe, body);
+    refs.upcomingList.appendChild(row);
+  });
+}
+
+function render() {
+  renderWeek();
+  renderUpcoming();
+}
