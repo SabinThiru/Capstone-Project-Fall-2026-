@@ -564,3 +564,242 @@ async function initialize() {
       throw new Error("Could not load schedule data.");
     }
 
+// Apply student's theme independently
+    void syncScheduleTheme();
+
+    const name = profile.fullName || "Student";
+
+    refs.navUserName.textContent = name;
+    refs.userAvatar.textContent = name.charAt(0).toUpperCase();
+
+    events = loadedEvents;
+    commitments = loadedCommitments;
+    academicTerms = loadedTerms;
+
+    renderTermSelect();
+    await loadOptions();
+
+    render();
+    renderCommitments();
+
+    scheduleReady = true;
+    showStatus();
+  } catch (error) {
+    scheduleReady = false;
+
+    showStatus(
+      `Unable to load your schedule. ${error.message}`,
+      true
+    );
+
+    console.error("Schedule loading failed:", error);
+  }
+}
+
+// Add event dialog
+
+function openAddDialog() {
+  if (!scheduleReady) {
+    showStatus(
+      "Your schedule is not available yet. Check the backend connection and refresh.",
+      true
+    );
+    return;
+  }
+
+  editingId = null;
+  refs.form.reset();
+
+  refs.dialogTitle.textContent = "Add event";
+  refs.save.textContent = "Save event";
+  refs.remove.hidden = true;
+
+  refs.date.value = dateKey(new Date());
+  refs.start.value = "09:00";
+  refs.end.value = "10:00";
+
+  refs.formError.textContent = "";
+
+  refs.dialog.showModal();
+  refs.title.focus();
+}
+
+// Edit event dialog
+
+function openEditDialog(id) {
+  const event = events.find(item => item.id === id);
+
+  if (!event) return;
+
+  editingId = event.id;
+
+  refs.dialogTitle.textContent = "Edit event";
+  refs.save.textContent = "Save changes";
+
+  refs.title.value = event.title;
+  refs.type.value = event.eventType;
+  refs.date.value = event.eventDate;
+  refs.start.value = event.startTime.slice(0, 5);
+  refs.end.value = event.endTime.slice(0, 5);
+  refs.location.value = event.location || "";
+  refs.notes.value = event.notes || "";
+
+  refs.remove.hidden = false;
+  refs.formError.textContent = "";
+
+  refs.dialog.showModal();
+  refs.title.focus();
+}
+
+function setFormBusy(busy) {
+  refs.save.disabled = busy;
+  refs.remove.disabled = busy;
+
+  refs.save.textContent = busy
+    ? "Saving…"
+    : (editingId === null ? "Save event" : "Save changes");
+}
+
+// save events
+
+refs.form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!refs.form.reportValidity()) return;
+
+  refs.formError.textContent = "";
+
+  if (refs.end.value <= refs.start.value) {
+    refs.formError.textContent =
+      "End time must be after start time on the same day.";
+    return;
+  }
+
+  const data = {
+    title: refs.title.value.trim(),
+    eventType: refs.type.value,
+    eventDate: refs.date.value,
+    startTime: refs.start.value,
+    endTime: refs.end.value,
+    location: refs.location.value.trim(),
+    notes: refs.notes.value.trim()
+  };
+
+  if (!data.title) {
+    refs.formError.textContent =
+      "Please enter an event name.";
+    return;
+  }
+
+  const isEditing = editingId !== null;
+  const url = isEditing
+    ? `${EVENTS_URL}/${editingId}`
+    : EVENTS_URL;
+
+  setFormBusy(true);
+
+  try {
+    await apiRequest(url, {
+      method: isEditing ? "PUT" : "POST",
+      body: JSON.stringify(data)
+    });
+
+    shownWeek = startOfWeek(parseDate(data.eventDate));
+
+    await loadEvents();
+    refs.dialog.close();
+
+    showStatus(
+      isEditing
+        ? "Event updated successfully."
+        : "Event added successfully."
+    );
+  } catch (error) {
+    refs.formError.textContent = error.message;
+  } finally {
+    setFormBusy(false);
+  }
+});
+
+// Delete events
+
+refs.remove.addEventListener("click", async () => {
+  if (editingId === null) return;
+
+  const event = events.find(item => item.id === editingId);
+
+  if (
+    !event ||
+    !window.confirm(
+      `Delete “${event.title}”? This cannot be undone.`
+    )
+  ) {
+    return;
+  }
+
+  refs.formError.textContent = "";
+  setFormBusy(true);
+
+  try {
+    await apiRequest(
+      `${EVENTS_URL}/${editingId}`,
+      { method: "DELETE" }
+    );
+
+    await loadEvents();
+    refs.dialog.close();
+
+    showStatus("Event deleted successfully.");
+  } catch (error) {
+    refs.formError.textContent = error.message;
+  } finally {
+    setFormBusy(false);
+  }
+});
+
+// Event dialog buttons
+
+refs.dialog.addEventListener("close", () => {
+  refs.formError.textContent = "";
+});
+
+document
+  .getElementById("closeDialogButton")
+  .addEventListener("click", () => refs.dialog.close());
+
+document
+  .getElementById("cancelEventButton")
+  .addEventListener("click", () => refs.dialog.close());
+
+document
+  .getElementById("addEventButton")
+  .addEventListener("click", openAddDialog);
+
+document
+  .getElementById("quickAddButton")
+  .addEventListener("click", openAddDialog);
+
+// Weekly navigation
+
+document
+  .getElementById("previousWeek")
+  .addEventListener("click", () => {
+    shownWeek = addDays(shownWeek, -7);
+    renderWeek();
+  });
+
+document
+  .getElementById("nextWeek")
+  .addEventListener("click", () => {
+    shownWeek = addDays(shownWeek, 7);
+    renderWeek();
+  });
+
+document
+  .getElementById("todayButton")
+  .addEventListener("click", () => {
+    shownWeek = startOfWeek(new Date());
+    renderWeek();
+  });
+
+  
