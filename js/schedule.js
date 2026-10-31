@@ -834,7 +834,7 @@ document
 // Start schedule page
 
 render();
-initialize();
+//initialize();
 
 // Weekly commitments
 
