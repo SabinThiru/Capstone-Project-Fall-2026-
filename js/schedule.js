@@ -1098,4 +1098,125 @@ byId("quickCommitmentButton").addEventListener(
   "click",
   () => openCommitmentDialog()
 );
+
+
+// Academic terms and schedule options
+
+function renderTermSelect(preferId = null) {
+  const select = byId("termSelect");
+  const previous = String(preferId ?? select.value);
+
+  select.replaceChildren(
+    new Option("Select a term", "")
+  );
+
+  for (const term of academicTerms) {
+    select.appendChild(
+      new Option(term.name, term.id)
+    );
+  }
+
+  if (
+    academicTerms.some(t => String(t.id) === previous)
+  ) {
+    select.value = previous;
+  } else if (academicTerms.length) {
+    select.value = String(academicTerms[0].id);
+  }
+}
+
+async function loadOptions() {
+  const termId = byId("termSelect").value;
+
+  scheduleOptions = termId
+    ? await apiRequest(
+      `${GENERATED_URL}?termId=${encodeURIComponent(termId)}`
+    )
+    : [];
+
+  renderOptions();
+}
+
+// display saved schedule options
+
+function renderOptions() {
+  const list = byId("optionList");
+
+  list.replaceChildren();
+
+  if (!scheduleOptions.length) {
+    list.appendChild(
+      makeElement(
+        "p",
+        "empty-records",
+        "No saved options for this term yet."
+      )
+    );
+    return;
+  }
+
+  for (const option of scheduleOptions) {
+    const row = makeElement("div", "record-row");
+    const content = makeElement("div", "record-content");
+
+    content.append(
+      makeElement(
+        "p",
+        "record-title",
+        option.scheduleName
+      ),
+      makeElement(
+        "p",
+        "record-meta",
+        `Score: ${option.score ?? "Not scored"} · ${
+          option.createdAt
+            ? formatDate(
+                new Date(option.createdAt),
+                { dateStyle: "medium" }
+              )
+            : "Saved"
+        }`
+      )
+    );
+
+    const actions = makeElement("div", "record-actions");
+
+    if (option.isSelected) {
+      actions.append(
+        makeElement(
+          "span",
+          "selected-label",
+          "Selected"
+        )
+      );
+    } else {
+      const choose = makeElement("button", "", "Select");
+      choose.type = "button";
+
+      choose.addEventListener("click", () => {
+        updateOption(option.id, "select");
+      });
+
+      actions.append(choose);
+    }
+
+    const remove = makeElement(
+      "button",
+      "danger-action",
+      "Delete"
+    );
+
+    remove.type = "button";
+
+    remove.addEventListener("click", () => {
+      updateOption(option.id, "delete");
+    });
+
+    actions.append(remove);
+    row.append(content, actions);
+    list.append(row);
+  }
+}
+
+
   
