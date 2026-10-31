@@ -603,7 +603,7 @@ async function initialize() {
 function openAddDialog() {
   if (!scheduleReady) {
     showStatus(
-      "Your schedule is not available yet. Check the backend connection and refresh.",
+      "Your schedule is not available yet. Refresh the page or try again later.",
       true
     );
     return;
