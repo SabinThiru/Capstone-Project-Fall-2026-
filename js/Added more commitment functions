@@ -857,4 +857,120 @@ const typeColors = {
   personal: "#e8b66e"
 };
 
+// Display commitments
+
+function renderCommitments() {
+  const list = byId("commitmentList");
+
+  list.replaceChildren();
+
+  if (!commitments.length) {
+    list.appendChild(
+      makeElement(
+        "p",
+        "empty-records",
+        "No repeating commitments added yet."
+      )
+    );
+    return;
+  }
+
+  for (const c of commitments) {
+    const row = makeElement("div", "record-row");
+
+    const stripe = makeElement("span", "commitment-swatch");
+
+    stripe.style.backgroundColor = c.color;
+    stripe.setAttribute("aria-hidden", "true");
+
+    const content = makeElement("div", "record-content");
+
+    content.append(
+      makeElement("p", "record-title", c.title),
+      makeElement(
+        "p",
+        "record-meta",
+        `${days[c.dayOfWeek - 1]} · ${formatTime(c.startTime)} – ${formatTime(c.endTime)}`
+      ),
+      makeElement(
+        "p",
+        "record-meta",
+        `${c.startDate} to ${c.endDate} · ${c.commitmentType}`
+      )
+    );
+
+    const actions = makeElement("div", "record-actions");
+
+    const edit = makeElement("button", "", "Edit");
+    edit.type = "button";
+
+    edit.addEventListener("click", () => {
+      openCommitmentDialog(c.id);
+    });
+
+    actions.append(edit);
+    row.append(stripe, content, actions);
+    list.append(row);
+  }
+}
+
+// Add or edit commitment
+
+function openCommitmentDialog(id = null) {
+  if (!scheduleReady) {
+    return showStatus(
+      "Schedule is unavailable; try refreshing.",
+      true
+    );
+  }
+
+  editingCommitmentId = id;
+  commitmentForm.reset();
+
+  byId("commitmentError").textContent = "";
+
+  byId("commitmentDialogTitle").textContent =
+    id === null
+      ? "Add weekly commitment"
+      : "Edit weekly commitment";
+
+  byId("deleteCommitmentButton").hidden = id === null;
+
+  if (id !== null) {
+    const c = commitments.find(item => item.id === id);
+
+    if (!c) return;
+
+    byId("commitmentTitle").value = c.title;
+    byId("commitmentType").value = c.commitmentType;
+    byId("commitmentDay").value = c.dayOfWeek;
+
+    byId("commitmentStartTime").value =
+      c.startTime.slice(0, 5);
+
+    byId("commitmentEndTime").value =
+      c.endTime.slice(0, 5);
+
+    byId("commitmentStartDate").value = c.startDate;
+    byId("commitmentEndDate").value = c.endDate;
+    byId("commitmentColor").value = c.color;
+  } else {
+    byId("commitmentDay").value =
+      ((new Date().getDay() + 6) % 7) + 1;
+
+    byId("commitmentStartTime").value = "09:00";
+    byId("commitmentEndTime").value = "10:00";
+
+    byId("commitmentStartDate").value = dateKey(new Date());
+
+    byId("commitmentEndDate").value =
+      dateKey(addDays(new Date(), 90));
+
+    byId("commitmentColor").value = typeColors.class;
+  }
+
+  commitmentDialog.showModal();
+  byId("commitmentTitle").focus();
+}
+
   
