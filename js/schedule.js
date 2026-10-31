@@ -802,4 +802,59 @@ document
     renderWeek();
   });
 
+// Event filters
+
+document.querySelectorAll(".filter-button").forEach(button => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+
+    document.querySelectorAll(".filter-button").forEach(item => {
+      const selected = item === button;
+
+      item.classList.toggle("selected", selected);
+      item.setAttribute("aria-pressed", String(selected));
+    });
+
+    render();
+  });
+});
+
+// Logout
+
+document
+  .getElementById("logoutLink")
+  .addEventListener("click", event => {
+    event.preventDefault();
+    sessionStorage.removeItem("idToken");
+    window.location.replace("login.html");
+  });
+
+// Start schedule page
+
+render();
+initialize();
+
+// Weekly commitments
+
+const byId = id => document.getElementById(id);
+
+const commitmentDialog = byId("commitmentDialog");
+const commitmentForm = byId("commitmentForm");
+
+const days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday"
+];
+
+const typeColors = {
+  class: "#66b366",
+  work: "#88a9c2",
+  personal: "#e8b66e"
+};
+
   
