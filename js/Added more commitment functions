@@ -973,4 +973,129 @@ function openCommitmentDialog(id = null) {
   byId("commitmentTitle").focus();
 }
 
+// Update calendar color when category changes
+
+byId("commitmentType").addEventListener("change", () => {
+  if (editingCommitmentId === null) {
+    byId("commitmentColor").value =
+      typeColors[byId("commitmentType").value];
+  }
+});
+
+// Save commitments
+
+commitmentForm.addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const data = {
+    title: byId("commitmentTitle").value.trim(),
+    commitmentType: byId("commitmentType").value,
+    dayOfWeek: Number(byId("commitmentDay").value),
+    startTime: byId("commitmentStartTime").value,
+    endTime: byId("commitmentEndTime").value,
+    startDate: byId("commitmentStartDate").value,
+    endDate: byId("commitmentEndDate").value,
+    color: byId("commitmentColor").value
+  };
+
+  const error = byId("commitmentError");
+  error.textContent = "";
+
+  if (data.endTime <= data.startTime) {
+    error.textContent =
+      "End time must be later than start time.";
+    return;
+  }
+
+  if (data.endDate < data.startDate) {
+    error.textContent =
+      "End date must be on or after start date.";
+    return;
+  }
+
+  const id = editingCommitmentId;
+  const save = byId("saveCommitmentButton");
+
+  save.disabled = true;
+
+  try {
+    await apiRequest(
+      id === null
+        ? COMMITMENTS_URL
+        : `${COMMITMENTS_URL}/${id}`,
+      {
+        method: id === null ? "POST" : "PUT",
+        body: JSON.stringify(data)
+      }
+    );
+
+    commitments = await apiRequest(COMMITMENTS_URL);
+
+    commitmentDialog.close();
+
+    render();
+    renderCommitments();
+
+    showStatus(
+      id === null
+        ? "Commitment added."
+        : "Commitment updated."
+    );
+  } catch (ex) {
+    error.textContent = ex.message;
+  } finally {
+    save.disabled = false;
+  }
+});
+
+// Delete commitments
+
+byId("deleteCommitmentButton").addEventListener(
+  "click",
+  async () => {
+    const id = editingCommitmentId;
+
+    if (
+      id === null ||
+      !window.confirm("Delete this recurring commitment?")
+    ) {
+      return;
+    }
+
+    const button = byId("deleteCommitmentButton");
+    button.disabled = true;
+
+    try {
+      await apiRequest(
+        `${COMMITMENTS_URL}/${id}`,
+        { method: "DELETE" }
+      );
+
+      commitments = await apiRequest(COMMITMENTS_URL);
+
+      commitmentDialog.close();
+
+      render();
+      renderCommitments();
+
+      showStatus("Commitment deleted.");
+    } catch (ex) {
+      byId("commitmentError").textContent = ex.message;
+    } finally {
+      button.disabled = false;
+    }
+  }
+);
+
+// Commitment buttons
+
+byId("addCommitmentButton").addEventListener(
+  "click",
+  () => openCommitmentDialog()
+);
+
+byId("quickCommitmentButton").addEventListener(
+  "click",
+  () => openCommitmentDialog()
+);
   
