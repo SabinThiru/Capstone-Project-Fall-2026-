@@ -1218,5 +1218,150 @@ function renderOptions() {
   }
 }
 
+// Select or delete schedule option
+
+async function updateOption(id, action) {
+  if (
+    action === "delete" &&
+    !window.confirm(
+      "Delete this saved schedule option?"
+    )
+  ) {
+    return;
+  }
+
+  try {
+    await apiRequest(
+      `${GENERATED_URL}/${id}${
+        action === "select" ? "/select" : ""
+      }`,
+      {
+        method: action === "select"
+          ? "POST"
+          : "DELETE"
+      }
+    );
+
+    await loadOptions();
+
+    showStatus(
+      action === "select"
+        ? "Schedule option selected."
+        : "Schedule option deleted."
+    );
+  } catch (ex) {
+    showStatus(ex.message, true);
+  }
+}
+
+// Academic term selection
+
+byId("termSelect").addEventListener("change", () => {
+  loadOptions().catch(ex => {
+    showStatus(ex.message, true);
+  });
+});
+
+// Save schedule option
+
+byId("optionForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const termId = Number(byId("termSelect").value);
+  const scheduleName = byId("optionName").value.trim();
+
+  if (!termId) {
+    return showStatus(
+      "Create or select an academic term first.",
+      true
+    );
+  }
+
+  if (!scheduleName) return;
+
+  const save = byId("saveOptionButton");
+  save.disabled = true;
+
+  try {
+    await apiRequest(GENERATED_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        termId,
+        scheduleName
+      })
+    });
+
+    byId("optionName").value = "";
+
+    await loadOptions();
+
+    showStatus("Schedule option saved.");
+  } catch (ex) {
+    showStatus(ex.message, true);
+  } finally {
+    save.disabled = false;
+  }
+});
+
+// Open Academic Term Form
+
+byId("addTermButton").addEventListener("click", () => {
+  byId("termForm").reset();
+  byId("termError").textContent = "";
+  byId("termDialog").showModal();
+});
+
+// Save academic term
+
+byId("termForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const data = {
+    name: byId("termName").value.trim(),
+    startDate: byId("termStartDate").value,
+    endDate: byId("termEndDate").value
+  };
+
+  if (data.endDate < data.startDate) {
+    byId("termError").textContent =
+      "End date must be on or after start date.";
+    return;
+  }
+
+  const save = byId("saveTermButton");
+  save.disabled = true;
+
+  try {
+    const created = await apiRequest(
+      TERMS_URL,
+      {
+        method: "POST",
+        body: JSON.stringify(data)
+      }
+    );
+
+    academicTerms = await apiRequest(TERMS_URL);
+
+    renderTermSelect(created.id);
+    await loadOptions();
+
+    byId("termDialog").close();
+
+    showStatus("Academic term created.");
+  } catch (ex) {
+    byId("termError").textContent = ex.message;
+  } finally {
+    save.disabled = false;
+  }
+});
+
+// Close commitment and term dialogs
+
+document.querySelectorAll("[data-close]").forEach(button => {
+  button.addEventListener("click", () => {
+    byId(button.dataset.close).close();
+  });
+});
+
 
   
