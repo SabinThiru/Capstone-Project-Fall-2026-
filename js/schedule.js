@@ -637,7 +637,7 @@ async function loadEvents() {
 // Initialize schedule
 
 async function initialize() {
-  if (!requireToken()) return;
+  if (!PREVIEW_MODE && !requireToken()) return;
 
   try {
     const [
@@ -1391,7 +1391,7 @@ async function updateOption(id, action) {
       }`,
       {
         method: action === "select"
-          ? "SUBMIT"
+          ? "POST"
           : "DELETE"
       }
     );
@@ -1410,10 +1410,13 @@ async function updateOption(id, action) {
 
 // Academic term selection
 
-byId("termSelect").addEventListener("change", () => {
-  loadOptions().catch(ex => {
-    showStatus(ex.message, true);
-  });
+byId("termSelect").addEventListener("change", async () => {
+  try {
+    await chooseTerm();
+    await loadOptions();
+  } catch (error) {
+    showStatus(error.message, true);
+  }
 });
 
 // Save schedule options
@@ -1421,10 +1424,10 @@ byId("termSelect").addEventListener("change", () => {
 byId("optionForm").addEventListener("submit", async e => {
   e.preventDefault();
 
-  const termId = Number(byId("termSelect").value);
+  
   const scheduleName = byId("optionName").value.trim();
 
-  if (!termId) {
+  if (!byId("termSelect").value) {
     return showStatus(
       "Create or select an academic term.",
       true
@@ -1437,6 +1440,9 @@ byId("optionForm").addEventListener("submit", async e => {
   save.disabled = true;
 
   try {
+
+    await chooseTerm();
+    const termId = Number(byId("termSelect").value);
     await apiRequest(GENERATED_URL, {
       method: "POST",
       body: JSON.stringify({
@@ -1489,6 +1495,12 @@ byId("termForm").addEventListener("submit", async e => {
     return;
   }
 
+  if (academicTerms.some(item => item.name === data.name)) {
+  byId("termError").textContent =
+    "This semester is already in your list.";
+  return;
+}
+  
   const save = byId("saveTermButton");
   save.disabled = true;
 
