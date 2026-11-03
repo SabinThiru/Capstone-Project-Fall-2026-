@@ -26,6 +26,9 @@ function applySavedScheduleTheme() {
 applySavedScheduleTheme();
 
 //Backend API integration
+//Will change to false when backend is integrated
+const PREVIEW_MODE = true;
+const PREVIEW_STORAGE_KEY = "campuspath-schedule-preview";
 
 const API_BASE_URL = "http://localhost:8080";
 const EVENTS_URL = `${API_BASE_URL}/api/schedule/events`;
@@ -453,10 +456,103 @@ function requireToken() {
 
   return token;
 }
+// Preview data 
+function loadPreviewData() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(PREVIEW_STORAGE_KEY));
+    if (saved && Array.isArray(saved.events) &&
+        Array.isArray(saved.commitments) && Array.isArray(saved.terms) &&
+        Array.isArray(saved.options)) {
+      return saved;
+    }
+  } catch (error) {
+ 
+  }
+  return { events: [], commitments: [], terms: [], options: [], nextId: 1 };
+}
+
+let previewData = loadPreviewData();
+
+function savePreviewData() {
+  try {
+    localStorage.setItem(PREVIEW_STORAGE_KEY, JSON.stringify(previewData));
+  } catch (error) {
+    showStatus("Preview changes may not remain after closing the browser.", true);
+  }
+}
+
+async function previewRequest(url, options = {}) {
+  const path = new URL(url).pathname;
+  const method = options.method || "GET";
+  const data = options.body ? JSON.parse(options.body) : null;
+
+  if (path === "/api/users/me") return { fullName: "Student" };
+  if (path === "/api/users/me/settings") return { theme: "dark" };
+
+  const collections = [
+    ["/api/schedule/events", "events"],
+    ["/api/schedule/commitments", "commitments"],
+    ["/api/schedule/terms", "terms"],
+    ["/api/schedule/generated", "options"]
+  ];
+
+  for (const [base, key] of collections) {
+    if (path !== base && !path.startsWith(base + "/")) continue;
+    const records = previewData[key];
+    const remainder = path.slice(base.length).replace(/^\//, "");
+    const id = Number(remainder.split("/")[0]);
+
+    if (method === "GET") {
+      if (key === "options") {
+        const termId = Number(new URL(url).searchParams.get("termId"));
+        return records.filter(item => item.termId === termId);
+      }
+      return records;
+    }
+
+    if (method === "POST" && remainder.endsWith("/select") && key === "options") {
+      const selected = records.find(item => item.id === id);
+      if (!selected) throw new Error("Schedule was not found.");
+      records.forEach(item => {
+        if (item.termId === selected.termId) item.isSelected = item.id === id;
+      });
+      savePreviewData();
+      return selected;
+    }
+
+    if (method === "POST" && !remainder) {
+      const created = { ...data, id: previewData.nextId++ };
+      if (key === "options") {
+        created.isSelected = false;
+        created.score = null;
+        created.createdAt = new Date().toISOString();
+      }
+      records.push(created);
+      savePreviewData();
+      return created;
+    }
+
+    const index = records.findIndex(item => item.id === id);
+    if (index === -1) throw new Error("The selected item was not found.");
+    if (method === "PUT") {
+      records[index] = { ...records[index], ...data };
+      savePreviewData();
+      return records[index];
+    }
+    if (method === "DELETE") {
+      records.splice(index, 1);
+      savePreviewData();
+      return null;
+    }
+  }
+  throw new Error("This feature is not available in preview mode.");
+}
 
 // API Requests
 
 async function apiRequest(url, options = {}) {
+  if (PREVIEW_MODE) return previewRequest(url, options);
+  
   const token = requireToken();
 
   if (!token) {
@@ -567,7 +663,7 @@ async function initialize() {
     }
 
 // Apply student's theme independently
-    void syncScheduleTheme();
+     if (!PREVIEW_MODE) void syncScheduleTheme();
 
     const name = profile.fullName || "Student";
 
@@ -616,7 +712,13 @@ function openAddDialog() {
   refs.save.textContent = "Save event";
   refs.remove.hidden = true;
 
-  refs.date.value = dateKey(new Date());
+  
+  const today = new Date();
+  refs.date.value = dateKey(
+    dateKey(today) >= dateKey(shownWeek) &&
+    dateKey(today) <= dateKey(addDays(shownWeek, 6)) ? today : shownWeek
+  );
+
   refs.start.value = "09:00";
   refs.end.value = "10:00";
 
@@ -662,7 +764,7 @@ function setFormBusy(busy) {
     : (editingId === null ? "Save event" : "Save changes");
 }
 
-// save events
+// Save events
 
 refs.form.addEventListener("submit", async event => {
   event.preventDefault();
@@ -708,6 +810,7 @@ refs.form.addEventListener("submit", async event => {
 
     shownWeek = startOfWeek(parseDate(data.eventDate));
 
+    selectFilter("all");
     await loadEvents();
     refs.dialog.close();
 
@@ -805,21 +908,22 @@ document
   });
 
 // Event filters
+function selectFilter(filter) {
+  activeFilter = filter;
+  document.querySelectorAll(".filter-button").forEach(button => {
+    const selected = button.dataset.filter === filter;
+    button.classList.toggle("selected", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
+  render();
+}
+
 
 document.querySelectorAll(".filter-button").forEach(button => {
-  button.addEventListener("click", () => {
-    activeFilter = button.dataset.filter;
-
-    document.querySelectorAll(".filter-button").forEach(item => {
-      const selected = item === button;
-
-      item.classList.toggle("selected", selected);
-      item.setAttribute("aria-pressed", String(selected));
-    });
-
-    render();
-  });
+button.addEventListener("click", () => selectFilter(button.dataset.filter));
 });
+
+
 
 // Logout
 
@@ -831,10 +935,6 @@ document
     window.location.replace("login.html");
   });
 
-// Start schedule page
-
-render();
-//initialize();
 
 // Weekly commitments
 
@@ -1033,9 +1133,14 @@ commitmentForm.addEventListener("submit", async e => {
 
     commitments = await apiRequest(COMMITMENTS_URL);
 
+    let firstDay = parseDate(data.startDate);
+    while (((firstDay.getDay() + 6) % 7) + 1 !== data.dayOfWeek) {
+      firstDay = addDays(firstDay, 1);
+    }
+    shownWeek = startOfWeek(firstDay);
     commitmentDialog.close();
 
-    render();
+    selectFilter("all");
     renderCommitments();
 
     showStatus(
@@ -1049,6 +1154,7 @@ commitmentForm.addEventListener("submit", async e => {
     save.disabled = false;
   }
 });
+
 
 // Delete commitments
 
@@ -1104,42 +1210,88 @@ byId("quickCommitmentButton").addEventListener(
 
 // Academic terms and schedule options
 
+// Show current and upcoming semesters using the current year.
+function upcomingSemesters() {
+  const today = new Date();
+  const month = today.getMonth();
+  const season = month < 5 ? 0 : month < 8 ? 1 : 2;
+  const seasons = ["Spring", "Summer", "Fall"];
+  const startMonths = [0, 5, 8];
+  const endMonths = [4, 7, 11];
+  const terms = [];
+
+  for (let i = 0; i < 6; i++) {
+    const position = today.getFullYear() * 3 + season + i;
+    const year = Math.floor(position / 3);
+    const index = position % 3;
+    const name = `${seasons[index]} ${year}`;
+    const startDate = dateKey(new Date(year, startMonths[index], 1));
+    const endDate = dateKey(new Date(year, endMonths[index] + 1, 0));
+    terms.push({ name, startDate, endDate });
+  }
+  return terms;
+}
+
+
+async function chooseTerm() {
+  const value = byId("termSelect").value;
+  if (!value.startsWith("suggest:")) return;
+
+  const name = value.slice("suggest:".length);
+  const term = upcomingSemesters().find(item => item.name === name);
+  if (!term) return;
+
+  const created = await apiRequest(TERMS_URL, {
+    method: "POST",
+    body: JSON.stringify(term)
+  });
+  academicTerms = await apiRequest(TERMS_URL);
+  renderTermSelect(created.id);
+}
+
+
 function renderTermSelect(preferId = null) {
   const select = byId("termSelect");
   const previous = String(preferId ?? select.value);
+  const suggested = upcomingSemesters();
+  const shownNames = new Set();
 
-  select.replaceChildren(
-    new Option("Select a term", "")
-  );
+  select.replaceChildren(new Option("Choose a semester", ""));
 
+  for (const term of suggested) {
+    const saved = academicTerms.find(item => item.name === term.name);
+    const value = saved ? String(saved.id) : `suggest:${term.name}`;
+    select.appendChild(new Option(term.name, value));
+    shownNames.add(term.name);
+  }
+
+  
   for (const term of academicTerms) {
-    select.appendChild(
-      new Option(term.name, term.id)
-    );
+    if (!shownNames.has(term.name)) {
+      select.appendChild(new Option(term.name, String(term.id)));
+    }
   }
 
-  if (
-    academicTerms.some(t => String(t.id) === previous)
-  ) {
-    select.value = previous;
-  } else if (academicTerms.length) {
-    select.value = String(academicTerms[0].id);
-  }
+  const exists = Array.from(select.options).some(option => option.value === previous);
+  select.value = exists && previous ? previous : select.options[1]?.value || "";
 }
 
 async function loadOptions() {
   const termId = byId("termSelect").value;
 
-  scheduleOptions = termId
+  const savedTerm = academicTerms.some(term => String(term.id) === termId);
+
+  scheduleOptions = savedTerm
     ? await apiRequest(
       `${GENERATED_URL}?termId=${encodeURIComponent(termId)}`
     )
     : [];
 
-  renderOptions();
+   renderOptions();
 }
 
-// display saved schedule options
+
+//Display saved schedule options
 
 function renderOptions() {
   const list = byId("optionList");
@@ -1220,13 +1372,13 @@ function renderOptions() {
   }
 }
 
-// Select or delete schedule option
+// Select or delete schedule
 
 async function updateOption(id, action) {
   if (
     action === "delete" &&
     !window.confirm(
-      "Delete this saved schedule option?"
+      "Delete this schedule?"
     )
   ) {
     return;
@@ -1239,7 +1391,7 @@ async function updateOption(id, action) {
       }`,
       {
         method: action === "select"
-          ? "POST"
+          ? "SUBMIT"
           : "DELETE"
       }
     );
@@ -1248,8 +1400,8 @@ async function updateOption(id, action) {
 
     showStatus(
       action === "select"
-        ? "Schedule option selected."
-        : "Schedule option deleted."
+        ? "Schedule selected."
+        : "Schedule deleted."
     );
   } catch (ex) {
     showStatus(ex.message, true);
@@ -1264,7 +1416,7 @@ byId("termSelect").addEventListener("change", () => {
   });
 });
 
-// Save schedule option
+// Save schedule options
 
 byId("optionForm").addEventListener("submit", async e => {
   e.preventDefault();
@@ -1274,7 +1426,7 @@ byId("optionForm").addEventListener("submit", async e => {
 
   if (!termId) {
     return showStatus(
-      "Create or select an academic term first.",
+      "Create or select an academic term.",
       true
     );
   }
@@ -1297,7 +1449,7 @@ byId("optionForm").addEventListener("submit", async e => {
 
     await loadOptions();
 
-    showStatus("Schedule option saved.");
+    showStatus("Schedule saved.");
   } catch (ex) {
     showStatus(ex.message, true);
   } finally {
@@ -1310,6 +1462,13 @@ byId("optionForm").addEventListener("submit", async e => {
 byId("addTermButton").addEventListener("click", () => {
   byId("termForm").reset();
   byId("termError").textContent = "";
+  const termName = byId("termSelect").value.replace("suggest:", "");
+  const suggestion = upcomingSemesters().find(item => item.name === termName);
+  if (suggestion) {
+    byId("termName").value = suggestion.name;
+    byId("termStartDate").value = suggestion.startDate;
+    byId("termEndDate").value = suggestion.endDate;
+  }
   byId("termDialog").showModal();
 });
 
@@ -1365,5 +1524,6 @@ document.querySelectorAll("[data-close]").forEach(button => {
   });
 });
 
-
+render();
+initialize();
   
