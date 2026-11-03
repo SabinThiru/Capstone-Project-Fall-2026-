@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings | CampusPath</title>
+
+    <script src="js/settings.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/settings.css" />
+    <script src="js/dashboard.js" defer></script>
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <header class="topbar">
+      <div class="logo">
+        <span class="logo-mark">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+            stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round"
+            aria-hidden="true">
+            <path d="M22 10 12 5 2 10l10 5 10-5Z" />
+            <path d="M6 12v5c3 2.5 9 2.5 12 0v-5" />
+            <path d="M22 10v6" />
+          </svg>
+        </span>
+        <span class="logo-text">CampusPath</span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="schedule.html">Schedule</a>
+        <a class="active" href="settings.html">Settings</a>
+      </nav>
+
+<div class="user-menu">
+  <div class="notifications">
+    <button
+      class="bell-button"
+      id="bellButton"
+      type="button"
+      aria-label="Notifications"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="18"
+        height="18"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+      </svg>
+
+      <span class="bell-badge" id="bellBadge" hidden>0</span>
+    </button>
+
+    <div class="notification-panel" id="notificationPanel" hidden>
+      <p class="panel-title">Notifications</p>
+      <div id="notificationList">
+        <p class="empty-message">No new notifications.</p>
+      </div>
+    </div>
+  </div>
+
+  <span class="user-avatar" id="userAvatar"></span>
+  <span id="navUserName">Student</span>
+  <a href="login.html" id="logoutLink">Log out</a>
+</div>
+    </header>
+
+    <main class="dashboard settings-page">
+
+      <section class="welcome">
+        <h1>Settings</h1>
+        <p>Manage your account, preferences, and schedule.</p>
+      </section>
+
+      <!-- 1. Account Settings Section -->
+      <details class="card settings-section" name="settings-sections" id="accountSection">
+        <summary>
+          <h2 class="section-heading">Account Settings</h2>
+          <span class="section-desc">Your Account Information</span>
+          <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" fill="none"
+            stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </summary>
+
+        <div class="section-body">
+
+          <!-- Profile -->
+          <section class="settings-group">
+            <h3>Profile</h3>
+
+            <form id="profileForm" novalidate>
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="fullName">Full name</label>
+                  <p>Shown on your dashboard and top bar.</p>
+                </div>
+                <input class="text-input" type="text" id="fullName" name="fullName"
+                  maxlength="200" autocomplete="name" />
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <span class="setting-label">Email</span>
+                  <p>You sign in with this email.</p>
+                </div>
+                <span class="static-value" id="accountEmail">&mdash;</span>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <span class="setting-label">University</span>
+                  <p>Set when you created your account.</p>
+                </div>
+                <span class="static-value" id="accountUniversity">&mdash;</span>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <span class="setting-label">Student ID</span>
+                  <p>Set when you created your account.</p>
+                </div>
+                <span class="static-value" id="accountStudentId">&mdash;</span>
+              </div>
+
+              <div class="settings-actions">
+                <p class="form-status" id="profileStatus" role="status"></p>
+                <button class="primary-button save-button" type="submit" id="profileSaveBtn">
+                  Save name
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- Password -->
+          <section class="settings-group">
+            <h3>Password</h3>
+
+            <div class="setting-row" id="passwordIntro">
+              <div class="setting-text">
+                <span class="setting-label">Password</span>
+                <p>Use a strong password you don't use anywhere else.</p>
+              </div>
+              <button class="secondary-button" type="button" id="changePasswordBtn"
+                aria-controls="passwordForm" aria-expanded="false">
+                Change password
+              </button>
+            </div>
+            <p class="form-status" id="passwordDone" role="status"></p>
+
+            <form id="passwordForm" hidden novalidate>
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="currentPassword">Current password</label>
+                </div>
+                <div class="input-with-toggle">
+                  <input class="text-input" type="password" id="currentPassword"
+                    autocomplete="current-password" />
+                  <button type="button" class="show-toggle" data-target="currentPassword"
+                    aria-label="Show password">Show</button>
+                </div>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="newPassword">New password</label>
+                </div>
+                <div class="input-with-toggle">
+                  <input class="text-input" type="password" id="newPassword"
+                    autocomplete="new-password" />
+                  <button type="button" class="show-toggle" data-target="newPassword"
+                    aria-label="Show password">Show</button>
+                </div>
+              </div>
+
+              <ul class="pw-rules" id="pwRules">
+                <li data-rule="length">At least 8 characters</li>
+                <li data-rule="special">At least one special character (!@#$%&amp;*)</li>
+              </ul>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="confirmPassword">Confirm new password</label>
+                </div>
+                <div class="input-with-toggle">
+                  <input class="text-input" type="password" id="confirmPassword"
+                    autocomplete="new-password" />
+                  <button type="button" class="show-toggle" data-target="confirmPassword"
+                    aria-label="Show password">Show</button>
+                </div>
+              </div>
+              <p class="form-status error" id="passwordMatchError" role="alert"></p>
+
+              <div class="settings-actions">
+                <p class="form-status" id="passwordStatus" role="status"></p>
+                <button class="secondary-button" type="button" id="cancelPasswordBtn">
+                  Cancel
+                </button>
+                <button class="primary-button save-button" type="submit" id="passwordSaveBtn">
+                  Update password
+                </button>
+              </div>
+            </form>
+          </section>
+
+        </div>
+      </details>
+
+      <!--  2. User Preferences Section -->
+      <details class="card settings-section" name="settings-sections" id="preferencesSection">
+        <summary>
+          <h2 class="section-heading">User Preferences</h2>
+          <span class="section-desc">Theme, time zone and notifications.</span>
+          <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" fill="none"
+            stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </summary>
+
+        <div class="section-body">
+          <form id="settingsForm">
+
+            <!-- Appearance -->
+            <section class="settings-group">
+              <h3>Appearance</h3>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="theme">Theme</label>
+                  <p>Choose whether to use a light or dark theme.</p>
+                </div>
+                <select id="theme" name="theme">
+                  <option value="light">Light Theme</option>
+                  <option value="dark">Dark Theme</option>
+                </select>
+              </div>
+            </section>
+
+            <!-- Region -->
+            <section class="settings-group">
+              <h3>Region</h3>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="timezone">Time zone</label>
+                  <p>Class times and reminders use this time zone.</p>
+                </div>
+                <select id="timezone" name="timezone"></select>
+              </div>
+            </section>
+
+            <!-- Notifications -->
+            <section class="settings-group">
+              <h3>Notifications</h3>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <span id="notificationsLabel" class="setting-label">In-app notifications</span>
+                  <p>Show alerts for deadlines and schedule changes.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="notificationsEnabled" role="switch"
+                    aria-labelledby="notificationsLabel" />
+                  <span class="switch-track"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <span id="emailLabel" class="setting-label">Email reminders</span>
+                  <p>Have reminders sent to your email.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="emailRemindersEnabled" role="switch"
+                    aria-labelledby="emailLabel" />
+                  <span class="switch-track"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="defaultReminderMinutes">Default reminder time</label>
+                  <p>Set how far in advance you will be reminded.</p>
+                </div>
+                <select id="defaultReminderMinutes" name="defaultReminderMinutes"></select>
+              </div>
+            </section>
+
+            <div class="settings-actions">
+              <p class="form-status" id="formStatus" role="status"></p>
+              <button class="primary-button save-button" type="submit" id="saveBtn">
+                Save changes
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </details>
+
+      <!-- 3. Schedule Preferences Section -->
+      <details class="card settings-section" name="settings-sections" id="scheduleSection">
+        <summary>
+          <h2 class="section-heading">Schedule Preferences</h2>
+          <span class="section-desc">Preferences for your schedule timings and days.</span>
+          <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" fill="none"
+            stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </summary>
+
+            <div class="section-body">
+          <form id="scheduleForm" novalidate>
+
+            <!-- Class times -->
+            <section class="settings-group">
+              <h3>Class times</h3>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="earliestClassTime">Earliest class</label>
+                  <p>Classes won't be scheduled before the selected time.</p>
+                </div>
+                <input class="text-input narrow-input" type="time" id="earliestClassTime" />
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="latestClassTime">Latest class</label>
+                  <p>Classes won't be scheduled past the selected time.</p>
+                </div>
+                <input class="text-input narrow-input" type="time" id="latestClassTime" />
+              </div>
+            </section>
+
+            <!-- Workload -->
+            <section class="settings-group">
+              <h3>Workload</h3>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <label for="maxCredits">Maximum credits</label>
+                  <p>The number of credit hours you want in a semester.</p>
+                </div>
+                <input class="text-input narrow-input" type="number" id="maxCredits"
+                  min="3" max="21" step="1" inputmode="numeric" />
+              </div>
+            </section>
+
+            <!-- Days -->
+            <section class="settings-group">
+              <h3>Days</h3>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <span class="setting-label" id="preferredDaysLabel">Preferred days</span>
+                  <p>Days you prefer to have classes. Leave all unselected if no preference.</p>
+                </div>
+                <div class="day-picker" role="group" aria-labelledby="preferredDaysLabel">
+                  <label class="day-chip"><input type="checkbox" name="preferredDays" value="MON" /><span>Mon</span></label>
+                  <label class="day-chip"><input type="checkbox" name="preferredDays" value="TUE" /><span>Tue</span></label>
+                  <label class="day-chip"><input type="checkbox" name="preferredDays" value="WED" /><span>Wed</span></label>
+                  <label class="day-chip"><input type="checkbox" name="preferredDays" value="THU" /><span>Thu</span></label>
+                  <label class="day-chip"><input type="checkbox" name="preferredDays" value="FRI" /><span>Fri</span></label>
+                  <label class="day-chip"><input type="checkbox" name="preferredDays" value="SAT" /><span>Sat</span></label>
+                </div>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <span id="minimizeGapsLabel" class="setting-label">Minimize gaps</span>
+                  <p>Try to avoid long breaks between classes.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="minimizeGaps" role="switch"
+                    aria-labelledby="minimizeGapsLabel" />
+                  <span class="switch-track"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-text">
+                  <span id="minimizeCampusDaysLabel" class="setting-label">Minimize days on campus</span>
+                  <p>Try to fit classes into as few days as possible.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="minimizeCampusDays" role="switch"
+                    aria-labelledby="minimizeCampusDaysLabel" />
+                  <span class="switch-track"></span>
+                </label>
+              </div>
+            </section>
+
+            <div class="settings-actions">
+              <p class="form-status" id="scheduleStatus" role="status"></p>
+              <button class="primary-button save-button" type="submit" id="scheduleSaveBtn">
+                Save schedule preferences
+              </button>
+            </div>
+          </form>
+        </div>
+      </details>
+
+    </main>
+  </body>
+</html>
