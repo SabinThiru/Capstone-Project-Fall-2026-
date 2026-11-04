@@ -45,4 +45,5 @@ public class User {
     public String getEmail() { return email; }
     public String getFullName() { return fullName; }
     public String getEuid() { return euid; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 }

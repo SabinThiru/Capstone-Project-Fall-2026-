@@ -22,13 +22,20 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpReque
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import com.campuspath.backend.common.ApiException;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ChangePasswordRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.NotAuthorizedException;
+
 @Service
 public class CognitoAuthService {
 
     private final CognitoIdentityProviderClient cognitoClient;
     private final String clientId;
     private final String clientSecret;
-
+    
+    @Autowired
     public CognitoAuthService(
             @Value("${cognito.user-pool-id}") String userPoolId,
             @Value("${cognito.client-id}") String clientId,
@@ -43,6 +50,13 @@ public class CognitoAuthService {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
     }
+    
+    CognitoAuthService(CognitoIdentityProviderClient cognitoClient, String clientId, String clientSecret) {
+        this.cognitoClient = cognitoClient;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+    }
+
 
     // Generate the secret hash required by Cognito
     private String calculateSecretHash(String username) {
@@ -125,6 +139,25 @@ public class CognitoAuthService {
                 .build();
 
         return cognitoClient.initiateAuth(request);
+    }
+
+    public void changePassword(String email, String currentPassword, String newPassword) {
+        InitiateAuthResponse auth;
+        try {
+            auth = login(email, currentPassword);
+        } catch (NotAuthorizedException e) {
+            throw ApiException.badRequest("Your current password is incorrect.");
+        }
+
+        if (auth.authenticationResult() == null) {
+            throw ApiException.badRequest("Your password can't be changed right now. Try logging in again.");
+        }
+
+        cognitoClient.changePassword(ChangePasswordRequest.builder()
+                .accessToken(auth.authenticationResult().accessToken())
+                .previousPassword(currentPassword)
+                .proposedPassword(newPassword)
+                .build());
     }
 
 

@@ -123,6 +123,51 @@ class UserFlowTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.theme").value("dark"));
     }
+    
+        @Test
+    void updateNameThenGetProfile() throws Exception {
+        mvc.perform(post("/api/users/me").with(loggedInAs("sub-1", "test@my.unt.edu"))
+                .contentType(MediaType.APPLICATION_JSON).content(VALID_BODY))
+                .andExpect(status().isCreated());
+
+        mvc.perform(put("/api/users/me").with(loggedInAs("sub-1", "test@my.unt.edu"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"fullName": "  New Name  "}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.fullName").value("New Name"))
+                .andExpect(jsonPath("$.university.abbreviation").value("UNT"));
+
+        mvc.perform(get("/api/users/me").with(loggedInAs("sub-1", "test@my.unt.edu")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.fullName").value("New Name"));
+    }
+
+    @Test
+    void blankNameIs400() throws Exception {
+        mvc.perform(post("/api/users/me").with(loggedInAs("sub-1", "test@my.unt.edu"))
+                .contentType(MediaType.APPLICATION_JSON).content(VALID_BODY))
+                .andExpect(status().isCreated());
+
+        mvc.perform(put("/api/users/me").with(loggedInAs("sub-1", "test@my.unt.edu"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"fullName": "   "}
+                                """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors.fullName").exists());
+    }
+
+    @Test
+    void updateNameBeforeRegisteringIs404() throws Exception {
+        mvc.perform(put("/api/users/me").with(loggedInAs("sub-new", "new@my.unt.edu"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"fullName": "Someone"}
+                                """))
+                .andExpect(status().isNotFound());
+    }
 
     @Test
     void invalidThemeIs400() throws Exception {

@@ -60,6 +60,13 @@ public class UserService {
         return UserResponse.from(findUser(cognitoSub));
     }
 
+    @Transactional
+    public UserResponse updateProfile(String cognitoSub, UpdateProfileRequest req) {
+        User user = findUser(cognitoSub);
+        user.setFullName(req.fullName().trim());
+        return UserResponse.from(user);
+    }
+
     @Transactional(readOnly = true)
     public SettingsResponse getSettings(String cognitoSub) {
         return SettingsResponse.from(findSettings(findUser(cognitoSub)));

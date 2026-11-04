@@ -32,6 +32,12 @@ public class UserController {
         return userService.getMe(jwt.getSubject());
     }
 
+    @PutMapping
+    public UserResponse updateProfile(@AuthenticationPrincipal Jwt jwt,
+                                      @Valid @RequestBody UpdateProfileRequest body) {
+        return userService.updateProfile(jwt.getSubject(), body);
+    }
+
     @GetMapping("/settings")
     public SettingsResponse getSettings(@AuthenticationPrincipal Jwt jwt) {
         return userService.getSettings(jwt.getSubject());

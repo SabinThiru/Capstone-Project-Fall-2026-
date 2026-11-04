@@ -15,6 +15,10 @@ import org.springframework.web.server.ResponseStatusException;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import com.campuspath.backend.common.ApiException;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -42,6 +46,13 @@ public class AuthController {
     public record LoginRequest(
             @NotBlank @Email String email,
             @NotBlank String password
+    ) {}
+    
+    //Pasword request
+    public record ChangePasswordRequest(
+        @NotBlank(message = "Current password is required") String currentPassword,
+        @NotBlank(message = "New password is required")
+        @Size(min = 8, message = "New password must be at least 8 characters") String newPassword
     ) {}
 
     // Registration response
@@ -117,5 +128,19 @@ public class AuthController {
                         tokens.expiresIn()
                 )
         );
+    }
+
+    @PostMapping("/change-password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void changePassword(@AuthenticationPrincipal Jwt jwt,
+                               @Valid @RequestBody ChangePasswordRequest request) {
+        String email = jwt.getClaimAsString("email");
+        if (email == null || email.isBlank()) {
+            throw ApiException.badRequest("Token has no email. Send the Cognito ID token, not the access token.");
+        }
+        if (request.currentPassword().equals(request.newPassword())) {
+            throw ApiException.badRequest("Choose a password that is different from your current one.");
+        }
+        cognitoAuthService.changePassword(email, request.currentPassword(), request.newPassword());
     }
 }
