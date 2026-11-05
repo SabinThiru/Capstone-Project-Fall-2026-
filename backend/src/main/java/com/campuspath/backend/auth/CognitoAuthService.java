@@ -27,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.campuspath.backend.common.ApiException;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ChangePasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.NotAuthorizedException;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmForgotPasswordRequest;
 
 @Service
 public class CognitoAuthService {
@@ -34,7 +36,7 @@ public class CognitoAuthService {
     private final CognitoIdentityProviderClient cognitoClient;
     private final String clientId;
     private final String clientSecret;
-    
+
     @Autowired
     public CognitoAuthService(
             @Value("${cognito.user-pool-id}") String userPoolId,
@@ -50,13 +52,12 @@ public class CognitoAuthService {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
     }
-    
+
     CognitoAuthService(CognitoIdentityProviderClient cognitoClient, String clientId, String clientSecret) {
         this.cognitoClient = cognitoClient;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
     }
-
 
     // Generate the secret hash required by Cognito
     private String calculateSecretHash(String username) {
@@ -67,19 +68,16 @@ public class CognitoAuthService {
 
             mac.init(new SecretKeySpec(
                     clientSecret.getBytes(StandardCharsets.UTF_8),
-                    "HmacSHA256"
-            ));
+                    "HmacSHA256"));
 
             byte[] hash = mac.doFinal(
-                    message.getBytes(StandardCharsets.UTF_8)
-            );
+                    message.getBytes(StandardCharsets.UTF_8));
 
             return Base64.getEncoder().encodeToString(hash);
 
         } catch (Exception e) {
             throw new IllegalStateException(
-                    "Unable to calculate Cognito secret hash", e
-            );
+                    "Unable to calculate Cognito secret hash", e);
         }
     }
 
@@ -102,14 +100,13 @@ public class CognitoAuthService {
                         AttributeType.builder()
                                 .name("name")
                                 .value(fullName)
-                                .build()
-                )
+                                .build())
                 .build();
 
         return cognitoClient.signUp(request);
     }
 
-     // Add the email verification method HERE
+    // Add the email verification method HERE
     public ConfirmSignUpResponse confirmRegistration(
             String email,
             String confirmationCode) {
@@ -124,7 +121,6 @@ public class CognitoAuthService {
         return cognitoClient.confirmSignUp(request);
     }
 
-
     // Authenticate a student using AWS Cognito
     public InitiateAuthResponse login(String email, String password) {
 
@@ -134,8 +130,7 @@ public class CognitoAuthService {
                 .authParameters(Map.of(
                         "USERNAME", email,
                         "PASSWORD", password,
-                        "SECRET_HASH", calculateSecretHash(email)
-                ))
+                        "SECRET_HASH", calculateSecretHash(email)))
                 .build();
 
         return cognitoClient.initiateAuth(request);
@@ -160,5 +155,33 @@ public class CognitoAuthService {
                 .build());
     }
 
+    // Send a password reset verification code to the student's email
+    public void forgotPassword(String email) {
+
+        ForgotPasswordRequest request = ForgotPasswordRequest.builder()
+                .clientId(clientId)
+                .secretHash(calculateSecretHash(email))
+                .username(email)
+                .build();
+
+        cognitoClient.forgotPassword(request);
+    }
+
+    // Reset the password using the verification code
+    public void confirmForgotPassword(
+            String email,
+            String confirmationCode,
+            String newPassword) {
+
+        ConfirmForgotPasswordRequest request = ConfirmForgotPasswordRequest.builder()
+                .clientId(clientId)
+                .secretHash(calculateSecretHash(email))
+                .username(email)
+                .confirmationCode(confirmationCode)
+                .password(newPassword)
+                .build();
+
+        cognitoClient.confirmForgotPassword(request);
+    }
 
 }

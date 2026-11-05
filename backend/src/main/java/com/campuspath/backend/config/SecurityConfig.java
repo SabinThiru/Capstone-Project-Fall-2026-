@@ -31,11 +31,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/confirm").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/health", "/api/universities").permitAll()
+                        // Allow students to reset their password without logging in
+                        .requestMatchers(HttpMethod.POST, "/api/auth/forgot-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/reset-password").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()));
         return http.build();
     }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource(
