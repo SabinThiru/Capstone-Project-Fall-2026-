@@ -73,6 +73,159 @@ let activeFilter = "all";
 let editingId = null;
 let scheduleReady = false;
 
+// Category manager (will need to be integrated with backend)
+
+const CATEGORY_STORAGE_KEY = "campuspath-schedule-categories-v1";
+const DEFAULT_CATEGORIES = [
+  { id: "class", name: "Classes", color: "#66b366", textColor: "#ffffff" },
+  { id: "work", name: "Work", color: "#88a9c2", textColor: "#ffffff" },
+  { id: "personal", name: "Personal", color: "#e8b66e", textColor: "#ffffff" }
+];
+
+function loadCategories() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CATEGORY_STORAGE_KEY));
+    if (Array.isArray(saved) && saved.length && saved.every(c =>
+      c && typeof c.id === "string" && typeof c.name === "string" &&
+      /^#[0-9a-f]{6}$/i.test(c.color) && /^#[0-9a-f]{6}$/i.test(c.textColor)
+    )) return saved;
+  } catch (error) {
+  }
+  return DEFAULT_CATEGORIES.map(c => ({ ...c }));
+}
+
+let categories = loadCategories();
+
+function categoryFor(id) {
+  return categories.find(c => c.id === id) ||
+    { id: "unknown", name: "Other", color: "#889b91", textColor: "#ffffff" };
+}
+
+function categoryName(id) { return categoryFor(id).name; }
+
+function saveCategories() {
+  try {
+    localStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(categories));
+  } catch (error) {
+    showStatus("Category preferences can't be saved at this time.", true);
+  }
+}
+
+function categoryBackground(hex) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, 0.20)`;
+}
+
+function applyCategoryStyle(element, id, overrideColor = null) {
+  const cat = categoryFor(id);
+  const color = overrideColor || cat.color;
+  element.style.borderLeftColor = color;
+  element.style.backgroundColor = categoryBackground(color);
+  element.style.color = cat.textColor;
+  element.style.setProperty("--event-label-color", cat.textColor);
+}
+
+function makeCategoryDot(cat) {
+  const dot = makeElement("span", "filter-dot");
+  dot.style.backgroundColor = cat.color;
+  dot.setAttribute("aria-hidden", "true");
+  return dot;
+}
+
+function renderCategoryControls() {
+  const filters = document.getElementById("eventFilters");
+  const manage = document.getElementById("manageCategoriesButton");
+  filters.replaceChildren();
+
+  const all = makeElement("button", "filter-button", "All events");
+  all.type = "button";
+  all.dataset.filter = "all";
+  filters.append(all);
+  all.addEventListener("click", () => selectFilter("all"));
+
+  categories.forEach(cat => {
+    const button = makeElement("button", "filter-button");
+    button.type = "button";
+    button.dataset.filter = cat.id;
+    button.append(makeCategoryDot(cat), document.createTextNode(cat.name));
+    button.addEventListener("click", () => selectFilter(cat.id));
+    filters.appendChild(button);
+  });
+  filters.appendChild(manage);
+
+  if (activeFilter !== "all" && !categories.some(c => c.id === activeFilter)) {
+    activeFilter = "all";
+  }
+  filters.querySelectorAll("[data-filter]").forEach(button => {
+    const selected = button.dataset.filter === activeFilter;
+    button.classList.toggle("selected", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
+
+  const legend = document.getElementById("categoryLegend");
+  legend.replaceChildren();
+  categories.forEach(cat => {
+    const item = makeElement("span", "legend-item");
+    item.append(makeCategoryDot(cat), document.createTextNode(" " + cat.name));
+    legend.appendChild(item);
+  });
+
+  [document.getElementById("eventType"), document.getElementById("commitmentType")]
+    .forEach(select => {
+      const previous = select.value;
+      select.replaceChildren(...categories.map(cat => new Option(cat.name, cat.id)));
+      if (categories.some(cat => cat.id === previous)) select.value = previous;
+    });
+}
+
+// Prevent event and commitment time conflict
+
+function timesOverlap(aStart, aEnd, bStart, bEnd) {
+  return aStart.slice(0, 5) < bEnd.slice(0, 5) &&
+    bStart.slice(0, 5) < aEnd.slice(0, 5);
+}
+
+function weekdayNumber(dateString) {
+  return ((parseDate(dateString).getDay() + 6) % 7) + 1;
+}
+
+function findEventConflict(data, excludeEventId = null) {
+  const existing = events.find(e =>
+    String(e.id) !== String(excludeEventId) &&
+    e.eventDate === data.eventDate &&
+    timesOverlap(data.startTime, data.endTime, e.startTime, e.endTime)
+  );
+  if (existing) return existing;
+
+  return commitments.find(c =>
+    Number(c.dayOfWeek) === weekdayNumber(data.eventDate) &&
+    c.startDate <= data.eventDate && c.endDate >= data.eventDate &&
+    timesOverlap(data.startTime, data.endTime, c.startTime, c.endTime)
+  );
+}
+
+function findCommitmentConflict(data, excludeCommitmentId = null) {
+  const existing = commitments.find(c =>
+    String(c.id) !== String(excludeCommitmentId) &&
+    Number(c.dayOfWeek) === Number(data.dayOfWeek) &&
+    c.startDate <= data.endDate && data.startDate <= c.endDate &&
+    timesOverlap(data.startTime, data.endTime, c.startTime, c.endTime)
+  );
+  if (existing) return existing;
+
+  return events.find(e =>
+    e.eventDate >= data.startDate && e.eventDate <= data.endDate &&
+    weekdayNumber(e.eventDate) === Number(data.dayOfWeek) &&
+    timesOverlap(data.startTime, data.endTime, e.startTime, e.endTime)
+  );
+}
+
+function conflictMessage(item) {
+  return `Time conflict: “${item.title}” already uses ${formatTime(item.startTime)} – ${formatTime(item.endTime)}. Please schedule this at a different time.`;
+}
+
 // Date helpers
 
 function startOfWeek(date) {
@@ -278,9 +431,7 @@ function renderWeek() {
 
         button.type = "button";
 
-        if (event.color) {
-          button.style.borderLeftColor = event.color;
-        }
+        applyCategoryStyle(button, event.eventType, event.color);
 
         button.setAttribute(
           "aria-label",
@@ -387,9 +538,7 @@ function renderUpcoming() {
 
     stripe.setAttribute("aria-hidden", "true");
 
-    if (event.color) {
-      stripe.style.backgroundColor = event.color;
-    }
+    stripe.style.backgroundColor = event.color || categoryFor(event.eventType).color;
 
     const body = makeElement("div", "upcoming-body");
 
@@ -795,6 +944,12 @@ refs.form.addEventListener("submit", async event => {
     return;
   }
 
+  const conflict = findEventConflict(data, editingId);
+  if (conflict) {
+    refs.formError.textContent = conflictMessage(conflict);
+    return;
+  }
+
   const isEditing = editingId !== null;
   const url = isEditing
     ? `${EVENTS_URL}/${editingId}`
@@ -910,7 +1065,7 @@ document
 // Event filters
 function selectFilter(filter) {
   activeFilter = filter;
-  document.querySelectorAll(".filter-button").forEach(button => {
+   document.querySelectorAll("[data-filter]").forEach(button => {
     const selected = button.dataset.filter === filter;
     button.classList.toggle("selected", selected);
     button.setAttribute("aria-pressed", String(selected));
@@ -918,11 +1073,159 @@ function selectFilter(filter) {
   render();
 }
 
+const categoryDialog = document.getElementById("categoryDialog");
+const categoryRows = document.getElementById("categoryRows");
+const categoryError = document.getElementById("categoryError");
 
-document.querySelectorAll(".filter-button").forEach(button => {
-button.addEventListener("click", () => selectFilter(button.dataset.filter));
+function refreshCategories(redrawRows = true) {
+  saveCategories();
+  renderCategoryControls();
+  if (redrawRows) renderCategoryRows();
+  render();
+  renderCommitments();
+}
+
+function renderCategoryRows() {
+  categoryRows.replaceChildren();
+  categories.forEach(cat => {
+    const row = makeElement("div", "category-editor-row");
+    const name = document.createElement("input");
+    name.type = "text";
+    name.value = cat.name;
+    name.maxLength = 32;
+    name.setAttribute("aria-label", `Name for ${cat.name}`);
+    name.addEventListener("change", () => {
+      const updated = name.value.trim();
+      if (!updated || categories.some(c => c.id !== cat.id && c.name.toLowerCase() === updated.toLowerCase())) {
+        categoryError.textContent = "Choose a different, non-empty category name.";
+        name.value = cat.name;
+        return;
+      }
+      cat.name = updated;
+      categoryError.textContent = "";
+      // Do not remove the focused input while its change event is firing.
+      refreshCategories(false);
+    });
+
+    const color = document.createElement("input");
+    color.type = "color";
+    color.value = cat.color;
+    color.setAttribute("aria-label", `Calendar color for ${cat.name}`);
+    color.addEventListener("change", () => {
+      const oldColor = cat.color;
+      cat.color = color.value;
+      // Keep weekly commitments synchronized when they were using the category default.
+      commitments.forEach(c => {
+        if (c.commitmentType === cat.id && c.color === oldColor) c.color = cat.color;
+      });
+      if (PREVIEW_MODE) {
+        previewData.commitments.forEach(c => {
+          if (c.commitmentType === cat.id && c.color === oldColor) c.color = cat.color;
+        });
+        savePreviewData();
+      }
+      refreshCategories(false);
+    });
+
+    const label = document.createElement("input");
+    label.type = "color";
+    label.value = cat.textColor;
+    label.setAttribute("aria-label", `Text color for ${cat.name}`);
+    label.addEventListener("change", () => {
+      cat.textColor = label.value;
+      refreshCategories(false);
+    });
+
+    const del = makeElement("button", "delete-button", "Delete");
+    del.type = "button";
+    del.setAttribute("aria-label", `Delete ${cat.name} category`);
+    del.addEventListener("click", () => deleteCategory(cat.id));
+    row.append(name, color, label, del);
+    categoryRows.appendChild(row);
+  });
+}
+
+function deleteCategory(id) {
+  if (!PREVIEW_MODE) {
+    categoryError.textContent = "Deleting categories requires backend support. Turn preview mode back on to test this feature.";
+    return;
+  }
+  if (categories.length < 2) {
+    categoryError.textContent = "Keep at least one category available.";
+    return;
+  }
+  const cat = categoryFor(id);
+  const replacement = categories.find(c => c.id !== id);
+  const used = events.filter(e => e.eventType === id).length +
+    commitments.filter(c => c.commitmentType === id).length;
+  const prompt = used
+    ? `Delete “${cat.name}”? ${used} scheduled item(s) will move to “${replacement.name}”.`
+    : `Delete “${cat.name}” category?`;
+  if (!window.confirm(prompt)) return;
+
+  events.forEach(e => { if (e.eventType === id) e.eventType = replacement.id; });
+  commitments.forEach(c => { if (c.commitmentType === id) { c.commitmentType = replacement.id; c.color = replacement.color; } });
+  previewData.events.forEach(e => { if (e.eventType === id) e.eventType = replacement.id; });
+  previewData.commitments.forEach(c => { if (c.commitmentType === id) { c.commitmentType = replacement.id; c.color = replacement.color; } });
+  savePreviewData();
+  categories = categories.filter(c => c.id !== id);
+  categoryError.textContent = "";
+  refreshCategories();
+}
+
+document.getElementById("manageCategoriesButton").addEventListener("click", () => {
+  categoryError.textContent = "";
+  renderCategoryRows();
+  categoryDialog.showModal();
+});
+document.getElementById("closeCategoryButton").addEventListener("click", () => categoryDialog.close());
+document.getElementById("doneCategoriesButton").addEventListener("click", () => categoryDialog.close());
+
+document.getElementById("newCategoryForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if (!PREVIEW_MODE) {
+    categoryError.textContent = "Custom categories need backend support. Turn preview mode back on to test adding them.";
+    return;
+  }
+  const name = document.getElementById("newCategoryName").value.trim();
+  if (!name || categories.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+    categoryError.textContent = "Choose a unique category name.";
+    return;
+  }
+  const id = `custom-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+  categories.push({
+    id,
+    name,
+    color: document.getElementById("newCategoryColor").value,
+    textColor: document.getElementById("newCategoryTextColor").value
+  });
+  document.getElementById("newCategoryForm").reset();
+  categoryError.textContent = "";
+  refreshCategories();
 });
 
+document.getElementById("resetCategoriesButton").addEventListener("click", () => {
+  if (!PREVIEW_MODE) {
+    categoryError.textContent = "Restoring categories requires backend support. Use Preview Mode to test this feature.";
+    return;
+  }
+  if (!window.confirm("Restore Classes, Work, and Personal with their original colors? Items in custom or deleted categories will move to Personal.")) return;
+  const defaults = new Set(DEFAULT_CATEGORIES.map(c => c.id));
+  events.forEach(e => { if (!defaults.has(e.eventType)) e.eventType = "personal"; });
+  commitments.forEach(c => {
+    if (!defaults.has(c.commitmentType)) { c.commitmentType = "personal"; c.color = "#e8b66e"; }
+  });
+  previewData.events.forEach(e => { if (!defaults.has(e.eventType)) e.eventType = "personal"; });
+  previewData.commitments.forEach(c => {
+    if (!defaults.has(c.commitmentType)) { c.commitmentType = "personal"; c.color = "#e8b66e"; }
+  });
+  savePreviewData();
+  categories = DEFAULT_CATEGORIES.map(c => ({ ...c }));
+  categoryError.textContent = "";
+  refreshCategories();
+});
+
+renderCategoryControls();
 
 
 // Logout
@@ -997,7 +1300,7 @@ function renderCommitments() {
       makeElement(
         "p",
         "record-meta",
-        `${c.startDate} to ${c.endDate} · ${c.commitmentType}`
+        `${c.startDate} to ${c.endDate} · ${categoryName{c.commitmentType}`
       )
     );
 
@@ -1068,7 +1371,7 @@ function openCommitmentDialog(id = null) {
     byId("commitmentEndDate").value =
       dateKey(addDays(new Date(), 90));
 
-    byId("commitmentColor").value = typeColors.class;
+    byId("commitmentColor").value = categoryFor(byId("commitmentType").value).color;
   }
 
   commitmentDialog.showModal();
@@ -1080,7 +1383,7 @@ function openCommitmentDialog(id = null) {
 byId("commitmentType").addEventListener("change", () => {
   if (editingCommitmentId === null) {
     byId("commitmentColor").value =
-      typeColors[byId("commitmentType").value];
+      categoryFor(byId("commitmentType").value).color;
   }
 });
 
@@ -1115,6 +1418,18 @@ commitmentForm.addEventListener("submit", async e => {
     return;
   }
 
+   if (!data.title) {
+    error.textContent = "Please enter a commitment.";
+    return;
+  }
+
+  const conflict = findCommitmentConflict(data, editingCommitmentId);
+  if (conflict) {
+    error.textContent = conflictMessage(conflict);
+    return;
+  }
+
+  
   const id = editingCommitmentId;
   const save = byId("saveCommitmentButton");
 
@@ -1288,8 +1603,35 @@ async function loadOptions() {
     : [];
 
    renderOptions();
+  renderTermSummary();
 }
 
+//Academic term summary and semester view controls
+
+function selectedTerm() {
+  return academicTerms.find(t => String(t.id) === document.getElementById("termSelect").value);
+}
+
+function renderTermSummary() {
+  const target = document.getElementById("termSummary");
+  const term = selectedTerm();
+  target.textContent = term
+    ? `${term.name} · ${term.startDate} through ${term.endDate} · ${scheduleOptions.length} saved schedule(s)`
+    : "Choose a semester and save the name of your plan.";
+}
+
+function viewSemester(term = selectedTerm()) {
+  if (!term) {
+    showStatus("Select a semester first.", true);
+    return;
+  }
+  shownWeek = startOfWeek(parseDate(term.startDate));
+  selectFilter("all");
+  document.querySelector(".weekly-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+  showStatus(`Showing the beginning of ${term.name}. Use the week arrows to navigate.`);
+}
+
+document.getElementById("viewTermButton").addEventListener("click", () => viewSemester());
 
 //Display saved schedule options
 
@@ -1313,27 +1655,30 @@ function renderOptions() {
     const row = makeElement("div", "record-row");
     const content = makeElement("div", "record-content");
 
+const term = academicTerms.find(t => Number(t.id) === Number(option.termId));
+    const start = term?.startDate;
+    const end = term?.endDate;
+    const eventCount = start && end
+      ? events.filter(e => e.eventDate >= start && e.eventDate <= end).length
+      : 0;
+    const commitmentCount = start && end
+      ? commitments.filter(c => c.startDate <= end && c.endDate >= start).length
+      : 0;
+    const createdText = option.createdAt
+      ? formatDate(new Date(option.createdAt), { dateStyle: "medium" })
+      : "Saved";
     content.append(
-      makeElement(
-        "p",
-        "record-title",
-        option.scheduleName
-      ),
-      makeElement(
-        "p",
-        "record-meta",
-        `Score: ${option.score ?? "Not scored"} · ${
-          option.createdAt
-            ? formatDate(
-                new Date(option.createdAt),
-                { dateStyle: "medium" }
-              )
-            : "Saved"
-        }`
-      )
+      makeElement("p", "record-title", option.scheduleName),
+      makeElement("p", "record-meta", `${term?.name || "Semester"} · ${createdText}`),
+      makeElement("p", "record-meta", `${eventCount} one-time event(s), ${commitmentCount} weekly commitment(s) in this semester`)
     );
 
     const actions = makeElement("div", "record-actions");
+
+    const view = makeElement("button", "", "View semester");
+    view.type = "button";
+    view.addEventListener("click", () => viewSemester(term));
+    actions.append(view);
 
     if (option.isSelected) {
       actions.append(
@@ -1455,7 +1800,8 @@ byId("optionForm").addEventListener("submit", async e => {
 
     await loadOptions();
 
-    showStatus("Schedule saved.");
+    showStatus("Schedule saved. Select it below, or use view semester to open the calendar. Events are added separately.");
+    document.getElementById("optionList").scrollIntoView({ behavior: "smooth", block: "nearest" });
   } catch (ex) {
     showStatus(ex.message, true);
   } finally {
