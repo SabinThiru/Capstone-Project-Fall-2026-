@@ -1300,7 +1300,7 @@ function renderCommitments() {
       makeElement(
         "p",
         "record-meta",
-        `${c.startDate} to ${c.endDate} · ${categoryName{c.commitmentType}`
+        `${c.startDate} to ${c.endDate} · ${categoryName(c.commitmentType)}`
       )
     );
 
