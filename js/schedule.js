@@ -60,6 +60,42 @@ const refs = {
   save: document.getElementById("saveEventButton"),
   remove: document.getElementById("deleteEventButton")
 };
+ // Notification bell
+const scheduleNotifications = document.querySelector(".notifications");
+const scheduleBellButton = document.getElementById("bellButton");
+const scheduleNotificationPanel = document.getElementById("notificationPanel");
+
+function setScheduleNotificationPanel(open) {
+  scheduleNotificationPanel.hidden = !open;
+  scheduleBellButton.setAttribute("aria-expanded", String(open));
+}
+
+scheduleNotifications.addEventListener("mouseenter", () => {
+  setScheduleNotificationPanel(true);
+});
+
+scheduleNotifications.addEventListener("mouseleave", () => {
+  setScheduleNotificationPanel(false);
+});
+
+scheduleBellButton.addEventListener("click", event => {
+  event.stopPropagation();
+  setScheduleNotificationPanel(true);
+});
+
+document.addEventListener("click", event => {
+  if (!scheduleNotifications.contains(event.target)) {
+    setScheduleNotificationPanel(false);
+  }
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && !scheduleNotificationPanel.hidden) {
+    setScheduleNotificationPanel(false);
+    scheduleBellButton.focus();
+  }
+});
+
 
 // Schedule data
 
