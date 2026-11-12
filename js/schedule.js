@@ -709,29 +709,24 @@ async function previewRequest(url, options = {}) {
 
 async function apiRequest(url, options = {}) {
   if (PREVIEW_MODE) return previewRequest(url, options);
-  
-  const token = requireToken();
 
-  if (!token) {
-    throw new Error("Please log in again.");
-  }
+  const token = sessionStorage.getItem("idToken");
 
   const response = await fetch(url, {
     ...options,
     headers: {
-      Authorization: `Bearer ${token}`,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(options.body
         ? { "Content-Type": "application/json" }
         : {})
     }
   });
 
-  if (response.status === 401) {
-    sessionStorage.removeItem("idToken");
-    window.location.replace("login.html");
 
-    throw new Error("Your login has expired. Please log in again.");
-  }
+ if (response.status === 401) {
+  throw new Error("Backend requires authentication (401 Unauthorized).");
+}
+
 
   if (!response.ok) {
     let detail = "";
