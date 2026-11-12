@@ -70,18 +70,11 @@ function setScheduleNotificationPanel(open) {
   scheduleBellButton.setAttribute("aria-expanded", String(open));
 }
 
-scheduleNotifications.addEventListener("mouseenter", () => {
-  setScheduleNotificationPanel(true);
-});
-
-scheduleNotifications.addEventListener("mouseleave", () => {
-  setScheduleNotificationPanel(false);
-});
-
 scheduleBellButton.addEventListener("click", event => {
   event.stopPropagation();
-  setScheduleNotificationPanel(true);
+  setScheduleNotificationPanel(scheduleNotificationPanel.hidden);
 });
+
 
 document.addEventListener("click", event => {
   if (!scheduleNotifications.contains(event.target)) {
