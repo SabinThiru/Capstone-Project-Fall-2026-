@@ -18,3 +18,5 @@ function requestPasswordReset(email) {
 }
 
 /* Helpers */
+
+function showView(name) {
