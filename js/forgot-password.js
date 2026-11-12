@@ -12,3 +12,4 @@ const changeEmailBtn = document.getElementById("changeEmailBtn");
 const RESEND_SECONDS = 30;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 let resendTimer = null;
+
