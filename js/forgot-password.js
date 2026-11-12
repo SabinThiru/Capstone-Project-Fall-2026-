@@ -16,3 +16,5 @@ let resendTimer = null;
 function requestPasswordReset(email) {
   return new Promise((resolve) => setTimeout(resolve, 800));
 }
+
+/* Helpers */
