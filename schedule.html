@@ -101,20 +101,21 @@
             </div>
           </div>
 
-          <div class="calendar-toolbar">
+            <div class="calendar-toolbar">
             <h3 id= "weekRange">This week</h3>
-            <div class="event-filters" aria-label="Filter schedule by event type">
+            <div class="event-filters" id="eventFilters" aria-label="Filter schedule by event type">
               <button class="filter-button selected" data-filter="all" aria-pressed="true" type="button">All events</button>
               <button class="filter-button" data-filter="class" aria-pressed="false" type="button"><span class="filter-dot class-dot"></span>Classes</button>
               <button class="filter-button" data-filter="work" aria-pressed="false" type="button"><span class="filter-dot work-dot"></span>Work</button>
               <button class="filter-button" data-filter="personal" aria-pressed="false" type="button"><span class="filter-dot personal-dot"></span>Personal</button>
+            <button class="filter-button manage-categories-button" id="manageCategoriesButton" type="button">Manage categories</button>
             </div>
           </div>
 
           <div class="week-scroller" tabindex="0" aria-label="Weekly schedule calendar, scroll horizontally on small screens">
             <div class="week-grid" id="weekGrid" aria-label="Events for the week"></div>
           </div>
-          <div class="calendar-footer">
+          <div class="calendar-footer" id="categoryLegend" aria-label="Calendar category colors">
             <span class="legend-item"><span class="filter-dot class-dot"></span> Class</span>
             <span class="legend-item"><span class="filter-dot work-dot"></span> Work</span>
             <span class="legend-item"><span class="filter-dot personal-dot"></span> Personal</span>
@@ -142,7 +143,7 @@
           <div class="panel-heading">
             <div>
               <h2>Weekly Commitments</h2>
-              <p class="section-description">Repeated classes, work shifts, and personal activities within a date range.</p>
+              <p class="section-description">Repeated classes, work shifts, personal activities, and more on the days you choose.</p>
               
             </div>
             <button type="button" class="secondary-button" id="quickCommitmentButton">+ Commitment</button>
@@ -154,7 +155,7 @@
           <div class="panel-heading">
             <div>
               <h2>Academic Term Planning</h2>
-              <p class="section-description">Choose a semester in order to organize and save your schedules.</p>
+              <p class="section-description">Organize your plans by semester and view your saved schedule at any time.</p>
             </div>
             <button type="button" class="secondary-button" id="addTermButton">+ Term</button>
           </div>
@@ -169,11 +170,42 @@
               <button type="submit" class="add-event-button" id="saveOptionButton">Save schedule</button>
             </div>
           </form>
-          <p class="section-description">Organize a schedule for each semester. Saved plans can be selected or deleted.</p>
+    <div class="term-summary" id="termSummary" role="status" aria-live="polite"></div>
+          <div class="term-plans-heading">
+            <h3>Saved schedules</h3>
+            <button type="button" class="secondary-button" id="viewTermButton">View semester in calendar</button>
+          </div>
+          <p class="section-description">A saved schedule is a named plan for this semester. It doesn't create events automatically. Add events or weekly commitments above to fill your calendar.</p>
           <div id="optionList" class="record-list"></div>
         </article>
+  
+
       </section>
     </main>
+
+    <dialog id="categoryDialog" class="event-dialog category-dialog" aria-labelledby="categoryDialogTitle">
+      <div class="dialog-topline">
+        <h2 id="categoryDialogTitle">Manage categories</h2>
+        <button class="dialog-close" type="button" id="closeCategoryButton" aria-label="Close">&times;</button>
+      </div>
+      <p class="dialog-description">Rename categories and change their calendar and label colors. Changes save automatically.</p>
+      <div class="category-editor-headers" aria-hidden="true"><span>Category name</span><span>Calendar</span><span>Label</span><span></span></div>
+      <div id="categoryRows" class="category-editor-list"></div>
+      <form id="newCategoryForm" class="new-category-form">
+        <label for="newCategoryName">Create your own category</label>
+        <div class="new-category-inputs">
+          <input id="newCategoryName" maxlength="32" required placeholder="Example: Volunteering" />
+          <label title="Calendar color">Color <input type="color" id="newCategoryColor" value="#9876d9" /></label>
+          <label title="Label text color">Label <input type="color" id="newCategoryTextColor" value="#ffffff" /></label>
+          <button class="save-button" type="submit">+ Add</button>
+        </div>
+      </form>
+      <p class="form-error" id="categoryError" role="alert"></p>
+      <div class="dialog-actions">
+        <button class="secondary-button" type="button" id="resetCategoriesButton">Restore original categories</button>
+        <button class="cancel-button" type="button" id="doneCategoriesButton">Done</button>
+      </div>
+    </dialog>
 
     <dialog id="commitmentDialog" class="event-dialog" aria-labelledby="commitmentDialogTitle">
       <form id="commitmentForm">
@@ -181,10 +213,10 @@
           <h2 id="commitmentDialogTitle">Add weekly commitment</h2>
           <button type="button" class="dialog-close" data-close="commitmentDialog" aria-label="Close">&times;</button>
         </div>
-        <p class="dialog-description">This commitment repeats on the selected weekday until its end date.</p>
+        <p class="dialog-description">This activity repeats on the selected weekday until its end date.</p>
         <div class="field-group">
           <label for="commitmentTitle">Title *</label>
-          <input id="commitmentTitle" type="text" required maxlength="160" placeholder="Enter your class, work shift, or personal activity" />
+          <input id="commitmentTitle" type="text" required maxlength="160" placeholder="Enter your activity" />
         </div>
         <div class="two-fields">
           <div class="field-group">
@@ -252,7 +284,7 @@
           </div>
           <button type="button" id="closeDialogButton" class="dialog-close" aria-label="Close">x</button>
         </div>
-        <p class="dialog-description">Add a class, work shift, or a personal event to your calendar.</p>
+        <p class="dialog-description">Add an event to your calendar.</p>
         <div class="field-group">
           <label for="eventTitle">Event name <span aria-hidden="true">*</span></label>
           <input id="eventTitle" name="title" type="text" maxlength="160" required />
