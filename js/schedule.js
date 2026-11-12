@@ -27,7 +27,7 @@ applySavedScheduleTheme();
 
 //Backend API integration
 //Will change to false when backend is integrated
-const PREVIEW_MODE = false;
+const PREVIEW_MODE = true;
 const PREVIEW_STORAGE_KEY = "campuspath-schedule-preview";
 
 const API_BASE_URL = "http://localhost:8080";
