@@ -121,11 +121,19 @@ function categoryBackground(hex) {
 function applyCategoryStyle(element, id, overrideColor = null) {
   const cat = categoryFor(id);
   const color = overrideColor || cat.color;
+  const isLight =
+    document.documentElement.getAttribute("data-theme") === "light";
+  const labelColor =
+    isLight && cat.textColor.toLowerCase() === "#ffffff"
+      ? "#14261b"
+      : cat.textColor;
+
   element.style.borderLeftColor = color;
   element.style.backgroundColor = categoryBackground(color);
-  element.style.color = cat.textColor;
-  element.style.setProperty("--event-label-color", cat.textColor);
+  element.style.color = labelColor;
+  element.style.setProperty("--event-label-color", labelColor);
 }
+
 
 function makeCategoryDot(cat) {
   const dot = makeElement("span", "filter-dot");
