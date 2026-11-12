@@ -9,3 +9,4 @@ const sendResetLabel = sendResetBtn.querySelector(".btn-label");
 const sentEmail = document.getElementById("sentEmail");
 const resendBtn = document.getElementById("resendBtn");
 const changeEmailBtn = document.getElementById("changeEmailBtn");
+const RESEND_SECONDS = 30;
