@@ -30,3 +30,4 @@ function showView(name) {
 
 function setError(message) {
   forgotEmailError.textContent = message;
+  forgotEmailField.classList.toggle("has-error", Boolean(message));
