@@ -31,3 +31,5 @@ function showView(name) {
 function setError(message) {
   forgotEmailError.textContent = message;
   forgotEmailField.classList.toggle("has-error", Boolean(message));
+  forgotEmail.setAttribute("aria-invalid", message ? "true" : "false");
+}
