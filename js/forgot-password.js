@@ -33,3 +33,17 @@ function setError(message) {
   forgotEmailField.classList.toggle("has-error", Boolean(message));
   forgotEmail.setAttribute("aria-invalid", message ? "true" : "false");
 }
+
+function validateEmail() {
+  const value = forgotEmail.value.trim();
+  if (!value) {
+    setError("Please enter your email address.");
+    return false;
+  }
+  if (!EMAIL_PATTERN.test(value)) {
+    setError("Please enter a valid email address.");
+    return false;
+  }
+  setError("");
+  return true;
+}
