@@ -20,3 +20,10 @@ function requestPasswordReset(email) {
 /* Helpers */
 
 function showView(name) {
+  const showSent = name === "sent";
+  requestView.hidden = showSent;
+  sentView.hidden = !showSent;
+  document.title = showSent
+    ? "Check your email | CampusPath"
+    : "Forgot password | CampusPath";
+}
