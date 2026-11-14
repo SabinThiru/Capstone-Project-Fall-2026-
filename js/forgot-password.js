@@ -52,3 +52,6 @@ function setSending(sending) {
   sendResetBtn.disabled = sending;
   sendResetLabel.textContent = sending ? "Sending…" : "Request reset link";
 }
+
+function startResendCooldown() {
+  clearInterval(resendTimer);
