@@ -29,3 +29,4 @@ function showView(name) {
 }
 
 function setError(message) {
+  forgotEmailError.textContent = message;
