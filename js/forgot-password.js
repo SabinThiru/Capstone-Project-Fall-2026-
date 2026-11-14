@@ -27,3 +27,5 @@ function showView(name) {
     ? "Check your email | CampusPath"
     : "Forgot password | CampusPath";
 }
+
+function setError(message) {
