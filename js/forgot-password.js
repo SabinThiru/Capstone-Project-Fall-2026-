@@ -98,3 +98,9 @@ resendBtn.addEventListener("click", async () => {
   if (resendBtn.disabled) return;
   resendBtn.disabled = true;
   resendBtn.textContent = "sending…";
+    try {
+    await requestPasswordReset(forgotEmail.value.trim());
+  } finally {
+    startResendCooldown();
+  }
+});
