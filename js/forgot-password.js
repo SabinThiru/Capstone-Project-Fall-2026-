@@ -107,3 +107,7 @@ resendBtn.addEventListener("click", async () => {
 
 changeEmailBtn.addEventListener("click", () => {
   clearInterval(resendTimer);
+    showView("request");
+  forgotEmail.focus();
+  forgotEmail.select();
+});
