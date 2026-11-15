@@ -80,3 +80,6 @@ forgotForm.addEventListener("submit", async (event) => {
     forgotEmail.focus();
     return;
   }
+  const email = forgotEmail.value.trim();
+  setSending(true);
+  try {
