@@ -93,3 +93,8 @@ forgotForm.addEventListener("submit", async (event) => {
     setSending(false);
   }
 });
+
+resendBtn.addEventListener("click", async () => {
+  if (resendBtn.disabled) return;
+  resendBtn.disabled = true;
+  resendBtn.textContent = "sending…";
