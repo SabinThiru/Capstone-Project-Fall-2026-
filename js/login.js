@@ -20,7 +20,13 @@ document.getElementById("showLogin").addEventListener("click", (event) => {
 });
 
 // Forgot password link
-
+document.getElementById("forgotPasswordLink").addEventListener("click", (event) => {
+  const email = document.getElementById("loginEmail").value.trim();
+  if (email) {
+    event.preventDefault();
+    window.location.href = "forgot-password.html?email=" + encodeURIComponent(email);
+  }
+});
 
 // Shows and hides password
 document.querySelectorAll(".toggle-password").forEach((btn) => {
