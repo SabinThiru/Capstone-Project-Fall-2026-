@@ -104,3 +104,6 @@ resendBtn.addEventListener("click", async () => {
     startResendCooldown();
   }
 });
+
+changeEmailBtn.addEventListener("click", () => {
+  clearInterval(resendTimer);
