@@ -55,3 +55,6 @@ function setSending(sending) {
 
 function startResendCooldown() {
   clearInterval(resendTimer);
+  let remaining = RESEND_SECONDS;
+  resendBtn.disabled = true;
+  resendBtn.textContent = `resend in ${remaining}s`;
