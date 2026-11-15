@@ -70,3 +70,7 @@ function startResendCooldown() {
     }
   }, 1000);
 }
+
+forgotEmail.addEventListener("input", () => {
+  if (forgotEmailError.textContent) setError("");
+});
