@@ -75,3 +75,8 @@ forgotEmail.addEventListener("input", () => {
   if (forgotEmailError.textContent) setError("");
 });
 forgotForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!validateEmail()) {
+    forgotEmail.focus();
+    return;
+  }
