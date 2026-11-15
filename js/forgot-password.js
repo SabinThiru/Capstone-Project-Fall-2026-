@@ -58,3 +58,15 @@ function startResendCooldown() {
   let remaining = RESEND_SECONDS;
   resendBtn.disabled = true;
   resendBtn.textContent = `resend in ${remaining}s`;
+
+  resendTimer = setInterval(() => {
+    remaining -= 1;
+    if (remaining <= 0) {
+      clearInterval(resendTimer);
+      resendBtn.disabled = false;
+      resendBtn.textContent = "resend the email";
+    } else {
+      resendBtn.textContent = `resend in ${remaining}s`;
+    }
+  }, 1000);
+}
