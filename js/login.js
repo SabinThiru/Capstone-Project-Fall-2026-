@@ -19,6 +19,7 @@ document.getElementById("showLogin").addEventListener("click", (event) => {
   showView("login");
 });
 
+// Forgot password link
 
 
 // Shows and hides password
