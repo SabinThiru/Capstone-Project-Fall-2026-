@@ -83,3 +83,13 @@ forgotForm.addEventListener("submit", async (event) => {
   const email = forgotEmail.value.trim();
   setSending(true);
   try {
+    await requestPasswordReset(email);
+    sentEmail.textContent = email;
+    showView("sent");
+    startResendCooldown();
+  } catch (err) {
+    setError("Something went wrong. Please try again.");
+  } finally {
+    setSending(false);
+  }
+});
