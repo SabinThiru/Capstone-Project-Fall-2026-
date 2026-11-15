@@ -111,3 +111,6 @@ changeEmailBtn.addEventListener("click", () => {
   forgotEmail.focus();
   forgotEmail.select();
 });
+
+const prefill = new URLSearchParams(window.location.search).get("email");
+if (prefill) forgotEmail.value = prefill;
