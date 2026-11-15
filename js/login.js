@@ -19,6 +19,8 @@ document.getElementById("showLogin").addEventListener("click", (event) => {
   showView("login");
 });
 
+
+
 // Shows and hides password
 document.querySelectorAll(".toggle-password").forEach((btn) => {
   btn.addEventListener("click", () => {
