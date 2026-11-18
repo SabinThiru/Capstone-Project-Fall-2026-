@@ -18,3 +18,5 @@ const chatCourse = document.getElementById("chatCourse");
 const messageList = document.getElementById("messageList");
 const messageForm = document.getElementById("messageForm");
 const messageInput = document.getElementById("messageInput");
+const sendBtn = document.getElementById("sendBtn");
+const backBtn = document.getElementById("backBtn");
