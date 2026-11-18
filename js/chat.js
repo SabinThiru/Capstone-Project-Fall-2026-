@@ -23,3 +23,8 @@ const backBtn = document.getElementById("backBtn");
 const groupModal = document.getElementById("groupModal");
 const groupForm = document.getElementById("groupForm");
 const groupModalTitle = document.getElementById("groupModalTitle");
+
+const groupNameField = document.getElementById("groupNameField");
+const groupName = document.getElementById("groupName");
+const groupCourseLabel = document.getElementById("groupCourseLabel");
+const groupCourse = document.getElementById("groupCourse");
