@@ -59,3 +59,7 @@ function nameOf(id) {
 function formatTime(iso) {
   return new Date(iso).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 }
+
+function sameDay(a, b) {
+  return new Date(a).toDateString() === new Date(b).toDateString();
+}
