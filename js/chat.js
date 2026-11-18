@@ -29,3 +29,5 @@ const groupCourseLabel = document.getElementById("groupCourseLabel");
 const groupCourse = document.getElementById("groupCourse");
 const membersLabel = document.getElementById("membersLabel");
 const memberPicker = document.getElementById("memberPicker");
+const groupError = document.getElementById("groupError");
+const groupSubmitBtn = document.getElementById("groupSubmitBtn");
