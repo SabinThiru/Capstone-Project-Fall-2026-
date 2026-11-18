@@ -27,7 +27,7 @@
     }
   }
 
-  //  in backend, the picture is located from the signed in user’s ccount.
+  //  in backend, the picture is located from the signed in user’s account
   // in local mode, picture is only in browser storage
   let currentPhotoSrc = USE_PROFILE_BACKEND ? null : getPhoto();
   let activeObjectUrl = null;
@@ -171,3 +171,124 @@
       }
     });
   }
+
+  // Resize uploaded image to a square jpeg
+  async function resizeToJpeg(file) {
+    const objectUrl = URL.createObjectURL(file);
+
+    try {
+      const image = new Image();
+
+      await new Promise((resolve, reject) => {
+        image.onload = resolve;
+        image.onerror = () => {
+          reject(new Error("This image could not be opened."));
+        };
+        image.src = objectUrl;
+      });
+
+      if (!image.naturalWidth || !image.naturalHeight) {
+        throw new Error("The image is empty.");
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 320;
+
+      const context = canvas.getContext("2d");
+
+      if (!context) {
+        throw new Error("Could not process this image.");
+      }
+
+      const size = Math.min(
+        image.naturalWidth,
+        image.naturalHeight
+      );
+
+      const cropX = (image.naturalWidth - size) / 2;
+      const cropY = (image.naturalHeight - size) / 2;
+
+      context.drawImage(
+        image,
+        cropX,
+        cropY,
+        size,
+        size,
+        0,
+        0,
+        320,
+        320
+      );
+
+      return canvas.toDataURL("image/jpeg", 0.80);
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
+  }
+
+  // Upload or change profile picture
+  if (uploadButton && input) {
+    uploadButton.addEventListener("click", () => input.click());
+
+    input.addEventListener("change", async () => {
+      const file = input.files?.[0];
+
+      if (!file) return;
+
+      if (!ACCEPTED_TYPES.has(file.type)) {
+        setStatus("Choose a JPG, PNG, or WebP picture.", true);
+        input.value = "";
+        return;
+      }
+
+      if (file.size > MAX_FILE_BYTES) {
+        setStatus("The picture must be 5 MB or smaller.", true);
+        input.value = "";
+        return;
+      }
+
+      uploadButton.disabled = true;
+
+      try {
+        const newPhoto = await resizeToJpeg(file);
+
+        if (USE_PROFILE_BACKEND) {
+          const formData = new FormData();
+
+         
+          const jpegBlob = await (await fetch(newPhoto)).blob();
+
+          formData.append(
+            "photo",
+            jpegBlob,
+            "profile-picture.jpg"
+          );
+
+          await pictureApi("PUT", formData);
+          await loadPhotoFromBackend();
+
+          setStatus("Profile picture saved to your account.");
+        } else {
+          localStorage.setItem(STORAGE_KEY, newPhoto);
+          setPhotoSource(newPhoto);
+
+          setStatus(
+            "Profile picture updated in your browser."
+          );
+        }
+      } catch (error) {
+        const message = error?.name === "QuotaExceededError"
+          ? "Browser storage is full; this picture was not saved."
+          : (
+              error?.message ||
+              "Couldn't save the picture. Please try again."
+            );
+
+        setStatus(message, true);
+      } finally {
+        uploadButton.disabled = false;
+        input.value = "";
+      }
+    });
+  }
+
