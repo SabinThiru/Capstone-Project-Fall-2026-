@@ -26,4 +26,4 @@ const groupModalTitle = document.getElementById("groupModalTitle");
 const groupNameField = document.getElementById("groupNameField");
 const groupName = document.getElementById("groupName");
 const groupCourseLabel = document.getElementById("groupCourseLabel");
-const groupCourse = document.getElementById("groupCourse");s
+const groupCourse = document.getElementById("groupCourse");
