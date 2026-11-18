@@ -15,3 +15,6 @@ const chatAvatar = document.getElementById("chatAvatar");
 const chatName = document.getElementById("chatName");
 const chatMeta = document.getElementById("chatMeta");
 const chatCourse = document.getElementById("chatCourse");
+const messageList = document.getElementById("messageList");
+const messageForm = document.getElementById("messageForm");
+const messageInput = document.getElementById("messageInput");
