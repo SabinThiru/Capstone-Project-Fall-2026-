@@ -49,3 +49,9 @@ function initials(name) {
   const parts = (name || "").trim().split(/\s+/);
   return (((parts[0] || "")[0] || "") + ((parts[1] || "")[0] || "")).toUpperCase();
 }
+
+function nameOf(id) {
+  if (id === currentUser.id) return currentUser.name;
+  const s = students.find((x) => x.id === id);
+  return s ? s.name : "Unknown";
+}
