@@ -31,3 +31,7 @@ const membersLabel = document.getElementById("membersLabel");
 const memberPicker = document.getElementById("memberPicker");
 const groupError = document.getElementById("groupError");
 const groupSubmitBtn = document.getElementById("groupSubmitBtn");
+
+let activeId = null;
+let activeType = "all";
+let modalMode = "group";
