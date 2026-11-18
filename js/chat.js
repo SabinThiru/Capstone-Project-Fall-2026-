@@ -20,3 +20,6 @@ const messageForm = document.getElementById("messageForm");
 const messageInput = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 const backBtn = document.getElementById("backBtn");
+const groupModal = document.getElementById("groupModal");
+const groupForm = document.getElementById("groupForm");
+const groupModalTitle = document.getElementById("groupModalTitle");
