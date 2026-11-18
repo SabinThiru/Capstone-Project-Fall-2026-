@@ -55,3 +55,7 @@ function nameOf(id) {
   const s = students.find((x) => x.id === id);
   return s ? s.name : "Unknown";
 }
+
+function formatTime(iso) {
+  return new Date(iso).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+}
