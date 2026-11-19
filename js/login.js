@@ -1,3 +1,4 @@
+
 // CampusPath auth page login + signup UI
 const loginView = document.getElementById("loginView");
 const signupView = document.getElementById("signupView");
@@ -28,10 +29,10 @@ document.getElementById("showLogin").addEventListener("click", (event) => {
 });
 
 document.getElementById("showLoginFromVerify")
-  .addEventListener("click", (event) => {
-    event.preventDefault();
-    showView("login");
-  });
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      showView("login");
+    });
 
 // Shows and hides password
 document.querySelectorAll(".toggle-password").forEach((btn) => {
@@ -77,9 +78,9 @@ loginForm.addEventListener("submit", async (event) => {
 
     if (!response.ok) {
       throw new Error(
-        response.status === 401
-          ? "Login failed. Check your credentials and verify your email."
-          : `Login failed (${response.status}). Please try again.`
+          response.status === 401
+              ? "Login failed. Check your credentials and verify your email."
+              : `Login failed (${response.status}). Please try again.`
       );
     }
 
@@ -90,8 +91,8 @@ loginForm.addEventListener("submit", async (event) => {
     }
 
     await ensureStudentProfile(
-      tokens.idToken,
-      document.getElementById("loginEmail").value.trim()
+        tokens.idToken,
+        document.getElementById("loginEmail").value.trim()
     );
 
     sessionStorage.setItem("idToken", tokens.idToken);
@@ -99,9 +100,9 @@ loginForm.addEventListener("submit", async (event) => {
     window.location.href = "dashboard.html";
   } catch (error) {
     loginError.textContent =
-      error instanceof TypeError
-        ? "Cannot reach the backend. Check that it is running."
-        : error.message;
+        error instanceof TypeError
+            ? "Cannot reach the backend. Check that it is running."
+            : error.message;
   } finally {
     button.disabled = false;
   }
@@ -114,13 +115,15 @@ const passwordMatchError = document.getElementById("passwordMatchError");
 
 function passwordsMatch() {
   const mismatch =
-    confirmPassword.value !== "" && signupPassword.value !== confirmPassword.value;
+      confirmPassword.value !== "" && signupPassword.value !== confirmPassword.value;
+
   passwordMatchError.textContent = mismatch ? "Passwords do not match." : "";
   confirmPassword.closest(".field").classList.toggle("has-error", mismatch);
+
   return !mismatch;
 }
 
-//check while user types live
+// Check while user types live
 signupPassword.addEventListener("input", passwordsMatch);
 confirmPassword.addEventListener("input", passwordsMatch);
 
@@ -131,6 +134,11 @@ const registerError = document.createElement("p");
 registerError.className = "error-text";
 registerError.setAttribute("role", "alert");
 registerForm.appendChild(registerError);
+
+// NEW: Validate university email addresses
+function isSchoolEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.edu$/i.test(email.trim());
+}
 
 registerForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -147,25 +155,35 @@ registerForm.addEventListener("submit", async (event) => {
   }
 
   const email = document.getElementById("signupEmail").value.trim();
+
+  // NEW: Only allow .edu email addresses during registration
+  if (!isSchoolEmail(email)) {
+    registerError.textContent =
+        "Please register using a valid university email ending in .edu.";
+    document.getElementById("signupEmail").focus();
+    return;
+  }
+
   const fullName = [
     document.getElementById("firstName").value.trim(),
     document.getElementById("lastName").value.trim()
   ].join(" ");
 
   const universityId = Number(
-    document.getElementById("university").value
+      document.getElementById("university").value
   );
+
   const euid = document.getElementById("studentId").value.trim();
 
   if (!universityId || !euid || !fullName.trim()) {
     registerError.textContent =
-      "Please enter your name, university, and EUID.";
+        "Please enter your name, university, and EUID.";
     return;
   }
 
   if (fullName.length > 200 || euid.length > 50) {
     registerError.textContent =
-      "Name must be at most 200 characters and EUID at most 50.";
+        "Name must be at most 200 characters and EUID at most 50.";
     return;
   }
 
@@ -185,7 +203,7 @@ registerForm.addEventListener("submit", async (event) => {
 
     if (!response.ok) {
       throw new Error(
-        `Signup failed (${response.status}). Check your details.`
+          `Signup failed (${response.status}). Check your details.`
       );
     }
 
@@ -218,19 +236,20 @@ registerForm.addEventListener("submit", async (event) => {
     }
   } catch (error) {
     registerError.textContent =
-      error instanceof TypeError
-        ? "Cannot reach the backend. Check that it is running."
-        : error.message;
+        error instanceof TypeError
+            ? "Cannot reach the backend. Check that it is running."
+            : error.message;
   } finally {
     button.disabled = false;
   }
 });
 
-//Password requirements
+// Password requirements
 const rulePassword = document.getElementById("signupPassword");
+
 const ruleItems = {
   length: document.querySelector('#passwordRules [data-rule="length"]'),
-  special: document.querySelector('#passwordRules [data-rule="special"]'),
+  special: document.querySelector('#passwordRules [data-rule="special"]')
 };
 
 function checkPasswordRules() {
@@ -243,9 +262,9 @@ function checkPasswordRules() {
 
   // Makes the browser block submission until both rules are met
   rulePassword.setCustomValidity(
-    hasLength && hasSpecial
-      ? ""
-      : "Password must be at least 8 characters and include one special character."
+      hasLength && hasSpecial
+          ? ""
+          : "Password must be at least 8 characters and include one special character."
   );
 }
 
@@ -274,18 +293,19 @@ async function loadUniversities() {
 
     universities.forEach((university) => {
       dropdown.add(
-        new Option(
-          `${university.name} (${university.abbreviation})`,
-          university.id
-        )
+          new Option(
+              `${university.name} (${university.abbreviation})`,
+              university.id
+          )
       );
     });
 
     dropdown.disabled = false;
   } catch (error) {
     dropdown.replaceChildren(
-      new Option("Unable to load universities. Please reload.", "")
+        new Option("Unable to load universities. Please reload.", "")
     );
+
     console.error("University loading failed:", error);
   }
 }
@@ -300,8 +320,9 @@ verifyForm.addEventListener("submit", async (event) => {
   verifyError.textContent = "";
 
   const email = document.getElementById("verifyEmail").value.trim();
+
   const confirmationCode =
-    document.getElementById("verifyCode").value.trim();
+      document.getElementById("verifyCode").value.trim();
 
   if (!confirmationCode) {
     verifyError.textContent = "Enter the code from your email.";
@@ -320,7 +341,7 @@ verifyForm.addEventListener("submit", async (event) => {
 
     if (!response.ok) {
       throw new Error(
-        `Verification failed (${response.status}). Check your email and code.`
+          `Verification failed (${response.status}). Check your email and code.`
       );
     }
 
@@ -329,13 +350,14 @@ verifyForm.addEventListener("submit", async (event) => {
 
     document.getElementById("verifyCode").value = "";
     document.getElementById("loginEmail").value = email;
+
     showView("login");
     loginError.textContent = message;
   } catch (error) {
     verifyError.textContent =
-      error instanceof TypeError
-        ? "Cannot reach the backend. Check that it is running."
-        : error.message;
+        error instanceof TypeError
+            ? "Cannot reach the backend. Check that it is running."
+            : error.message;
   } finally {
     button.disabled = false;
   }
@@ -361,15 +383,15 @@ async function ensureStudentProfile(idToken, email) {
   }
 
   const pending = JSON.parse(
-    sessionStorage.getItem("pendingProfile") || "null"
+      sessionStorage.getItem("pendingProfile") || "null"
   );
 
   if (
-    !pending ||
-    pending.email.toLowerCase() !== email.toLowerCase()
+      !pending ||
+      pending.email.toLowerCase() !== email.toLowerCase()
   ) {
     throw new Error(
-      "Your account exists, but your student profile is incomplete."
+        "Your account exists, but your student profile is incomplete."
     );
   }
 
@@ -388,11 +410,23 @@ async function ensureStudentProfile(idToken, email) {
 
   if (!response.ok) {
     const problem = await response.json().catch(() => null);
+
     throw new Error(
-      problem?.detail ||
-      `Could not create your profile (${response.status}).`
+        problem?.detail ||
+        `Could not create your profile (${response.status}).`
     );
   }
 
   sessionStorage.removeItem("pendingProfile");
 }
+
+// AWS Cognito password recovery
+
+// Show a success message after returning from the standalone reset page.
+if (new URLSearchParams(window.location.search).get("passwordReset") === "success") {
+  loginError.textContent =
+      "Password reset successfully. Log in with your new password.";
+
+  window.history.replaceState({}, "", "login.html");
+}
+
