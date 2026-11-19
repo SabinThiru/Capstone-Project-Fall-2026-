@@ -45,3 +45,23 @@ a:focus-visible { outline: 2px solid var(--terms-accent); outline-offset: 4px; }
   color: #fff;
   background: var(--terms-button);
 }
+
+.terms-back {
+  color: var(--terms-accent);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+.terms-back:hover, .terms-sidebar a:hover { text-decoration: underline; }
+.terms-layout { max-width: 1180px; margin: 0 auto; padding: 52px 24px 72px; }
+.terms-eyebrow {
+  margin: 0 0 12px;
+  color: var(--terms-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+.terms-heading h1 {
+  margin: 0 0 12px;
+  font: 700 clamp(30px, 4vw, 42px)/1.15 "Outfit", sans-serif;
+}
