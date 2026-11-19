@@ -292,3 +292,62 @@
     });
   }
 
+  // Remove profile picture
+  if (removeButton) {
+    removeButton.addEventListener("click", async () => {
+      removeButton.disabled = true;
+
+      try {
+        if (USE_PROFILE_BACKEND) {
+          await pictureApi("DELETE");
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
+        }
+
+        setPhotoSource(null);
+
+        setStatus(
+          "Profile picture removed. Your initial is showing again."
+        );
+      } catch (error) {
+        setStatus(
+          error?.message || "Could not remove the profile picture.",
+          true
+        );
+
+        refreshPhoto();
+      }
+    });
+  }
+
+  // Notification bell functionality for settings page
+  if (document.querySelector(".settings-page")) {
+    const bell = byId("bellButton");
+    const notice = byId("notificationPanel");
+
+    if (bell && notice) {
+      const setOpen = open => {
+        notice.hidden = !open;
+        bell.setAttribute("aria-expanded", String(open));
+      };
+
+      bell.addEventListener("click", event => {
+        event.stopPropagation();
+        setOpen(notice.hidden);
+      });
+
+      document.addEventListener("click", event => {
+        if (!event.target.closest(".notifications")) {
+          setOpen(false);
+        }
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !notice.hidden) {
+          setOpen(false);
+          bell.focus();
+        }
+      });
+    }
+  }
+
