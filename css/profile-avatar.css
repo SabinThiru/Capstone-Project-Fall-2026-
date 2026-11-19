@@ -1,1 +1,19 @@
-
+.profile-avatar-widget { position: relative; display: flex; flex: 0 0 auto; align-items: center; }
+.profile-avatar-trigger {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%;
+  background: transparent; color: inherit; cursor: pointer; font: inherit;
+}
+.profile-avatar-trigger:focus-visible { outline: 2px solid var(--primary-400, #80cc80); outline-offset: 3px; }
+.profile-avatar-trigger .user-avatar {
+  flex: 0 0 32px; width: 32px; height: 32px;
+  background-color: var(--brand-fill, #236b40); background-position: center; background-size: cover;
+  color: #fff;
+}
+.profile-avatar-trigger:hover .user-avatar { box-shadow: 0 0 0 2px var(--primary-500, #66b366); }
+.avatar-pencil {
+  position: absolute; bottom: -2px; right: -3px; z-index: 1;
+  display: grid; place-items: center; width: 17px; height: 17px;
+  border: 2px solid var(--surface-brand, #032a17); border-radius: 50%;
+  background: var(--brand-fill, #236b40); color: #fff;
+}
