@@ -17,3 +17,17 @@
   border: 2px solid var(--surface-brand, #032a17); border-radius: 50%;
   background: var(--brand-fill, #236b40); color: #fff;
 }
+
+.avatar-dropdown {
+  position: absolute; top: calc(100% + 12px); right: -13px; z-index: 200;
+  width: max-content; min-width: 184px; padding: 7px;
+  background: var(--surface-card, #04301b); color: var(--neutral-000, #fff);
+  border: 1px solid var(--border-card, #0d4a2a); border-radius: 9px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.28); font: 500 12px/1.5 var(--font-body, "Inter", sans-serif);
+}
+.avatar-dropdown[hidden] { display: none !important; }
+.avatar-dropdown a { display: block; padding: 10px 12px; border-radius: 6px; text-decoration: none; color: inherit; }
+.avatar-dropdown a:hover, .avatar-dropdown a:focus-visible { background: var(--surface-input, #052c19); outline: none; text-decoration: none; }
+.user-avatar.has-picture, .profile-picture-preview.has-picture, .student-initials.has-picture {
+  background-position: center; background-size: cover; background-repeat: no-repeat; color: transparent !important;
+}
