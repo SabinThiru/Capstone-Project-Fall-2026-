@@ -351,3 +351,71 @@
     }
   }
 
+
+
+// Open profile picture section when on another page
+  function jumpToPictureSection() {
+    if (window.location.hash !== "#profilePictureSettings") {
+      return;
+    }
+
+    const section = byId("accountSection");
+    const pictureRow = byId("profilePictureSettings");
+
+    if (section) {
+      section.open = true;
+    }
+
+    if (pictureRow) {
+      requestAnimationFrame(() => {
+        pictureRow.scrollIntoView({ block: "center" });
+      });
+    }
+  }
+
+  window.addEventListener("hashchange", jumpToPictureSection);
+
+  // Update picture when browser storage changes in another tab
+  window.addEventListener("storage", event => {
+    if (
+      !USE_PROFILE_BACKEND &&
+      (event.key === STORAGE_KEY || event.key === null)
+    ) {
+      setPhotoSource(getPhoto());
+    }
+  });
+
+  // Refresh picture when returning to a page
+  window.addEventListener("pageshow", () => {
+    if (USE_PROFILE_BACKEND) {
+      void loadPhotoFromBackend().catch(error => {
+        setStatus(error.message, true);
+      });
+    } else {
+      setPhotoSource(getPhoto());
+    }
+  });
+
+  // Clean up temporary image URL
+  window.addEventListener("pagehide", () => {
+    if (activeObjectUrl) {
+      URL.revokeObjectURL(activeObjectUrl);
+    }
+
+    activeObjectUrl = null;
+  });
+
+  // Update initial if user’s name changes
+  const name = byId("navUserName");
+
+  if (name) {
+    new MutationObserver(refreshPhoto).observe(name, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
+  }
+
+  refreshPhoto();
+  jumpToPictureSection();
+})();
