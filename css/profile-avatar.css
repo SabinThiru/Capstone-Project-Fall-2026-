@@ -32,7 +32,7 @@
   background-position: center; background-size: cover; background-repeat: no-repeat; color: transparent !important;
 }
 
-profile-picture-setting { scroll-margin-top: 90px; align-items: center; }
+.profile-picture-setting { scroll-margin-top: 90px; align-items: center; }
 .picture-help { margin-top: 5px !important; }
 .picture-control-group { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: flex-end; }
 .profile-picture-preview {
@@ -53,3 +53,10 @@ profile-picture-setting { scroll-margin-top: 90px; align-items: center; }
   .avatar-dropdown { right: -54px; }
 }
 
+.notifications { position: relative; }
+.bell-button { display:grid; place-items:center; width:34px; height:34px; padding:0; border:1px solid var(--border-card, #0d4a2a); border-radius:8px; background:transparent; color:var(--neutral-000, #fff); cursor:pointer; }
+.bell-button:hover, .bell-button:focus-visible { border-color:var(--primary-500, #66b366); outline-offset:2px; }
+.notification-panel { position:absolute; top:calc(100% + 12px); right:0; z-index:150; width:380px; max-width:calc(100vw - 32px); padding:18px 20px; background:var(--surface-brand, #032a17); color:var(--neutral-000, #fff); border:1px solid var(--border-card, #0d4a2a); border-radius:9px; box-shadow:0 12px 32px rgba(0,0,0,.24); }
+.notification-panel[hidden] { display:none !important; }
+.notification-panel .panel-title { margin:0 0 10px; font-size:14px; font-weight:700; }
+.notification-panel .empty-message { margin:0; color:var(--neutral-300, #b3b3b3); font-size:12px; line-height:1.5; }
