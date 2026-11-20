@@ -23,3 +23,10 @@
   background: var(--surface-brand);
   border-right: 1px solid var(--border-card);
 }
+
+.sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
