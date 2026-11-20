@@ -88,3 +88,19 @@
   color: var(--neutral-300);
   pointer-events: none;
 }
+
+.chat-search input,
+.filter-row select,
+.group-modal input[type="text"],
+.group-modal select,
+.composer textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--neutral-000);
+  background: var(--surface-input);
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
