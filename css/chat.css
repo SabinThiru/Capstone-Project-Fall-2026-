@@ -15,3 +15,11 @@
 }
 
 /* Sidebar */
+.chat-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 20px 16px 0;
+  background: var(--surface-brand);
+  border-right: 1px solid var(--border-card);
+}
