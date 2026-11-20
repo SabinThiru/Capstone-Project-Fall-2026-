@@ -152,3 +152,12 @@
 .tab:hover { color: var(--neutral-000); }
 .tab.active { color: #ffffff; background: var(--brand-fill); }
 .tab:focus-visible { outline: 2px solid var(--primary-500); outline-offset: 1px; }
+
+.conversation-list {
+  flex: 1;
+  min-height: 0;
+  margin: 0 -16px;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+}
