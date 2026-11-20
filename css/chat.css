@@ -161,3 +161,6 @@
   list-style: none;
   overflow-y: auto;
 }
+.conversation-list:empty { flex: 0; }
+.list-empty { padding: 16px 0; text-align: center; }
+
