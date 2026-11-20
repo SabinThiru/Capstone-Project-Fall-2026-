@@ -74,3 +74,4 @@
   cursor: pointer;
   transition: background 0.15s;
 }
+.new-group-btn:hover { background: var(--brand-fill-hover); }
