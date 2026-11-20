@@ -149,3 +149,5 @@
   border-radius: 6px;
   cursor: pointer;
 }
+.tab:hover { color: var(--neutral-000); }
+.tab.active { color: #ffffff; background: var(--brand-fill); }
