@@ -41,3 +41,16 @@
   align-items: center;
   gap: 8px;
 }
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: var(--neutral-300);
+  background: transparent;
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
