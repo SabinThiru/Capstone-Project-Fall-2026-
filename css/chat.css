@@ -35,3 +35,9 @@
   font-family: var(--font-heading);
   font-size: 20px;
 }
+
+.head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
