@@ -75,3 +75,8 @@
   transition: background 0.15s;
 }
 .new-group-btn:hover { background: var(--brand-fill-hover); }
+
+.chat-search {
+  position: relative;
+  margin-bottom: 12px;
+}
