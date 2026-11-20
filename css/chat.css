@@ -117,3 +117,13 @@
   border-color: var(--primary-500);
   box-shadow: 0 0 0 3px rgba(102, 179, 102, 0.25);
 }
+.filter-row { margin-bottom: 12px; }
+.filter-row label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--neutral-300);
+}
+.filter-row select,
+.group-modal select { height: 36px; padding: 0 10px; }
