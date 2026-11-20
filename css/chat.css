@@ -151,3 +151,4 @@
 }
 .tab:hover { color: var(--neutral-000); }
 .tab.active { color: #ffffff; background: var(--brand-fill); }
+.tab:focus-visible { outline: 2px solid var(--primary-500); outline-offset: 1px; }
