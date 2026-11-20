@@ -127,3 +127,13 @@
 }
 .filter-row select,
 .group-modal select { height: 36px; padding: 0 10px; }
+.type-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  padding: 3px;
+  margin-bottom: 8px;
+  background: var(--surface-input);
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+}
