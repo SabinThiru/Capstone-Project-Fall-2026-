@@ -6,3 +6,10 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+.chat-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  height: calc(100vh - 64px);
+  overflow: hidden;
+}
