@@ -305,4 +305,6 @@
   cursor: pointer;
 }
 .back-btn:hover { color: var(--neutral-000); }
+.chat-title { flex: 1; min-width: 0; }
+
 
