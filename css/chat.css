@@ -278,3 +278,9 @@
 }
 .chat-placeholder p { margin: 0; max-width: 300px; font-size: 13px; line-height: 1.6; }
 
+.chat-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
