@@ -198,3 +198,4 @@
   border-radius: 50%;
 }
 .convo-avatar.group { border-radius: 10px; }
+.convo-body { flex: 1; min-width: 0; }
