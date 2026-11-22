@@ -221,3 +221,11 @@
   gap: 8px;
   margin-top: 3px;
 }
+
+.convo-preview {
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--neutral-300);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
