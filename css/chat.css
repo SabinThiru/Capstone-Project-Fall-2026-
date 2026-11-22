@@ -243,3 +243,10 @@
   background: var(--brand-fill-hover);
   border-radius: 9px;
 }
+.convo-course {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--primary-400);
+}
