@@ -270,4 +270,9 @@
   text-align: center;
   color: var(--neutral-300);
 }
-
+.chat-placeholder h2 {
+  margin: 12px 0 4px;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  color: var(--neutral-000);
+}
