@@ -362,3 +362,14 @@
   font-weight: 600;
   color: var(--primary-400);
 }
+
+.bubble {
+  padding: 9px 13px;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--surface-card);
+  border: 1px solid var(--border-card);
+  border-radius: 14px 14px 14px 4px;
+}
