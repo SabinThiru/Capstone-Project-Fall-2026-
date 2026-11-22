@@ -347,3 +347,12 @@
   font-size: 11px;
   color: var(--neutral-500);
 }
+
+.message {
+  display: flex;
+  flex-direction: column;
+  max-width: min(520px, 78%);
+  align-self: flex-start;
+}
+.message.mine { align-self: flex-end; align-items: flex-end; }
+.message.new-sender { margin-top: 10px; }
