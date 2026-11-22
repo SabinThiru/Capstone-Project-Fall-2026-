@@ -184,3 +184,4 @@
   background: var(--surface-card);
   border-left-color: var(--primary-500);
 }
+.convo-item:focus-visible { outline: 2px solid var(--primary-500); outline-offset: -2px; }
