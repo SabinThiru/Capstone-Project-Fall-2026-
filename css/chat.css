@@ -178,3 +178,9 @@
   border-left: 3px solid transparent;
   cursor: pointer;
 }
+
+.convo-item:hover { background: var(--surface-input); }
+.convo-item.active {
+  background: var(--surface-card);
+  border-left-color: var(--primary-500);
+}
