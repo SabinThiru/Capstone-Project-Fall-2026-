@@ -213,3 +213,11 @@
   text-overflow: ellipsis;
 }
 .convo-time { flex-shrink: 0; font-size: 11px; color: var(--neutral-500); }
+
+.convo-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 3px;
+}
