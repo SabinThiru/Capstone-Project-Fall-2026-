@@ -341,3 +341,9 @@
   padding: 20px 24px;
   overflow-y: auto;
 }
+.day-divider {
+  align-self: center;
+  margin: 12px 0 8px;
+  font-size: 11px;
+  color: var(--neutral-500);
+}
