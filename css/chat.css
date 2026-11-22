@@ -307,4 +307,10 @@
 .back-btn:hover { color: var(--neutral-000); }
 .chat-title { flex: 1; min-width: 0; }
 
-
+.chat-title h2 {
+  margin: 0;
+  overflow: hidden;
+  font-size: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
