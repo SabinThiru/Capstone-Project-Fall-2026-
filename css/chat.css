@@ -284,3 +284,11 @@
   flex-direction: column;
   min-height: 0;
 }
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  background: var(--surface-brand);
+  border-bottom: 1px solid var(--border-card);
+}
