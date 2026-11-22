@@ -197,3 +197,4 @@
   background: var(--brand-fill);
   border-radius: 50%;
 }
+.convo-avatar.group { border-radius: 10px; }
