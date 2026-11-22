@@ -260,4 +260,14 @@
   background: var(--surface-page);
 }
 
+.chat-placeholder {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  color: var(--neutral-300);
+}
 
