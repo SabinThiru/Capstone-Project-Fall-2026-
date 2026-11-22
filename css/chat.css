@@ -413,4 +413,6 @@
 }
 .send-btn:hover:not(:disabled) { background: var(--brand-fill-hover); }
 .send-btn:disabled { opacity: 0.45; cursor: default; }
-.send-btn:focus-visible { outline: 2px solid var(--primary-300); outline-offset: 2px;
+.send-btn:focus-visible { outline: 2px solid var(--primary-300); outline-offset: 2px; }
+
+/*  New group */
