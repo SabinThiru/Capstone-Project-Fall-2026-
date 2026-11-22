@@ -276,3 +276,5 @@
   font-size: 18px;
   color: var(--neutral-000);
 }
+.chat-placeholder p { margin: 0; max-width: 300px; font-size: 13px; line-height: 1.6; }
+
