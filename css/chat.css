@@ -212,3 +212,4 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.convo-time { flex-shrink: 0; font-size: 11px; color: var(--neutral-500); }
