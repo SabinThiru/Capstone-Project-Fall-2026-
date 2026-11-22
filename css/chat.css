@@ -389,3 +389,12 @@
   background: var(--surface-page);
   border-top: 1px solid var(--border-card);
 }
+.composer textarea {
+  flex: 1;
+  min-height: 40px;
+  max-height: 120px;
+  padding: 10px 12px;
+  line-height: 1.4;
+  resize: none;
+}
+
