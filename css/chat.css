@@ -470,3 +470,9 @@
 }
 .group-modal .error-text:empty { display: none; }
 
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
