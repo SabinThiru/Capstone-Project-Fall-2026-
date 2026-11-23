@@ -458,3 +458,6 @@
   border-radius: 4px;
   cursor: pointer;
 }
+.member-option:hover { background: var(--surface-card); }
+.member-option input { accent-color: var(--brand-fill); }
+.member-option small { margin-left: auto; font-size: 11px; color: var(--neutral-500); }
