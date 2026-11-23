@@ -416,3 +416,11 @@
 .send-btn:focus-visible { outline: 2px solid var(--primary-300); outline-offset: 2px; }
 
 /*  New group */
+.group-modal {
+  width: min(440px, calc(100vw - 32px));
+  padding: 28px 28px 24px;
+  color: var(--neutral-000);
+  background: var(--surface-card);
+  border: 1px solid var(--border-card);
+  border-radius: 10px;
+}
