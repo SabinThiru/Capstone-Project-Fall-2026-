@@ -441,3 +441,11 @@
   color: var(--neutral-300);
 }
 .group-modal input[type="text"] { height: 38px; padding: 0 12px; }
+.member-picker {
+  max-height: 190px;
+  padding: 4px;
+  overflow-y: auto;
+  background: var(--surface-input);
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+}
