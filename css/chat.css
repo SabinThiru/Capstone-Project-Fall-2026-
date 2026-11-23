@@ -486,3 +486,5 @@
   border-radius: 6px;
   cursor: pointer;
 }
+.primary-btn { color: #ffffff; background: var(--brand-fill); border: 0; }
+.primary-btn:hover { background: var(--brand-fill-hover); }
