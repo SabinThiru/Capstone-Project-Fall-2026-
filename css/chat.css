@@ -440,3 +440,4 @@
   font-weight: 500;
   color: var(--neutral-300);
 }
+.group-modal input[type="text"] { height: 38px; padding: 0 12px; }
