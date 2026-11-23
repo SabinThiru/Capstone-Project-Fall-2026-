@@ -495,3 +495,7 @@
   border: 1px solid var(--border-input);
 }
 .secondary-btn:hover { background: var(--surface-input); }
+
+:root[data-theme="light"] .group-modal select,
+:root[data-theme="light"] .filter-row select { color-scheme: light; }
+:root[data-theme="light"] .group-modal::backdrop { background: rgba(20, 38, 27, 0.4);
