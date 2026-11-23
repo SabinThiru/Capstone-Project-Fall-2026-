@@ -425,3 +425,18 @@
   border-radius: 10px;
 }
 .group-modal::backdrop { background: rgba(0, 0, 0, 0.55); }
+
+.group-modal h2 {
+  margin: 0 0 20px;
+  font-family: var(--font-heading);
+  font-size: 18px;
+}
+
+.group-modal .field { margin-bottom: 16px; }
+.group-modal .field > label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--neutral-300);
+}
