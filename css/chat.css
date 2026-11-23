@@ -424,3 +424,4 @@
   border: 1px solid var(--border-card);
   border-radius: 10px;
 }
+.group-modal::backdrop { background: rgba(0, 0, 0, 0.55); }
