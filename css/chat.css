@@ -488,3 +488,10 @@
 }
 .primary-btn { color: #ffffff; background: var(--brand-fill); border: 0; }
 .primary-btn:hover { background: var(--brand-fill-hover); }
+
+.secondary-btn {
+  color: var(--neutral-000);
+  background: transparent;
+  border: 1px solid var(--border-input);
+}
+.secondary-btn:hover { background: var(--surface-input); }
