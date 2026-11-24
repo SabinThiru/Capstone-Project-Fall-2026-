@@ -137,3 +137,14 @@ function openConversation(id) {
   chatEmpty.hidden = true;
   chatPanel.hidden = false;
   layout.classList.add("chat-open");
+
+  chatAvatar.textContent = initials(convo.name);
+  chatAvatar.className = "convo-avatar" + (convo.type === "group" ? " group" : "");
+  chatName.textContent = convo.name;
+  chatMeta.textContent =
+    convo.type === "group"
+      ? convo.memberIds.length + " members · " + convo.memberIds.map(nameOf).join(", ")
+      : "Direct message";
+
+  chatCourse.hidden = !convo.courseCode;
+  chatCourse.textContent = convo.courseCode;
