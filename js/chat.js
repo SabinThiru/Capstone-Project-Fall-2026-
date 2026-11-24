@@ -148,3 +148,7 @@ function openConversation(id) {
 
   chatCourse.hidden = !convo.courseCode;
   chatCourse.textContent = convo.courseCode;
+  renderMessages(convo);
+  renderList();
+  messageInput.focus();
+}
