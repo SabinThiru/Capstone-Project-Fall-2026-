@@ -118,3 +118,6 @@ function renderList() {
       const who = last.senderId === currentUser.id ? "You: " : (convo.type === "group" ? nameOf(last.senderId).split(" ")[0] + ": " : "");
       preview = who + last.text;
     }
+    bottom.appendChild(el("span", "convo-preview", preview));
+    if (convo.unread > 0) bottom.appendChild(el("span", "unread-badge", String(convo.unread)));
+    body.appendChild(bottom);
