@@ -85,3 +85,13 @@ function getConvo(id) {
 function visibleConversations() {
   const query = searchInput.value.trim().toLowerCase();
   const course = courseFilter.value;
+  return conversations
+    .filter((c) => activeType === "all" || c.type === activeType)
+    .filter((c) => course === "all" || c.courseCode === course)
+    .filter((c) => !query || c.name.toLowerCase().includes(query))
+    .sort((a, b) => {
+      const ta = lastMessage(a) ? new Date(lastMessage(a).sentAt) : 0;
+      const tb = lastMessage(b) ? new Date(lastMessage(b).sentAt) : 0;
+      return tb - ta;
+    });
+}
