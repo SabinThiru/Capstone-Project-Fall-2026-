@@ -105,3 +105,4 @@ function renderList() {
     const btn = el("button", "convo-item" + (convo.id === activeId ? " active" : ""));
     btn.type = "button";
     btn.addEventListener("click", () => openConversation(convo.id));
+    btn.appendChild(el("span", "convo-avatar" + (convo.type === "group" ? " group" : ""), initials(convo.name)));
