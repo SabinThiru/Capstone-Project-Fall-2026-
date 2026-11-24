@@ -95,3 +95,6 @@ function visibleConversations() {
       return tb - ta;
     });
 }
+
+function renderList() {
+  listEl.replaceChildren();
