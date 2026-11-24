@@ -92,28 +92,7 @@
         <h2 class="card-title">Create account</h2>
         <p class="card-subtitle">Sign up with your university email.</p>
 
-        <!-- Terms and Conditions agreement -->
         <form id="registerForm">
-        <label class="terms-check">
-        <input
-        type="checkbox"
-        id="agreeTerms"
-        name="agreeTerms"
-        required
-      />
-    <span>
-    I have read and agree to the
-    <a
-      href="terms.html"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Terms and Conditions
-    </a>.
-  </span>
-</label>
-
-<p class="error-text" id="termsError" role="alert"></p>
           <div class="field-row">
             <div class="field">
               <label for="firstName">First name</label>
@@ -190,6 +169,28 @@
             </div>
             <p class="error-text" id="passwordMatchError" role="alert"></p>
           </div>
+
+<!-- Terms and Conditions agreement -->
+<label class="terms-check">
+  <input
+    type="checkbox"
+    id="agreeTerms"
+    name="agreeTerms"
+    required
+  />
+  <span>
+    I have read and agree to the
+    <a
+      href="terms.html"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Terms and Conditions
+    </a>.
+  </span>
+</label>
+
+<p class="error-text" id="termsError" role="alert"></p>
 
           <button type="submit" class="btn-primary">
             <span class="btn-label">Create account</span>
