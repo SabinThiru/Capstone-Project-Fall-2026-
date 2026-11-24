@@ -112,3 +112,5 @@ function renderList() {
     const last = lastMessage(convo);
     if (last) top.appendChild(el("span", "convo-time", formatTime(last.sentAt)));
     body.appendChild(top);
+    const bottom = el("div", "convo-bottom");
+    let preview = "No messages yet";
