@@ -134,3 +134,6 @@ function openConversation(id) {
   if (!convo) return;
   activeId = id;
   convo.unread = 0;
+  chatEmpty.hidden = true;
+  chatPanel.hidden = false;
+  layout.classList.add("chat-open");
