@@ -82,3 +82,6 @@ function getConvo(id) {
 }
 
 /*  Conversation list */
+function visibleConversations() {
+  const query = searchInput.value.trim().toLowerCase();
+  const course = courseFilter.value;
