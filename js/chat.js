@@ -121,3 +121,10 @@ function renderList() {
     bottom.appendChild(el("span", "convo-preview", preview));
     if (convo.unread > 0) bottom.appendChild(el("span", "unread-badge", String(convo.unread)));
     body.appendChild(bottom);
+    if (convo.courseCode) body.appendChild(el("span", "convo-course", convo.courseCode));
+
+    btn.appendChild(body);
+    li.appendChild(btn);
+    listEl.appendChild(li);
+  });
+}
