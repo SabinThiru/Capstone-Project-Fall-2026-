@@ -100,3 +100,6 @@ function renderList() {
   listEl.replaceChildren();
   const items = visibleConversations();
   listEmpty.hidden = items.length > 0;
+  items.forEach((convo) => {
+    const li = el("li");
+    const btn = el("button", "convo-item" + (convo.id === activeId ? " active" : ""));
