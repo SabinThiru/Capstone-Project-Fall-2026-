@@ -512,3 +512,7 @@
   .topbar { padding: 0 16px; }
   .nav-links { gap: 16px; margin-left: 20px; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
