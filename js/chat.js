@@ -128,3 +128,9 @@ function renderList() {
     listEl.appendChild(li);
   });
 }
+
+function openConversation(id) {
+  const convo = getConvo(id);
+  if (!convo) return;
+  activeId = id;
+  convo.unread = 0;
