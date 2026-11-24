@@ -72,3 +72,7 @@ function dayLabel(iso) {
   if (d.toDateString() === yesterday.toDateString()) return "Yesterday";
   return d.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
 }
+
+function lastMessage(convo) {
+  return convo.messages[convo.messages.length - 1];
+}
