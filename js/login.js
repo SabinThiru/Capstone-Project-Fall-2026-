@@ -72,17 +72,19 @@ document.getElementById("registerForm").addEventListener("submit", () => {
   }
 });
 
-//Terms and conditions checbox
+// Terms and conditions agreement
 const agreeTerms = document.getElementById("agreeTerms");
 const termsError = document.getElementById("termsError");
 
-agreeTerms.addEventListener("change", () => (termsError.textContent = ""));
-
-document.getElementById("registerForm").addEventListener("submit", () => {
-  if (!agreeTerms.checked) {
-    termsError.textContent = "You must agree to the terms to create an account.";
-  }
+agreeTerms.addEventListener("change", () => {
+  termsError.textContent = "";
 });
+
+agreeTerms.addEventListener("invalid", () => {
+  termsError.textContent =
+    "You must agree to the Terms and Conditions to create an account.";
+});
+
 
 //Password requirements
 const rulePassword = document.getElementById("signupPassword");
@@ -110,4 +112,4 @@ function checkPasswordRules() {
 rulePassword.addEventListener("input", checkPasswordRules);
 checkPasswordRules();
 
-showView("login");
+showView(window.location.hash === "#signup" ? "signup" : "login");
