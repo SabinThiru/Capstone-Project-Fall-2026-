@@ -114,3 +114,7 @@ function renderList() {
     body.appendChild(top);
     const bottom = el("div", "convo-bottom");
     let preview = "No messages yet";
+    if (last) {
+      const who = last.senderId === currentUser.id ? "You: " : (convo.type === "group" ? nameOf(last.senderId).split(" ")[0] + ": " : "");
+      preview = who + last.text;
+    }
