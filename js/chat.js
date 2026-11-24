@@ -80,3 +80,5 @@ function lastMessage(convo) {
 function getConvo(id) {
   return conversations.find((c) => c.id === id);
 }
+
+/*  Conversation list */
