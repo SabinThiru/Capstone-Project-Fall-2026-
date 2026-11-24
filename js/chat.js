@@ -63,3 +63,12 @@ function formatTime(iso) {
 function sameDay(a, b) {
   return new Date(a).toDateString() === new Date(b).toDateString();
 }
+
+function dayLabel(iso) {
+  const d = new Date(iso);
+  const today = new Date();
+  const yesterday = new Date(Date.now() - 86400000);
+  if (d.toDateString() === today.toDateString()) return "Today";
+  if (d.toDateString() === yesterday.toDateString()) return "Yesterday";
+  return d.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
+}
