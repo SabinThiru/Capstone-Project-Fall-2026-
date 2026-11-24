@@ -155,3 +155,10 @@ function openConversation(id) {
 
 function renderMessages(convo) {
   messageList.replaceChildren();
+  if (convo.messages.length === 0) {
+    const empty = el("p", "empty-message", "No messages yet. Say hi 👋");
+    empty.style.alignSelf = "center";
+    empty.style.marginTop = "24px";
+    messageList.appendChild(empty);
+    return;
+  }
