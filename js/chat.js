@@ -106,3 +106,9 @@ function renderList() {
     btn.type = "button";
     btn.addEventListener("click", () => openConversation(convo.id));
     btn.appendChild(el("span", "convo-avatar" + (convo.type === "group" ? " group" : ""), initials(convo.name)));
+    const body = el("div", "convo-body");
+    const top = el("div", "convo-top");
+    top.appendChild(el("span", "convo-name", convo.name));
+    const last = lastMessage(convo);
+    if (last) top.appendChild(el("span", "convo-time", formatTime(last.sentAt)));
+    body.appendChild(top);
