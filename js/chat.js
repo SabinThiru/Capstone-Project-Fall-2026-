@@ -98,3 +98,5 @@ function visibleConversations() {
 
 function renderList() {
   listEl.replaceChildren();
+  const items = visibleConversations();
+  listEmpty.hidden = items.length > 0;
