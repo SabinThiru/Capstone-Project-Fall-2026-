@@ -76,3 +76,7 @@ function dayLabel(iso) {
 function lastMessage(convo) {
   return convo.messages[convo.messages.length - 1];
 }
+
+function getConvo(id) {
+  return conversations.find((c) => c.id === id);
+}
