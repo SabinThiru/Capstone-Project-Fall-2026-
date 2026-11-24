@@ -152,3 +152,6 @@ function openConversation(id) {
   renderList();
   messageInput.focus();
 }
+
+function renderMessages(convo) {
+  messageList.replaceChildren();
