@@ -177,3 +177,9 @@ function renderMessages(convo) {
     }
     wrap.appendChild(el("div", "bubble", msg.text));
     wrap.appendChild(el("span", "message-time", formatTime(msg.sentAt)));
+    messageList.appendChild(wrap);
+    prev = msg;
+  });
+
+  messageList.scrollTop = messageList.scrollHeight;
+}
