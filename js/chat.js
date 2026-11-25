@@ -183,3 +183,12 @@ function renderMessages(convo) {
 
   messageList.scrollTop = messageList.scrollHeight;
 }
+
+function updateSendState() {
+  sendBtn.disabled = messageInput.value.trim() === "";
+}
+
+function autoGrow() {
+  messageInput.style.height = "auto";
+  messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + "px";
+}
