@@ -203,4 +203,10 @@ function sendMessage() {
     text: text,
     sentAt: new Date().toISOString()
   });
+
   messageInput.value = "";
+  autoGrow();
+  updateSendState();
+  renderMessages(convo);
+  renderList();
+}
