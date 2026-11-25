@@ -168,3 +168,10 @@ function renderMessages(convo) {
     if (!prev || !sameDay(prev.sentAt, msg.sentAt)) {
       messageList.appendChild(el("div", "day-divider", dayLabel(msg.sentAt)));
     }
+    const mine = msg.senderId === currentUser.id;
+    const newSender = !prev || prev.senderId !== msg.senderId || !sameDay(prev.sentAt, msg.sentAt);
+
+    const wrap = el("div", "message" + (mine ? " mine" : "") + (newSender ? " new-sender" : ""));
+    if (!mine && convo.type === "group" && newSender) {
+      wrap.appendChild(el("span", "message-sender", nameOf(msg.senderId)));
+    }
