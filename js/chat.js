@@ -210,3 +210,12 @@ function sendMessage() {
   renderMessages(convo);
   renderList();
 }
+
+messageInput.addEventListener("input", () => { updateSendState(); autoGrow(); });
+messageInput.addEventListener("keydown", (event) => {
+  //Enter sends message, Shift+Enter makes a new line
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    sendMessage();
+  }
+});
