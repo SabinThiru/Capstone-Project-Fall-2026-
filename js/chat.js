@@ -175,3 +175,5 @@ function renderMessages(convo) {
     if (!mine && convo.type === "group" && newSender) {
       wrap.appendChild(el("span", "message-sender", nameOf(msg.senderId)));
     }
+    wrap.appendChild(el("div", "bubble", msg.text));
+    wrap.appendChild(el("span", "message-time", formatTime(msg.sentAt)));
