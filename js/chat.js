@@ -162,3 +162,9 @@ function renderMessages(convo) {
     messageList.appendChild(empty);
     return;
   }
+
+  let prev = null;
+  convo.messages.forEach((msg) => {
+    if (!prev || !sameDay(prev.sentAt, msg.sentAt)) {
+      messageList.appendChild(el("div", "day-divider", dayLabel(msg.sentAt)));
+    }
