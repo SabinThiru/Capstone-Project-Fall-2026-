@@ -192,3 +192,8 @@ function autoGrow() {
   messageInput.style.height = "auto";
   messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + "px";
 }
+
+function sendMessage() {
+  const text = messageInput.value.trim();
+  const convo = getConvo(activeId);
+  if (!text || !convo) return;
