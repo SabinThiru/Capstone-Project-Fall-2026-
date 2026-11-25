@@ -197,3 +197,9 @@ function sendMessage() {
   const text = messageInput.value.trim();
   const convo = getConvo(activeId);
   if (!text || !convo) return;
+  convo.messages.push({
+    id: "m" + Date.now(),
+    senderId: currentUser.id,
+    text: text,
+    sentAt: new Date().toISOString()
+  });
