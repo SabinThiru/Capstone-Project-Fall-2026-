@@ -203,3 +203,4 @@ function sendMessage() {
     text: text,
     sentAt: new Date().toISOString()
   });
+  messageInput.value = "";
