@@ -219,3 +219,7 @@ messageInput.addEventListener("keydown", (event) => {
     sendMessage();
   }
 });
+messageForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  sendMessage();
+});
