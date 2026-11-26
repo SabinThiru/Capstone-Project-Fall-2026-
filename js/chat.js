@@ -327,3 +327,4 @@ groupForm.addEventListener("submit", (event) => {
   openConversation(convo.id);
 });
 document.getElementById("navUserName").textContent = currentUser.name;
+document.getElementById("userAvatar").textContent = currentUser.name.charAt(0).toUpperCase();
