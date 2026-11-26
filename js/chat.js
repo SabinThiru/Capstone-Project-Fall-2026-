@@ -237,6 +237,7 @@ function fillCourseSelect(select, firstLabel, firstValue) {
 }
 searchInput.addEventListener("input", renderList);
 courseFilter.addEventListener("change", renderList);
+
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     activeType = tab.dataset.type;
@@ -252,3 +253,7 @@ tabs.forEach((tab) => {
 backBtn.addEventListener("click", () => {
   layout.classList.remove("chat-open");
 });
+
+function renderMemberPicker() {
+  const course = groupCourse.value;
+  memberPicker.replaceChildren();
