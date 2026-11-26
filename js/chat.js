@@ -297,3 +297,13 @@ groupForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const name = groupName.value.trim();
   const members = selectedMembers();
+
+  if (!name) {
+    groupError.textContent = "Please give your group a name.";
+    groupName.focus();
+    return;
+  }
+  if (members.length === 0) {
+    groupError.textContent = "Add at least one student to the group.";
+    return;
+  }
