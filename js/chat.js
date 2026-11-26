@@ -235,3 +235,4 @@ function fillCourseSelect(select, firstLabel, firstValue) {
     select.appendChild(opt);
   });
 }
+searchInput.addEventListener("input", renderList);
