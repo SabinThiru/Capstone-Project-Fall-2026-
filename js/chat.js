@@ -307,3 +307,17 @@ groupForm.addEventListener("submit", (event) => {
     groupError.textContent = "Add at least one student to the group.";
     return;
   }
+
+  const convo = {
+    id: "c" + Date.now(),
+    type: "group",
+    name: name,
+    courseCode: groupCourse.value,
+    memberIds: [currentUser.id].concat(members),
+    unread: 0,
+    messages: [
+      { id: "m" + Date.now(), senderId: currentUser.id, text: "Created the group “" + name + "”", sentAt: new Date().toISOString() }
+    ]
+  };
+  conversations.push(convo);
+  groupModal.close();
