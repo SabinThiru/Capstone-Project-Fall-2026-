@@ -258,3 +258,8 @@ function renderMemberPicker() {
   const course = groupCourse.value;
   memberPicker.replaceChildren();
   const checkedBefore = new Set(selectedMembers());
+  const people = students.filter((s) => !course || s.courses.includes(course));
+  if (people.length === 0) {
+    memberPicker.appendChild(el("p", "member-empty", "No students found for this course."));
+    return;
+  }
