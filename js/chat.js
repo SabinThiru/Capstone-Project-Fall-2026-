@@ -236,3 +236,4 @@ function fillCourseSelect(select, firstLabel, firstValue) {
   });
 }
 searchInput.addEventListener("input", renderList);
+courseFilter.addEventListener("change", renderList);
