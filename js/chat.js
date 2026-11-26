@@ -275,3 +275,6 @@ function renderMemberPicker() {
     memberPicker.appendChild(row);
   });
 }
+function selectedMembers() {
+  return Array.from(memberPicker.querySelectorAll("input:checked")).map((i) => i.value);
+}
