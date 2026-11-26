@@ -328,3 +328,7 @@ groupForm.addEventListener("submit", (event) => {
 });
 document.getElementById("navUserName").textContent = currentUser.name;
 document.getElementById("userAvatar").textContent = currentUser.name.charAt(0).toUpperCase();
+
+fillCourseSelect(courseFilter, "All my courses", "all");
+fillCourseSelect(groupCourse, "No specific course", "");
+renderList();
