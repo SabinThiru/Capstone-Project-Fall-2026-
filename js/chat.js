@@ -292,3 +292,8 @@ groupCourse.addEventListener("change", renderMemberPicker);
 groupModal.addEventListener("click", (event) => {
   if (event.target === groupModal) groupModal.close();
 });
+
+groupForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const name = groupName.value.trim();
+  const members = selectedMembers();
