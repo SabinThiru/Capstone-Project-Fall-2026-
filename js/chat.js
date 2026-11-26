@@ -278,3 +278,11 @@ function renderMemberPicker() {
 function selectedMembers() {
   return Array.from(memberPicker.querySelectorAll("input:checked")).map((i) => i.value);
 }
+
+function openGroupModal() {
+  groupForm.reset();
+  groupError.textContent = "";
+  renderMemberPicker();
+  groupModal.showModal();
+  groupName.focus();
+}
