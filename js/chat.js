@@ -326,3 +326,4 @@ groupForm.addEventListener("submit", (event) => {
   tabs[0].click();
   openConversation(convo.id);
 });
+document.getElementById("navUserName").textContent = currentUser.name;
