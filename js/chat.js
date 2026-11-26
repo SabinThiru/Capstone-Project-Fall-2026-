@@ -257,3 +257,4 @@ backBtn.addEventListener("click", () => {
 function renderMemberPicker() {
   const course = groupCourse.value;
   memberPicker.replaceChildren();
+  const checkedBefore = new Set(selectedMembers());
