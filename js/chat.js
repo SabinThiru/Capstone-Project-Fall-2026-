@@ -237,3 +237,14 @@ function fillCourseSelect(select, firstLabel, firstValue) {
 }
 searchInput.addEventListener("input", renderList);
 courseFilter.addEventListener("change", renderList);
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    activeType = tab.dataset.type;
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.classList.toggle("active", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    renderList();
+  });
+});
