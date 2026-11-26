@@ -263,3 +263,15 @@ function renderMemberPicker() {
     memberPicker.appendChild(el("p", "member-empty", "No students found for this course."));
     return;
   }
+  people.forEach((s) => {
+    const row = el("label", "member-option");
+    const box = el("input");
+    box.type = "checkbox";
+    box.value = s.id;
+    box.checked = checkedBefore.has(s.id);
+    row.appendChild(box);
+    row.appendChild(el("span", "", s.name));
+    row.appendChild(el("small", "", s.courses.join(", ")));
+    memberPicker.appendChild(row);
+  });
+}
