@@ -321,3 +321,8 @@ groupForm.addEventListener("submit", (event) => {
   };
   conversations.push(convo);
   groupModal.close();
+  searchInput.value = "";
+  courseFilter.value = "all";
+  tabs[0].click();
+  openConversation(convo.id);
+});
