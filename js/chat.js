@@ -223,3 +223,15 @@ messageForm.addEventListener("submit", (event) => {
   event.preventDefault();
   sendMessage();
 });
+
+function fillCourseSelect(select, firstLabel, firstValue) {
+  select.replaceChildren();
+  const first = el("option", "", firstLabel);
+  first.value = firstValue;
+  select.appendChild(first);
+  myCourses.forEach((course) => {
+    const opt = el("option", "", course.code + " – " + course.title);
+    opt.value = course.code;
+    select.appendChild(opt);
+  });
+}
