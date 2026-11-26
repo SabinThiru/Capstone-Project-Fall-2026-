@@ -248,3 +248,7 @@ tabs.forEach((tab) => {
     renderList();
   });
 });
+
+backBtn.addEventListener("click", () => {
+  layout.classList.remove("chat-open");
+});
