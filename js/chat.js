@@ -289,3 +289,6 @@ function openGroupModal() {
 document.getElementById("newGroupBtn").addEventListener("click", openGroupModal);
 document.getElementById("cancelGroupBtn").addEventListener("click", () => groupModal.close());
 groupCourse.addEventListener("change", renderMemberPicker);
+groupModal.addEventListener("click", (event) => {
+  if (event.target === groupModal) groupModal.close();
+});
