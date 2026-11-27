@@ -497,6 +497,14 @@
 .secondary-btn:hover { background: var(--surface-input); }
 
 /* -Chat Settings - */
+.chat-settings {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin: 8px -16px 0;
+  padding: 0 16px;
+  border-top: 1px solid var(--border-card);
+}
 
 :root[data-theme="light"] .group-modal select,
 :root[data-theme="light"] .filter-row select { color-scheme: light; }
