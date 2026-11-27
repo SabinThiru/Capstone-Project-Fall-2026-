@@ -89,7 +89,8 @@ let chatSettings = loadChatSettings();
     saveChatSettings();
   });
 })();
-/* Notification Sounds for New Messages */
+/* Notification Sound for New Messages */
+let audioCtx = null;
 
 
 /* Helpers */
