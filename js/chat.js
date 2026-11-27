@@ -58,7 +58,9 @@ function saveChatSettings() {
   } catch (e) {}
 }
 let chatSettings = loadChatSettings();
-
+(function initChatSettings() {
+  const toggle = document.getElementById("chatSettingsToggle");
+  const panel = document.getElementById("chatSettingsPanel");
 
 /* Helpers */
 function el(tag, className, text) {
