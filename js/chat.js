@@ -266,7 +266,11 @@ function sendMessage() {
 messageInput.addEventListener("input", () => { updateSendState(); autoGrow(); });
 messageInput.addEventListener("keydown", (event) => {
   //Enter sends message, Shift+Enter makes a new line
-  if (event.key === "Enter" && !event.shiftKey) {
+  if (event.key !== "Enter") return;
+  const send = chatSettings.enterToSend
+    ? !event.shiftKey
+    : event.ctrlKey || event.metaKey;
+  if (send) {
     event.preventDefault();
     sendMessage();
   }
