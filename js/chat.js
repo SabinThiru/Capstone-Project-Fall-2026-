@@ -103,7 +103,11 @@ function unlockAudio() {
   document.addEventListener(type, unlockAudio, { once: true });
 });
 function playMessageSound() {
-
+  try {
+    unlockAudio();
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    [[880, 0], [1175, 0.12]].forEach(([freq, delay]) => {
 
 /* Helpers */
 function el(tag, className, text) {
