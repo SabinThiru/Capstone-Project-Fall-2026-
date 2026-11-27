@@ -68,7 +68,11 @@ let chatSettings = loadChatSettings();
     panel.hidden = open;
   });
   const switches = {
-
+    notifications: document.getElementById("csNotifications"),
+    sound: document.getElementById("csSound"),
+    showPreviews: document.getElementById("csPreviews"),
+    enterToSend: document.getElementById("csEnterToSend")
+  };
 
 /* Helpers */
 function el(tag, className, text) {
