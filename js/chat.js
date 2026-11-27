@@ -125,6 +125,7 @@ function playMessageSound() {
 function receiveIncomingMessage(chatId, message) {
   const convo = getConvo(chatId);
   if (!convo) return;
+  convo.messages.push(message);
 
 /* Helpers */
 function el(tag, className, text) {
