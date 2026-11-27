@@ -58,6 +58,7 @@ function saveChatSettings() {
   } catch (e) {}
 }
 let chatSettings = loadChatSettings();
+
 (function initChatSettings() {
   const toggle = document.getElementById("chatSettingsToggle");
   const panel = document.getElementById("chatSettingsPanel");
@@ -66,7 +67,7 @@ let chatSettings = loadChatSettings();
     toggle.setAttribute("aria-expanded", open ? "false" : "true");
     panel.hidden = open;
   });
-  
+
 
 /* Helpers */
 function el(tag, className, text) {
