@@ -522,6 +522,9 @@
   cursor: pointer;
 }
 .settings-toggle svg:first-child { color: var(--neutral-300); }
+.settings-toggle span { flex: 1; }
+.settings-toggle:focus-visible { outline: 2px solid var(--primary-500); outline-offset: 2px; border-radius: 4px; }
+
 
 :root[data-theme="light"] .group-modal select,
 :root[data-theme="light"] .filter-row select { color-scheme: light; }
