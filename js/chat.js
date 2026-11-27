@@ -81,7 +81,8 @@ let chatSettings = loadChatSettings();
       if (key === "showPreviews") renderList();
     });
   });
-  
+  const invites = document.getElementById("csGroupInvites");
+  invites.value = chatSettings.groupInvites;
 
 /* Helpers */
 function el(tag, className, text) {
