@@ -36,6 +36,7 @@ let activeId = null;
 let activeType = "all";
 let modalMode = "group";
 /* Chat Settings */
+const SETTINGS_KEY = "campuspath-chat-settings";
 
 
 /* Helpers */
