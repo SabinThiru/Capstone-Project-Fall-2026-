@@ -122,6 +122,9 @@ function playMessageSound() {
     });
   } catch (e) {}
 }
+function receiveIncomingMessage(chatId, message) {
+  const convo = getConvo(chatId);
+  if (!convo) return;
 
 /* Helpers */
 function el(tag, className, text) {
