@@ -530,6 +530,12 @@
 }
 .settings-toggle[aria-expanded="true"] .settings-chevron { transform: rotate(180deg); }
 
+.settings-panel {
+  min-height: 0;
+  max-height: 46vh;
+  padding-bottom: 12px;
+  overflow-y: auto;
+}
 
 :root[data-theme="light"] .group-modal select,
 :root[data-theme="light"] .filter-row select { color-scheme: light; }
