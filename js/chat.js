@@ -130,6 +130,9 @@ function receiveIncomingMessage(chatId, message) {
   const chatIsOpen = chatId === activeId && !document.hidden;
   if (fromOthers && !chatIsOpen) convo.unread = (convo.unread || 0) + 1;
 
+  if (chatId === activeId) renderMessages(convo);
+  renderList();
+
 /* Helpers */
 function el(tag, className, text) {
   const node = document.createElement(tag);
