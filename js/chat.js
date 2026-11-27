@@ -108,6 +108,20 @@ function playMessageSound() {
     if (!audioCtx) return;
     const now = audioCtx.currentTime;
     [[880, 0], [1175, 0.12]].forEach(([freq, delay]) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.0001, now + delay);
+      gain.gain.exponentialRampToValueAtTime(0.15, now + delay + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + delay + 0.25);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now + delay);
+      osc.stop(now + delay + 0.26);
+    });
+  } catch (e) {}
+}
 
 /* Helpers */
 function el(tag, className, text) {
