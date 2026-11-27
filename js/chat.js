@@ -134,6 +134,8 @@ function receiveIncomingMessage(chatId, message) {
   renderList();
   if (fromOthers && !chatIsOpen && chatSettings.notifications && chatSettings.sound) {
     playMessageSound();
+  }
+}
 
 /* Helpers */
 function el(tag, className, text) {
