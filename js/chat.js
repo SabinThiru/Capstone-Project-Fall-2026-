@@ -79,6 +79,7 @@ let chatSettings = loadChatSettings();
       chatSettings[key] = switches[key].checked;
       saveChatSettings();
       if (key === "showPreviews") renderList();
+      if (key === "sound" && switches[key].checked) playMessageSound();
     });
   });
   const invites = document.getElementById("csGroupInvites");
