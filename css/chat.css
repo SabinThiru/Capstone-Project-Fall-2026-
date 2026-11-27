@@ -505,6 +505,22 @@
   padding: 0 16px;
   border-top: 1px solid var(--border-card);
 }
+.settings-toggle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 0;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--neutral-000);
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
 
 :root[data-theme="light"] .group-modal select,
 :root[data-theme="light"] .filter-row select { color-scheme: light; }
