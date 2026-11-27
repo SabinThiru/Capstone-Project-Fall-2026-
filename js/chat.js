@@ -52,6 +52,7 @@ function loadChatSettings() {
     return Object.assign({}, DEFAULT_CHAT_SETTINGS);
   }
 }
+function saveChatSettings() {
 
 /* Helpers */
 function el(tag, className, text) {
