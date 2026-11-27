@@ -44,6 +44,14 @@ const DEFAULT_CHAT_SETTINGS = {
   enterToSend: true,
   groupInvites: "classmates" 
 };
+function loadChatSettings() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
+    return Object.assign({}, DEFAULT_CHAT_SETTINGS, saved);
+  } catch (e) {
+    return Object.assign({}, DEFAULT_CHAT_SETTINGS);
+  }
+}
 
 /* Helpers */
 function el(tag, className, text) {
