@@ -35,6 +35,7 @@ const groupSubmitBtn = document.getElementById("groupSubmitBtn");
 let activeId = null;
 let activeType = "all";
 let modalMode = "group";
+/* Chat Settings */
 
 
 /* Helpers */
