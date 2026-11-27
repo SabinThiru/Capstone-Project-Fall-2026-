@@ -170,7 +170,7 @@ function renderList() {
       const who = last.senderId === currentUser.id ? "You: " : (convo.type === "group" ? nameOf(last.senderId).split(" ")[0] + ": " : "");
       preview = who + last.text;
     }
-    bottom.appendChild(el("span", "convo-preview", preview));
+    bottom.appendChild(el("span", "convo-preview", chatSettings.showPreviews || !last ? preview : "Preview hidden"));
     if (convo.unread > 0) bottom.appendChild(el("span", "unread-badge", String(convo.unread)));
     body.appendChild(bottom);
     if (convo.courseCode) body.appendChild(el("span", "convo-course", convo.courseCode));
