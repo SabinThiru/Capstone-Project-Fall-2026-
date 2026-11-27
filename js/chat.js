@@ -53,6 +53,11 @@ function loadChatSettings() {
   }
 }
 function saveChatSettings() {
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(chatSettings));
+  } catch (e) {}
+}
+
 
 /* Helpers */
 function el(tag, className, text) {
