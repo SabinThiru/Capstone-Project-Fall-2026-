@@ -83,6 +83,11 @@ let chatSettings = loadChatSettings();
   });
   const invites = document.getElementById("csGroupInvites");
   invites.value = chatSettings.groupInvites;
+  invites.addEventListener("change", () => {
+    chatSettings.groupInvites = invites.value;
+    saveChatSettings();
+  });
+})();
 
 /* Helpers */
 function el(tag, className, text) {
