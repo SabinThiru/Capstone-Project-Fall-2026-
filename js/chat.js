@@ -102,6 +102,8 @@ function unlockAudio() {
 ["pointerdown", "keydown"].forEach((type) => {
   document.addEventListener(type, unlockAudio, { once: true });
 });
+function playMessageSound() {
+
 
 /* Helpers */
 function el(tag, className, text) {
