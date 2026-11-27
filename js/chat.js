@@ -126,6 +126,8 @@ function receiveIncomingMessage(chatId, message) {
   const convo = getConvo(chatId);
   if (!convo) return;
   convo.messages.push(message);
+  const fromOthers = message.senderId !== currentUser.id;
+  const chatIsOpen = chatId === activeId && !document.hidden;
 
 /* Helpers */
 function el(tag, className, text) {
