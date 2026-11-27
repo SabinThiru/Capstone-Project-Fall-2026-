@@ -67,6 +67,7 @@ let chatSettings = loadChatSettings();
     toggle.setAttribute("aria-expanded", open ? "false" : "true");
     panel.hidden = open;
   });
+  const switches = {
 
 
 /* Helpers */
