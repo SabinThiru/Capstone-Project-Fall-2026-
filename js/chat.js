@@ -128,6 +128,7 @@ function receiveIncomingMessage(chatId, message) {
   convo.messages.push(message);
   const fromOthers = message.senderId !== currentUser.id;
   const chatIsOpen = chatId === activeId && !document.hidden;
+  if (fromOthers && !chatIsOpen) convo.unread = (convo.unread || 0) + 1;
 
 /* Helpers */
 function el(tag, className, text) {
