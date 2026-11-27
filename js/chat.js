@@ -91,7 +91,17 @@ let chatSettings = loadChatSettings();
 })();
 /* Notification Sound for New Messages */
 let audioCtx = null;
-
+function unlockAudio() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    if (!audioCtx) audioCtx = new Ctx();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+  } catch (e) {}
+}
+["pointerdown", "keydown"].forEach((type) => {
+  document.addEventListener(type, unlockAudio, { once: true });
+});
 
 /* Helpers */
 function el(tag, className, text) {
