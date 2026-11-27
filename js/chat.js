@@ -75,6 +75,13 @@ let chatSettings = loadChatSettings();
   };
   Object.keys(switches).forEach((key) => {
     switches[key].checked = Boolean(chatSettings[key]);
+    switches[key].addEventListener("change", () => {
+      chatSettings[key] = switches[key].checked;
+      saveChatSettings();
+      if (key === "showPreviews") renderList();
+    });
+  });
+  
 
 /* Helpers */
 function el(tag, className, text) {
