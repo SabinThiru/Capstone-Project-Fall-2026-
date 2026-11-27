@@ -286,8 +286,11 @@ function fillCourseSelect(select, firstLabel, firstValue) {
   first.value = firstValue;
   select.appendChild(first);
   myCourses.forEach((course) => {
-    const opt = el("option", "", course.code + " – " + course.title);
-    opt.value = course.code;
+    const code = course.code || course.courseCode || course.course_code;
+    const title = course.title || course.name || course.courseName || course.course_name;
+    if (!code) return;
+    const opt = el("option", "", title ? code + " – " + title : code);
+    opt.value = code;
     select.appendChild(opt);
   });
 }
