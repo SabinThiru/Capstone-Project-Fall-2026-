@@ -61,6 +61,12 @@ let chatSettings = loadChatSettings();
 (function initChatSettings() {
   const toggle = document.getElementById("chatSettingsToggle");
   const panel = document.getElementById("chatSettingsPanel");
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", open ? "false" : "true");
+    panel.hidden = open;
+  });
+  
 
 /* Helpers */
 function el(tag, className, text) {
