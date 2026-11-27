@@ -57,6 +57,7 @@ function saveChatSettings() {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(chatSettings));
   } catch (e) {}
 }
+let chatSettings = loadChatSettings();
 
 
 /* Helpers */
