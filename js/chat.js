@@ -73,6 +73,8 @@ let chatSettings = loadChatSettings();
     showPreviews: document.getElementById("csPreviews"),
     enterToSend: document.getElementById("csEnterToSend")
   };
+  Object.keys(switches).forEach((key) => {
+    switches[key].checked = Boolean(chatSettings[key]);
 
 /* Helpers */
 function el(tag, className, text) {
