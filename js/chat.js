@@ -37,7 +37,13 @@ let activeType = "all";
 let modalMode = "group";
 /* Chat Settings */
 const SETTINGS_KEY = "campuspath-chat-settings";
-
+const DEFAULT_CHAT_SETTINGS = {
+  notifications: true,
+  sound: true,
+  showPreviews: true,
+  enterToSend: true,
+  groupInvites: "classmates" 
+};
 
 /* Helpers */
 function el(tag, className, text) {
