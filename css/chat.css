@@ -570,6 +570,7 @@
   border-color: var(--primary-500);
   box-shadow: 0 0 0 3px rgba(102, 179, 102, 0.25);
 }
+:root[data-theme="light"] .chat-setting-row select { color-scheme: light; }
 
 :root[data-theme="light"] .group-modal select,
 :root[data-theme="light"] .filter-row select { color-scheme: light; }
