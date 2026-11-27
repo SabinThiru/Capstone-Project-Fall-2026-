@@ -536,6 +536,14 @@
   padding-bottom: 12px;
   overflow-y: auto;
 }
+.chat-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+}
+
 
 :root[data-theme="light"] .group-modal select,
 :root[data-theme="light"] .filter-row select { color-scheme: light; }
