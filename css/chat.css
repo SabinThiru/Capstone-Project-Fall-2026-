@@ -544,7 +544,8 @@
   padding: 10px 0;
 }
 .chat-setting-row + .chat-setting-row { border-top: 1px solid var(--border-input); }
-
+.chat-setting-text { display: block; min-width: 0; }
+.chat-setting-text span { display: block; font-size: 12px; font-weight: 500; }
 
 :root[data-theme="light"] .group-modal select,
 :root[data-theme="light"] .filter-row select { color-scheme: light; }
