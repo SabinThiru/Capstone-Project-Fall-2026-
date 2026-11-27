@@ -521,6 +521,7 @@
   border: 0;
   cursor: pointer;
 }
+.settings-toggle svg:first-child { color: var(--neutral-300); }
 
 :root[data-theme="light"] .group-modal select,
 :root[data-theme="light"] .filter-row select { color-scheme: light; }
