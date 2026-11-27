@@ -543,6 +543,7 @@
   gap: 12px;
   padding: 10px 0;
 }
+.chat-setting-row + .chat-setting-row { border-top: 1px solid var(--border-input); }
 
 
 :root[data-theme="light"] .group-modal select,
