@@ -265,7 +265,7 @@ function sendMessage() {
 
 messageInput.addEventListener("input", () => { updateSendState(); autoGrow(); });
 messageInput.addEventListener("keydown", (event) => {
-  //Enter sends message, Shift+Enter makes a new line
+  //Enter sends message, Shift+Enter makes a new line. If "Press Enter to send" toggle is off, Ctrl/Cmd+Enter sends message.
   if (event.key !== "Enter") return;
   const send = chatSettings.enterToSend
     ? !event.shiftKey
