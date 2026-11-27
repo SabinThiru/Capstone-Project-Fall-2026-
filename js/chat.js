@@ -89,6 +89,8 @@ let chatSettings = loadChatSettings();
     saveChatSettings();
   });
 })();
+/* Notification Sounds for New Messages */
+
 
 /* Helpers */
 function el(tag, className, text) {
