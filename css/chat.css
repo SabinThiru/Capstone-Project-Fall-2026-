@@ -542,6 +542,12 @@
   border: 1px solid var(--border-input);
   border-radius: 8px;
 }
+.msg-file:hover { border-color: var(--primary-500); }
+.msg-file > span:last-child { min-width: 0; }
+.message.mine .msg-file {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.3);
+}
 
 
 /*  New group */
