@@ -517,6 +517,13 @@
 .attach-remove:hover { color: var(--neutral-000); background: var(--surface-card); }
 .attach-remove:focus-visible { outline: 2px solid var(--primary-500); }
 
+.msg-files {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.bubble-text + .msg-files { margin-top: 8px; }
+
 
 /*  New group */
 .group-modal {
