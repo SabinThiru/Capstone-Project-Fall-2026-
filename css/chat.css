@@ -469,6 +469,20 @@
   object-fit: cover;
   border-radius: 5px;
 }
+.attach-fileicon,
+.msg-fileicon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  background: var(--brand-fill);
+  border-radius: 5px;
+}
 
 
 /*  New group */
