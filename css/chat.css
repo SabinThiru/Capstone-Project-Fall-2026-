@@ -483,6 +483,16 @@
   background: var(--brand-fill);
   border-radius: 5px;
 }
+.attach-info { min-width: 0; }
+.attach-name,
+.msg-file-name {
+  display: block;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
 
 /*  New group */
