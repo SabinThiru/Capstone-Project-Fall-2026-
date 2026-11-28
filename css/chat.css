@@ -572,6 +572,21 @@
 }
 :root[data-theme="light"] .chat-setting-row select { color-scheme: light; }
 
+.settings-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0 14px;
+  border-top: 1px solid var(--border-input);
+}
+.settings-actions[hidden] { display: none; }
+.settings-actions .primary-btn { height: 34px; padding: 0 22px; }
+.primary-btn:disabled { opacity: 0.45; cursor: default; }
+.primary-btn:disabled:hover { background: var(--brand-fill); }
+.settings-status { font-size: 12px; color: var(--primary-400); }
+
 :root[data-theme="light"] .group-modal select,
 :root[data-theme="light"] .filter-row select { color-scheme: light; }
 :root[data-theme="light"] .group-modal::backdrop { background: rgba(20, 38, 27, 0.4); }
