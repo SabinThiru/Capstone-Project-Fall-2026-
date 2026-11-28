@@ -493,6 +493,12 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.attach-size,
+.msg-file-size {
+  display: block;
+  font-size: 11px;
+  color: var(--neutral-500);
+}
 
 
 /*  New group */
