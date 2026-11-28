@@ -458,7 +458,7 @@ fileInput.addEventListener("change", () => {
 });
 
 function updateSendState() {
-  sendBtn.disabled = messageInput.value.trim() === "";
+  sendBtn.disabled = messageInput.value.trim() === "" && pendingFiles.length === 0;
 }
 
 function autoGrow() {
