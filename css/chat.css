@@ -448,6 +448,9 @@
   background: var(--surface-page);
   border-top: 1px solid var(--border-card);
 }
+.attach-tray:empty { display: none; }
+.attach-error:not(:empty) + .attach-tray:empty + .composer,
+.attach-tray:not(:empty) + .composer { border-top: 0; }
 
 
 /*  New group */
