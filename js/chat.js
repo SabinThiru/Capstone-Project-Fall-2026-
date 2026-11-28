@@ -263,6 +263,7 @@ function renderList() {
 function openConversation(id) {
   const convo = getConvo(id);
   if (!convo) return;
+  if (id !== activeId) clearPendingFiles();
   activeId = id;
   convo.unread = 0;
   chatEmpty.hidden = true;
