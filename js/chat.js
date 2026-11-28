@@ -247,7 +247,7 @@ function renderList() {
     let preview = "No messages yet";
     if (last) {
       const who = last.senderId === currentUser.id ? "You: " : (convo.type === "group" ? nameOf(last.senderId).split(" ")[0] + ": " : "");
-      preview = who + last.text;
+      preview = who + messagePreview(last);
     }
     bottom.appendChild(el("span", "convo-preview", chatSettings.showPreviews || !last ? preview : "Preview hidden"));
     if (convo.unread > 0) bottom.appendChild(el("span", "unread-badge", String(convo.unread)));
