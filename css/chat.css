@@ -514,6 +514,8 @@
   border-radius: 50%;
   cursor: pointer;
 }
+.attach-remove:hover { color: var(--neutral-000); background: var(--surface-card); }
+.attach-remove:focus-visible { outline: 2px solid var(--primary-500); }
 
 
 /*  New group */
