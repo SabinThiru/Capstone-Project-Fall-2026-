@@ -416,6 +416,19 @@
 .send-btn:focus-visible { outline: 2px solid var(--primary-300); outline-offset: 2px; }
 
 /*  Attachments */
+.attach-btn {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--neutral-300);
+  background: transparent;
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
 
 
 /*  New group */
