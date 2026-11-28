@@ -315,6 +315,148 @@ function renderMessages(convo) {
   messageList.scrollTop = messageList.scrollHeight;
 }
 
+const MAX_FILES = 5;
+const MAX_FILE_MB = 10;
+const IMAGE_EXT = ["png", "jpg", "jpeg", "gif", "webp"];
+const DOC_EXT = ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "txt", "csv"];
+
+const attachBtn = document.getElementById("attachBtn");
+const fileInput = document.getElementById("fileInput");
+const attachTray = document.getElementById("attachTray");
+const attachError = document.getElementById("attachError");
+
+let pendingFiles = [];
+
+function extOf(name) {
+  const i = name.lastIndexOf(".");
+  return i < 0 ? "" : name.slice(i + 1).toLowerCase();
+}
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1048576) return Math.round(bytes / 1024) + " KB";
+  return (bytes / 1048576).toFixed(1) + " MB";
+}
+function safeUrl(url) {
+  return /^(blob:|https?:\/\/|\/(?!\/))/.test(url || "") ? url : "#";
+}
+
+function addFiles(fileList) {
+  const errors = [];
+  Array.from(fileList).forEach((file) => {
+    const ext = extOf(file.name);
+    if (!IMAGE_EXT.includes(ext) && !DOC_EXT.includes(ext)) {
+      errors.push("\u201c" + file.name + "\u201d isn\u2019t a supported file type.");
+      return;
+    }
+    if (file.size > MAX_FILE_MB * 1048576) {
+      errors.push("\u201c" + file.name + "\u201d is larger than " + MAX_FILE_MB + " MB.");
+      return;
+    }
+    if (pendingFiles.length >= MAX_FILES) {
+      errors.push("You can attach up to " + MAX_FILES + " files per message.");
+      return;
+    }
+    const isImage = IMAGE_EXT.includes(ext);
+    pendingFiles.push({
+      id: "f" + Date.now() + Math.random().toString(36).slice(2),
+      file: file,
+      isImage: isImage,
+      url: isImage ? URL.createObjectURL(file) : ""
+    });
+  });
+  attachError.textContent = Array.from(new Set(errors)).join(" ");
+  renderAttachTray();
+  updateSendState();
+}
+
+function removePendingFile(id) {
+  const f = pendingFiles.find((x) => x.id === id);
+  if (f && f.url) URL.revokeObjectURL(f.url);
+  pendingFiles = pendingFiles.filter((x) => x.id !== id);
+  attachError.textContent = "";
+  renderAttachTray();
+  updateSendState();
+}
+
+function clearPendingFiles() {
+  pendingFiles.forEach((f) => { if (f.url) URL.revokeObjectURL(f.url); });
+  pendingFiles = [];
+  attachError.textContent = "";
+  renderAttachTray();
+}
+
+function renderAttachTray() {
+  attachTray.replaceChildren();
+  pendingFiles.forEach((f) => {
+    const item = el("div", "attach-item");
+
+    if (f.isImage) {
+      const img = el("img", "attach-thumb");
+      img.src = f.url;
+      img.alt = f.file.name;
+      item.appendChild(img);
+    } else {
+      item.appendChild(el("span", "attach-fileicon", extOf(f.file.name).toUpperCase().slice(0, 4)));
+    }
+
+    const info = el("div", "attach-info");
+    info.appendChild(el("span", "attach-name", f.file.name));
+    info.appendChild(el("span", "attach-size", formatSize(f.file.size)));
+    item.appendChild(info);
+
+    const remove = el("button", "attach-remove", "\u2715");
+    remove.type = "button";
+    remove.setAttribute("aria-label", "Remove " + f.file.name);
+    remove.addEventListener("click", () => removePendingFile(f.id));
+    item.appendChild(remove);
+
+    attachTray.appendChild(item);
+  });
+}
+function renderMessageFiles(attachments) {
+  const wrap = el("div", "msg-files");
+  attachments.forEach((a) => {
+    if (a.type === "image") {
+      const link = el("a", "msg-image");
+      link.href = safeUrl(a.url);
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      const img = el("img");
+      img.src = safeUrl(a.url);
+      img.alt = a.name;
+      link.appendChild(img);
+      wrap.appendChild(link);
+    } else {
+      const link = el("a", "msg-file");
+      link.href = safeUrl(a.url);
+      link.download = a.name;
+      link.rel = "noopener noreferrer";
+      link.appendChild(el("span", "msg-fileicon", extOf(a.name).toUpperCase().slice(0, 4)));
+      const info = el("span");
+      info.appendChild(el("span", "msg-file-name", a.name));
+      info.appendChild(el("span", "msg-file-size", formatSize(a.size)));
+      link.appendChild(info);
+      wrap.appendChild(link);
+    }
+  });
+  return wrap;
+}
+
+function messagePreview(msg) {
+  if (msg.text) return msg.text;
+  const files = msg.attachments || [];
+  if (files.length === 0) return "";
+  if (files.every((a) => a.type === "image")) return files.length === 1 ? "\uD83D\uDCF7 Photo" : "\uD83D\uDCF7 " + files.length + " photos";
+  return "\uD83D\uDCCE Attachment";
+}
+
+attachBtn.addEventListener("click", () => fileInput.click());
+fileInput.addEventListener("change", () => {
+  addFiles(fileInput.files);
+  fileInput.value = "";
+});
+
 function updateSendState() {
   sendBtn.disabled = messageInput.value.trim() === "";
 }
