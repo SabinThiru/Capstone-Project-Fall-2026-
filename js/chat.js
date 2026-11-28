@@ -469,14 +469,25 @@ function autoGrow() {
 function sendMessage() {
   const text = messageInput.value.trim();
   const convo = getConvo(activeId);
-  if (!text || !convo) return;
+  if ((!text && pendingFiles.length === 0) || !convo) return;
+
+  const attachments = pendingFiles.map((f) => ({
+    name: f.file.name,
+    size: f.file.size,
+    type: f.isImage ? "image" : "file",
+    url: f.url || URL.createObjectURL(f.file)
+  }));
   convo.messages.push({
     id: "m" + Date.now(),
     senderId: currentUser.id,
     text: text,
+    attachments: attachments,
     sentAt: new Date().toISOString()
   });
 
+  pendingFiles = []; 
+  attachError.textContent = "";
+  renderAttachTray();
   messageInput.value = "";
   autoGrow();
   updateSendState();
