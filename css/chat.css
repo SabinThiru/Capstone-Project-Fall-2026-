@@ -429,6 +429,8 @@
   cursor: pointer;
   transition: color 0.15s, background 0.15s;
 }
+.attach-btn:hover { color: var(--neutral-000); background: var(--surface-input); }
+.attach-btn:focus-visible { outline: 2px solid var(--primary-500); outline-offset: 2px; }
 
 
 /*  New group */
