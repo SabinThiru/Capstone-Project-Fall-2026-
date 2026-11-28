@@ -451,6 +451,17 @@
 .attach-tray:empty { display: none; }
 .attach-error:not(:empty) + .attach-tray:empty + .composer,
 .attach-tray:not(:empty) + .composer { border-top: 0; }
+.attach-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 230px;
+  padding: 6px 30px 6px 6px;
+  background: var(--surface-input);
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+}
 
 
 /*  New group */
