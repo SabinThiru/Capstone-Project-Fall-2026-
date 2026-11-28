@@ -523,6 +523,13 @@
   gap: 6px;
 }
 .bubble-text + .msg-files { margin-top: 8px; }
+.msg-image { display: block; line-height: 0; }
+.msg-image img {
+  max-width: 100%;
+  max-height: 220px;
+  border-radius: 8px;
+  object-fit: cover;
+}
 
 
 /*  New group */
