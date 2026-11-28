@@ -440,6 +440,14 @@
 }
 :root[data-theme="light"] .attach-error { color: #c62828; }
 .attach-error:empty { display: none; }
+.attach-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 24px 0;
+  background: var(--surface-page);
+  border-top: 1px solid var(--border-card);
+}
 
 
 /*  New group */
