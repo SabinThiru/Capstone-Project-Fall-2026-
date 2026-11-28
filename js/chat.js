@@ -306,7 +306,10 @@ function renderMessages(convo) {
     if (!mine && convo.type === "group" && newSender) {
       wrap.appendChild(el("span", "message-sender", nameOf(msg.senderId)));
     }
-    wrap.appendChild(el("div", "bubble", msg.text));
+    const bubble = el("div", "bubble");
+    if (msg.text) bubble.appendChild(el("div", "bubble-text", msg.text));
+    if (msg.attachments && msg.attachments.length) bubble.appendChild(renderMessageFiles(msg.attachments));
+    wrap.appendChild(bubble);
     wrap.appendChild(el("span", "message-time", formatTime(msg.sentAt)));
     messageList.appendChild(wrap);
     prev = msg;
