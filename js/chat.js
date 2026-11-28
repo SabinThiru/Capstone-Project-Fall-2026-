@@ -62,32 +62,63 @@ let chatSettings = loadChatSettings();
 (function initChatSettings() {
   const toggle = document.getElementById("chatSettingsToggle");
   const panel = document.getElementById("chatSettingsPanel");
-  toggle.addEventListener("click", () => {
-    const open = toggle.getAttribute("aria-expanded") === "true";
-    toggle.setAttribute("aria-expanded", open ? "false" : "true");
-    panel.hidden = open;
-  });
+  const actions = document.getElementById("csActions");
+  const saveBtn = document.getElementById("csSaveBtn");
+  const status = document.getElementById("csStatus");
   const switches = {
     notifications: document.getElementById("csNotifications"),
     sound: document.getElementById("csSound"),
     showPreviews: document.getElementById("csPreviews"),
     enterToSend: document.getElementById("csEnterToSend")
   };
+  const invites = document.getElementById("csGroupInvites");
+  let draft = {};
+  function fillControls() {
+    Object.keys(switches).forEach((key) => {
+      switches[key].checked = Boolean(chatSettings[key]);
+    });
+    invites.value = chatSettings.groupInvites;
+    draft = Object.assign({}, chatSettings);
+  }
+
+  function markUnsaved() {
+    saveBtn.disabled = false;
+    status.textContent = "";
+  }
+
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", open ? "false" : "true");
+    panel.hidden = open;
+    actions.hidden = open;
+    if (open) {
+      fillControls();
+      saveBtn.disabled = true;
+      status.textContent = "";
+    }
+  });
+
   Object.keys(switches).forEach((key) => {
-    switches[key].checked = Boolean(chatSettings[key]);
     switches[key].addEventListener("change", () => {
-      chatSettings[key] = switches[key].checked;
-      saveChatSettings();
-      if (key === "showPreviews") renderList();
+      draft[key] = switches[key].checked;
+      markUnsaved();
       if (key === "sound" && switches[key].checked) playMessageSound();
     });
   });
-  const invites = document.getElementById("csGroupInvites");
-  invites.value = chatSettings.groupInvites;
   invites.addEventListener("change", () => {
-    chatSettings.groupInvites = invites.value;
-    saveChatSettings();
+    draft.groupInvites = invites.value;
+    markUnsaved();
   });
+
+  saveBtn.addEventListener("click", () => {
+    chatSettings = Object.assign({}, draft);
+    saveChatSettings();
+    renderList();
+    saveBtn.disabled = true;
+    status.textContent = "Settings saved ✓";
+  });
+
+  fillControls();
 })();
 /* Notification Sound for New Messages */
 let audioCtx = null;
